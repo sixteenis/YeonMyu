@@ -6,6 +6,7 @@ Constant.swift
 .DS_Store
 
 GoogleService-Info.plist
+Config.xcconfig
 .xcconfig
 
 
