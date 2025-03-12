@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0631B1752D81CDB600287825 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631B1742D81CDB600287825 /* APIKey.swift */; };
+		0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0631B1762D81CDDD00287825 /* GoogleService-Info.plist */; };
 		066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C872D7F12ED00C44567 /* FirebaseAnalytics */; };
 		066C1C8A2D7F12ED00C44567 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C892D7F12ED00C44567 /* FirebaseAuth */; };
 		066C1C8C2D7F12ED00C44567 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C8B2D7F12ED00C44567 /* FirebaseCore */; };
@@ -126,6 +128,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		0631B1762D81CDDD00287825 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -277,6 +281,7 @@
 				06E508062D7F10CD00F5E7DE /* Presentatiton */,
 				06CD381F2D7DD0EB00959852 /* Preview Content */,
 				06CD38202D7DD0EB00959852 /* Assets.xcassets */,
+				0631B1762D81CDDD00287825 /* GoogleService-Info.plist */,
 				066C1CB22D7F172C00C44567 /* Info.plist */,
 			);
 			path = YeonMyu;
@@ -338,6 +343,7 @@
 				06E507C22D7F10CD00F5E7DE /* PerformanceError.swift */,
 				06E507C82D7F10CD00F5E7DE /* DTO */,
 				06E507CA2D7F10CD00F5E7DE /* NetworkManager.swift */,
+				0631B1742D81CDB600287825 /* APIKey.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -749,6 +755,7 @@
 				06E5083B2D7F10CD00F5E7DE /* Pretendard-Regular.otf in Resources */,
 				06E5083C2D7F10CD00F5E7DE /* SANGJU Dajungdagam.otf in Resources */,
 				06CD38242D7DD0EB00959852 /* Assets.xcassets in Resources */,
+				0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,6 +802,7 @@
 				06E508752D7F10D900F5E7DE /* MainView.swift in Sources */,
 				06E508762D7F10D900F5E7DE /* SaveTicketModel.swift in Sources */,
 				06E508772D7F10D900F5E7DE /* TicketMakeVM.swift in Sources */,
+				0631B1752D81CDB600287825 /* APIKey.swift in Sources */,
 				06E508782D7F10D900F5E7DE /* UpadteTicketModel.swift in Sources */,
 				06E508792D7F10D900F5E7DE /* PerformancePicker.swift in Sources */,
 				06E5087A2D7F10D900F5E7DE /* SettingView.swift in Sources */,
