@@ -7,7 +7,8 @@
 
 import SwiftUI
 import UIKit
-import FirebaseCore
+import Firebase
+
 import GoogleSignIn
 import KakaoSDKCommon
 import KakaoSDKAuth
@@ -38,7 +39,7 @@ struct YeonMyuApp: App {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
         
-        //KakaoSDK.initSDK(appKey: APIKey.kakaoKey)
+        KakaoSDK.initSDK(appKey: APIKey.kakaoKey)
         
     }
     var body: some Scene {

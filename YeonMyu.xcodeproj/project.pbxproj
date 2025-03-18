@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0631B1752D81CDB600287825 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631B1742D81CDB600287825 /* APIKey.swift */; };
 		0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0631B1762D81CDDD00287825 /* GoogleService-Info.plist */; };
+		063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */; };
+		063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */; };
 		066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C872D7F12ED00C44567 /* FirebaseAnalytics */; };
 		066C1C8A2D7F12ED00C44567 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C892D7F12ED00C44567 /* FirebaseAuth */; };
 		066C1C8C2D7F12ED00C44567 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C8B2D7F12ED00C44567 /* FirebaseCore */; };
@@ -130,6 +132,10 @@
 /* Begin PBXFileReference section */
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		0631B1762D81CDDD00287825 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		063F5D3B2D885209004F4C17 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YeonMyu.entitlements; sourceTree = "<group>"; };
+		063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +256,7 @@
 		06CD371E2D7DD04E00959852 = {
 			isa = PBXGroup;
 			children = (
+				063F5D3B2D885209004F4C17 /* Config.xcconfig */,
 				066C1CAA2D7F156400C44567 /* .gitignore */,
 				06CD38222D7DD0EB00959852 /* YeonMyu */,
 				06CD37282D7DD04E00959852 /* Products */,
@@ -275,6 +282,7 @@
 		06CD38222D7DD0EB00959852 /* YeonMyu */ = {
 			isa = PBXGroup;
 			children = (
+				063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */,
 				06E508662D7F10D900F5E7DE /* 이전 */,
 				06E507B72D7F10C700F5E7DE /* Application */,
 				06E507CB2D7F10CD00F5E7DE /* Data */,
@@ -343,6 +351,7 @@
 				06E507C22D7F10CD00F5E7DE /* PerformanceError.swift */,
 				06E507C82D7F10CD00F5E7DE /* DTO */,
 				06E507CA2D7F10CD00F5E7DE /* NetworkManager.swift */,
+				063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */,
 				0631B1742D81CDB600287825 /* APIKey.swift */,
 			);
 			path = Data;
@@ -425,6 +434,7 @@
 			isa = PBXGroup;
 			children = (
 				06E507E82D7F10CD00F5E7DE /* LoginView.swift */,
+				063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -812,6 +822,7 @@
 				06E5087E2D7F10D900F5E7DE /* GenreType.swift in Sources */,
 				06E5087F2D7F10D900F5E7DE /* RatingView.swift in Sources */,
 				06E508802D7F10D900F5E7DE /* Location.swift in Sources */,
+				063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */,
 				06E508812D7F10D900F5E7DE /* EXDetailPerformanceView.swift in Sources */,
 				06E508822D7F10D900F5E7DE /* DetailPerformanceView.swift in Sources */,
 				06E508832D7F10D900F5E7DE /* ViewModeltype.swift in Sources */,
@@ -821,6 +832,7 @@
 				06E5081E2D7F10CD00F5E7DE /* BoxOfficeDTO.swift in Sources */,
 				06E5081F2D7F10CD00F5E7DE /* SearchView.swift in Sources */,
 				06E508202D7F10CD00F5E7DE /* PerformanceDTO.swift in Sources */,
+				063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */,
 				06E508212D7F10CD00F5E7DE /* ForegroundWrapper.swift in Sources */,
 				06E508222D7F10CD00F5E7DE /* CustomTextEditorStyle.swift in Sources */,
 				06E508232D7F10CD00F5E7DE /* UserManger.swift in Sources */,
@@ -856,6 +868,7 @@
 /* Begin XCBuildConfiguration section */
 		06CD37332D7DD04F00959852 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063F5D3B2D885209004F4C17 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -919,6 +932,7 @@
 		};
 		06CD37342D7DD04F00959852 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063F5D3B2D885209004F4C17 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -975,9 +989,11 @@
 		};
 		06CD37362D7DD04F00959852 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063F5D3B2D885209004F4C17 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YeonMyu/YeonMyu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"YeonMyu/Preview Content\"";
@@ -1012,9 +1028,11 @@
 		};
 		06CD37372D7DD04F00959852 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063F5D3B2D885209004F4C17 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YeonMyu/YeonMyu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"YeonMyu/Preview Content\"";

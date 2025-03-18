@@ -11,9 +11,9 @@ struct SplashView: View {
     @State private var isActive: Bool = false
     var body: some View {
         if isActive{
-            TabBarView()
-                .accentColor(.asBlack)
-            //LoginView()
+//            TabBarView()
+//                .accentColor(.asBlack)
+            LoginView()
         }else{
             VStack {
                 Text("내 안의 연뮤")
