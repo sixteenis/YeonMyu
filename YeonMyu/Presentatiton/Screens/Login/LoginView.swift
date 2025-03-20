@@ -65,7 +65,19 @@ struct LoginView: View {
             }
         }
         .padding()
+        .task {
+            do{
+                let result = try await FirestoreManager.shared.createUser(uid: "123", name: "박박", area: "서울")
+                print(result)
+                print("---------")
+            } catch {
+                print("오류 발생 ㅠㅠㅠ")
+                print("---------")
+            }
+            
+        }
     }
+    
 }
 
 // MARK: - 구글 로그인
@@ -245,11 +257,12 @@ private extension LoginView {
         }
         
         let firebaseCredential = OAuthProvider.credential(
-            withProviderID: "apple.com",
+            providerID: .apple,
             idToken: idTokenString,
             rawNonce: nonce
         )
         
+    
         Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
             if let error = error {
                 self.errorMessage = "Firebase 인증 실패: \(error.localizedDescription)"

@@ -11,6 +11,7 @@
 		0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0631B1762D81CDDD00287825 /* GoogleService-Info.plist */; };
 		063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */; };
 		063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */; };
+		063F5D682D8C3DE1004F4C17 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D672D8C3DE1004F4C17 /* FirestoreManager.swift */; };
 		066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C872D7F12ED00C44567 /* FirebaseAnalytics */; };
 		066C1C8A2D7F12ED00C44567 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C892D7F12ED00C44567 /* FirebaseAuth */; };
 		066C1C8C2D7F12ED00C44567 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C8B2D7F12ED00C44567 /* FirebaseCore */; };
@@ -136,6 +137,7 @@
 		063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YeonMyu.entitlements; sourceTree = "<group>"; };
 		063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
+		063F5D672D8C3DE1004F4C17 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -352,6 +354,7 @@
 				06E507C82D7F10CD00F5E7DE /* DTO */,
 				06E507CA2D7F10CD00F5E7DE /* NetworkManager.swift */,
 				063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */,
+				063F5D672D8C3DE1004F4C17 /* FirestoreManager.swift */,
 				0631B1742D81CDB600287825 /* APIKey.swift */,
 			);
 			path = Data;
@@ -842,6 +845,7 @@
 				06E508272D7F10CD00F5E7DE /* TicketList.swift in Sources */,
 				06E508282D7F10CD00F5E7DE /* asText.swift in Sources */,
 				06E508292D7F10CD00F5E7DE /* CustomHorizontalPlayView.swift in Sources */,
+				063F5D682D8C3DE1004F4C17 /* FirestoreManager.swift in Sources */,
 				06E5082A2D7F10CD00F5E7DE /* NetworkManager.swift in Sources */,
 				06E5082B2D7F10CD00F5E7DE /* TicketManager.swift in Sources */,
 				06E5082C2D7F10CD00F5E7DE /* CustomMapMarker.swift in Sources */,
