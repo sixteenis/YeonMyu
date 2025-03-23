@@ -109,7 +109,7 @@ private extension LoginVM {
             await MainActor.run {
                 self.output.uid = uid
                 if state == .signIn { self.output.goMianView = true }
-                if state == .newJoin { self.output.goJoinView = true }
+                if state == .newJoin { self.output.goJoinView.toggle() }
             }
         }
         

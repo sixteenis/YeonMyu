@@ -60,3 +60,7 @@ extension Image {
     
     
 }
+
+extension UIImage {
+    static let leftTailArrow = UIImage(named: "왼쪽 2")
+}

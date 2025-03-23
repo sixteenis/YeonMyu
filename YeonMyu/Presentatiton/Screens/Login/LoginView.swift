@@ -27,10 +27,10 @@ struct LoginView: View {
             }
         }
         .onChange(of: vm.output.goJoinView) { oldValue, newValue in
-            appCoordinator.pushAndReset(.home)
+            appCoordinator.push(.authStep1(uid: vm.output.uid))
         }
         .onChange(of: vm.output.goMianView) { oldValue, newValue in
-            appCoordinator.pushAndReset(.home)
+            appCoordinator.pushAndReset(.tab)
         }
     }
 }

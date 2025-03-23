@@ -31,7 +31,8 @@ struct YeonMyuApp: App {
         let appearance = UINavigationBarAppearance()
         
         // 뒤로 가기 버튼의 텍스트 제거
-        appearance.setBackIndicatorImage(UIImage(systemName: "chevron.left"), transitionMaskImage: UIImage(systemName: "chevron.left"))
+        let coloredImage = UIImage.leftTailArrow!.withTintColor(UIColor(hex: "919193"), renderingMode: .alwaysOriginal)
+        appearance.setBackIndicatorImage(coloredImage, transitionMaskImage: coloredImage)
         appearance.backButtonAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: -1000, vertical: 0) // 텍스트 위치를 화면 밖으로 밀어내기
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear
@@ -39,13 +40,14 @@ struct YeonMyuApp: App {
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
-        
+        UINavigationBar.appearance().tintColor = UIColor(hex: "919193")
         KakaoSDK.initSDK(appKey: APIKey.kakaoKey)
-        
+        //UserDefaultManager.shared.uid = ""
     }
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .tint(.asPurple300)
                 .environmentObject(appCoordinator)
                 .onOpenURL { url in //구글 로그인
                     GIDSignIn.sharedInstance.handle(url)
