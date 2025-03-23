@@ -12,6 +12,12 @@
 		063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */; };
 		063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */; };
 		063F5D682D8C3DE1004F4C17 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D672D8C3DE1004F4C17 /* FirestoreManager.swift */; };
+		063F5D712D9035D0004F4C17 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6E2D9035D0004F4C17 /* CoordinatorProtocol.swift */; };
+		063F5D722D9035D0004F4C17 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6D2D9035D0004F4C17 /* MainCoordinator.swift */; };
+		063F5D732D9035D0004F4C17 /* CoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6F2D9035D0004F4C17 /* CoordinatorView.swift */; };
+		063F5D772D903EB8004F4C17 /* AuthStep1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D762D903EB8004F4C17 /* AuthStep1.swift */; };
+		063F5D792D903EBD004F4C17 /* AuthStep2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D782D903EBD004F4C17 /* AuthStep2.swift */; };
+		063F5D7B2D904233004F4C17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D7A2D904233004F4C17 /* ContentView.swift */; };
 		066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C872D7F12ED00C44567 /* FirebaseAnalytics */; };
 		066C1C8A2D7F12ED00C44567 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C892D7F12ED00C44567 /* FirebaseAuth */; };
 		066C1C8C2D7F12ED00C44567 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C8B2D7F12ED00C44567 /* FirebaseCore */; };
@@ -59,7 +65,7 @@
 		06E508202D7F10CD00F5E7DE /* PerformanceDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507C32D7F10CD00F5E7DE /* PerformanceDTO.swift */; };
 		06E508212D7F10CD00F5E7DE /* ForegroundWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507CF2D7F10CD00F5E7DE /* ForegroundWrapper.swift */; };
 		06E508222D7F10CD00F5E7DE /* CustomTextEditorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507CD2D7F10CD00F5E7DE /* CustomTextEditorStyle.swift */; };
-		06E508232D7F10CD00F5E7DE /* UserManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507BD2D7F10CD00F5E7DE /* UserManger.swift */; };
+		06E508232D7F10CD00F5E7DE /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507BD2D7F10CD00F5E7DE /* UserDefaultManager.swift */; };
 		06E508242D7F10CD00F5E7DE /* HomeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507F62D7F10CD00F5E7DE /* HomeState.swift */; };
 		06E508252D7F10CD00F5E7DE /* CustomVerticalPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507D62D7F10CD00F5E7DE /* CustomVerticalPlayView.swift */; };
 		06E508262D7F10CD00F5E7DE /* PrimaryText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507CC2D7F10CD00F5E7DE /* PrimaryText.swift */; };
@@ -138,6 +144,12 @@
 		063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YeonMyu.entitlements; sourceTree = "<group>"; };
 		063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		063F5D672D8C3DE1004F4C17 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		063F5D6D2D9035D0004F4C17 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		063F5D6E2D9035D0004F4C17 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
+		063F5D6F2D9035D0004F4C17 /* CoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorView.swift; sourceTree = "<group>"; };
+		063F5D762D903EB8004F4C17 /* AuthStep1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStep1.swift; sourceTree = "<group>"; };
+		063F5D782D903EBD004F4C17 /* AuthStep2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStep2.swift; sourceTree = "<group>"; };
+		063F5D7A2D904233004F4C17 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,7 +159,7 @@
 		06E507B62D7F10C700F5E7DE /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		06E507BA2D7F10CD00F5E7DE /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		06E507BC2D7F10CD00F5E7DE /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
-		06E507BD2D7F10CD00F5E7DE /* UserManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManger.swift; sourceTree = "<group>"; };
+		06E507BD2D7F10CD00F5E7DE /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		06E507BF2D7F10CD00F5E7DE /* TicketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketManager.swift; sourceTree = "<group>"; };
 		06E507C02D7F10CD00F5E7DE /* TicketList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketList.swift; sourceTree = "<group>"; };
 		06E507C22D7F10CD00F5E7DE /* PerformanceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceError.swift; sourceTree = "<group>"; };
@@ -255,6 +267,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		063F5D702D9035D0004F4C17 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				063F5D6D2D9035D0004F4C17 /* MainCoordinator.swift */,
+				063F5D6E2D9035D0004F4C17 /* CoordinatorProtocol.swift */,
+				063F5D6F2D9035D0004F4C17 /* CoordinatorView.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		06CD371E2D7DD04E00959852 = {
 			isa = PBXGroup;
 			children = (
@@ -300,7 +322,9 @@
 		06E507B72D7F10C700F5E7DE /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				063F5D702D9035D0004F4C17 /* Coordinator */,
 				06CD38212D7DD0EB00959852 /* YeonMyuApp.swift */,
+				063F5D7A2D904233004F4C17 /* ContentView.swift */,
 				06E507B62D7F10C700F5E7DE /* SplashView.swift */,
 			);
 			path = Application;
@@ -318,7 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				06E507BC2D7F10CD00F5E7DE /* UserDefault.swift */,
-				06E507BD2D7F10CD00F5E7DE /* UserManger.swift */,
+				06E507BD2D7F10CD00F5E7DE /* UserDefaultManager.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -438,6 +462,8 @@
 			children = (
 				06E507E82D7F10CD00F5E7DE /* LoginView.swift */,
 				063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */,
+				063F5D762D903EB8004F4C17 /* AuthStep1.swift */,
+				063F5D782D903EBD004F4C17 /* AuthStep2.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -782,6 +808,9 @@
 				06E508072D7F10CD00F5E7DE /* MainHeaderPlayModel.swift in Sources */,
 				06E508082D7F10CD00F5E7DE /* HomeView.swift in Sources */,
 				06E508092D7F10CD00F5E7DE /* ButtonWrapper.swift in Sources */,
+				063F5D712D9035D0004F4C17 /* CoordinatorProtocol.swift in Sources */,
+				063F5D722D9035D0004F4C17 /* MainCoordinator.swift in Sources */,
+				063F5D732D9035D0004F4C17 /* CoordinatorView.swift in Sources */,
 				06E5080A2D7F10CD00F5E7DE /* Image+.swift in Sources */,
 				06E5080B2D7F10CD00F5E7DE /* InitView.swift in Sources */,
 				06E5080C2D7F10CD00F5E7DE /* HomeIntent.swift in Sources */,
@@ -799,6 +828,7 @@
 				06E508192D7F10CD00F5E7DE /* PlaySate.swift in Sources */,
 				06E5081A2D7F10CD00F5E7DE /* CityCode.swift in Sources */,
 				06E508672D7F10D900F5E7DE /* ShowPerformanceModel.swift in Sources */,
+				063F5D7B2D904233004F4C17 /* ContentView.swift in Sources */,
 				06E508682D7F10D900F5E7DE /* TicketStorageVM.swift in Sources */,
 				06E508692D7F10D900F5E7DE /* HorizontalCalendarView.swift in Sources */,
 				06E5086A2D7F10D900F5E7DE /* TicketStorageView.swift in Sources */,
@@ -818,6 +848,7 @@
 				0631B1752D81CDB600287825 /* APIKey.swift in Sources */,
 				06E508782D7F10D900F5E7DE /* UpadteTicketModel.swift in Sources */,
 				06E508792D7F10D900F5E7DE /* PerformancePicker.swift in Sources */,
+				063F5D792D903EBD004F4C17 /* AuthStep2.swift in Sources */,
 				06E5087A2D7F10D900F5E7DE /* SettingView.swift in Sources */,
 				06E5087B2D7F10D900F5E7DE /* MainVM.swift in Sources */,
 				06E5087C2D7F10D900F5E7DE /* ReviewView.swift in Sources */,
@@ -838,7 +869,7 @@
 				063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */,
 				06E508212D7F10CD00F5E7DE /* ForegroundWrapper.swift in Sources */,
 				06E508222D7F10CD00F5E7DE /* CustomTextEditorStyle.swift in Sources */,
-				06E508232D7F10CD00F5E7DE /* UserManger.swift in Sources */,
+				06E508232D7F10CD00F5E7DE /* UserDefaultManager.swift in Sources */,
 				06E508242D7F10CD00F5E7DE /* HomeState.swift in Sources */,
 				06E508252D7F10CD00F5E7DE /* CustomVerticalPlayView.swift in Sources */,
 				06E508262D7F10CD00F5E7DE /* PrimaryText.swift in Sources */,
@@ -859,6 +890,7 @@
 				06E508342D7F10CD00F5E7DE /* CustomPostImage.swift in Sources */,
 				06E508352D7F10CD00F5E7DE /* CustomSegmentedView.swift in Sources */,
 				06E508362D7F10CD00F5E7DE /* NavigationWrapper.swift in Sources */,
+				063F5D772D903EB8004F4C17 /* AuthStep1.swift in Sources */,
 				06E508372D7F10CD00F5E7DE /* PrfCate.swift in Sources */,
 				06E508382D7F10CD00F5E7DE /* ContentState.swift in Sources */,
 				06E508392D7F10CD00F5E7DE /* LoadingView.swift in Sources */,

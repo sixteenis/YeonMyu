@@ -16,8 +16,10 @@ import GoogleSignIn
 import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
+import SwiftUICore
 
-final class LoginVM: ViewModeltype {
+final class LoginVM: NSObject, ViewModeltype {
+    
     var cancellables: Set<AnyCancellable>
     var input = Input()
     @Published var output = Output()
@@ -25,15 +27,9 @@ final class LoginVM: ViewModeltype {
     private var uid: String = ""
     
     
-    enum SignState {
-        case none
-        case signIn
-        case newJoin
-        case signOut
-    }
-    
-    init() {
+    override init() {
         self.cancellables = Set<AnyCancellable>()
+        super.init()
         transform()
     }
     
@@ -44,9 +40,10 @@ final class LoginVM: ViewModeltype {
         let appleLoginCompletion = PassthroughSubject<Result<ASAuthorization, any Error>,Never>()
     }
     struct Output {
-        var uid: String?
         var err: String?
-        var signState: SignState = .none
+        var uid: String = ""
+        var goJoinView = false
+        var goMianView = false
     }
     func transform() {
         input.googleLoginTap
@@ -55,6 +52,7 @@ final class LoginVM: ViewModeltype {
                 self.googleSignIn { uid in
                     guard let uid else { return }
                     print("----구글 로그인 성공 : UID\(uid)-----")
+                    self.loginStart(uid: uid)
                 }
             }.store(in: &cancellables)
         
@@ -64,6 +62,7 @@ final class LoginVM: ViewModeltype {
                 self.kakaoSignIn { uid in
                     guard let uid else { return }
                     print("----카카오 로그인 성공 : UID\(uid)-----")
+                    self.loginStart(uid: uid)
                 }
             }.store(in: &cancellables)
         
@@ -74,6 +73,11 @@ final class LoginVM: ViewModeltype {
                 self.currentNonce = nonce
                 request.requestedScopes = [.email]
                 request.nonce = sha256(nonce)
+                
+                let controller = ASAuthorizationController(authorizationRequests: [request])
+                controller.delegate = self
+                controller.presentationContextProvider = self
+                controller.performRequests() // ✅ 여기서 실행되어야 로그인 UI가 뜸
             }.store(in: &cancellables)
         
         input.appleLoginCompletion
@@ -85,6 +89,7 @@ final class LoginVM: ViewModeltype {
                         appleSignIn(credential: appleIDCredential) { uid in
                             guard let uid else { return }
                             print("----애플 로그인 성공 : UID\(uid)-----")
+                            self.loginStart(uid: uid)
                         }
                     }
                 case .failure(_):
@@ -97,7 +102,19 @@ final class LoginVM: ViewModeltype {
         
     }
 }
-
+private extension LoginVM {
+    func loginStart(uid: String) {
+        Task {
+            let state = await UserManager.shared.checkSignInState(uid: uid)
+            await MainActor.run {
+                self.output.uid = uid
+                if state == .signIn { self.output.goMianView = true }
+                if state == .newJoin { self.output.goJoinView = true }
+            }
+        }
+        
+    }
+}
 // MARK: - 구글 로그인
 private extension LoginVM {
     func googleSignIn(compltion: @escaping ((String?) -> ())) {
@@ -117,7 +134,7 @@ private extension LoginVM {
             }
             
             let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                         accessToken: user.accessToken.tokenString)
+                                                           accessToken: user.accessToken.tokenString)
             
             // Firebase 인증
             Auth.auth().signIn(with: credential) { authResult, error in
@@ -137,22 +154,22 @@ private extension LoginVM {
 // MARK: - 카카오 로그인
 private extension LoginVM {
     func kakaoSignIn(compltion: @escaping ((String?) -> ())) {
-            if UserApi.isKakaoTalkLoginAvailable() {
-                UserApi.shared.loginWithKakaoTalk { (oauthToken, error) in
-                    
-                    self.handleKakaoLogin(oauthToken: oauthToken, error: error) { uid in
-                        compltion(uid)
-                    }
-                    
+        if UserApi.isKakaoTalkLoginAvailable() {
+            UserApi.shared.loginWithKakaoTalk { (oauthToken, error) in
+                
+                self.handleKakaoLogin(oauthToken: oauthToken, error: error) { uid in
+                    compltion(uid)
                 }
-            } else {
-                UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
-                    self.handleKakaoLogin(oauthToken: oauthToken, error: error) { uid in
-                        compltion(uid)
-                    }
+                
+            }
+        } else {
+            UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
+                self.handleKakaoLogin(oauthToken: oauthToken, error: error) { uid in
+                    compltion(uid)
                 }
             }
         }
+    }
     
     func handleKakaoLogin(oauthToken: OAuthToken?, error: Error?, compltion: @escaping ((String?) -> Void)){
         if let error = error {
@@ -266,7 +283,7 @@ private extension LoginVM {
             completion(user.uid)
         }
     }
-
+    
     
     func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
@@ -300,5 +317,23 @@ private extension LoginVM {
         let hashedData = SHA256.hash(data: inputData)
         let hashString = hashedData.map { String(format: "%02x", $0) }.joined()
         return hashString
+    }
+}
+
+// MARK: - 애플 로그인 델리게이트
+extension LoginVM: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        // SwiftUI일 경우 아래처럼 처리
+        return UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first?.windows.first { $0.isKeyWindow } ?? ASPresentationAnchor()
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        input.appleLoginCompletion.send(.success(authorization))
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        input.appleLoginCompletion.send(.failure(error))
     }
 }

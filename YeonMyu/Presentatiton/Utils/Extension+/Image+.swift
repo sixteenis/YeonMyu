@@ -52,4 +52,11 @@ extension Image {
     static let upImage = Image(systemName: "chevron.up")
     static let ticketPlus = Image("ticketPlus")
     
+    //로그인 이미지
+    static let googleLogin = Image("googleLogin")
+    static let appleLogin = Image("appleLogin")
+    static let kakaoLogin = Image("kakaoLogin")
+    static let loginText = Image("로그인문구")
+    
+    
 }

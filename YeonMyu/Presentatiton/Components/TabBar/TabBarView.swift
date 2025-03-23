@@ -7,31 +7,44 @@
 
 import SwiftUI
 
-struct TabBarView: View {
-    
+struct MainTabView: View {
+    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
     var body: some View {
-        TabView {
-            HomeView.build()
+        TabView(selection: $coordinator.selectedTab) {
+            coordinator.build(.home) // 홈 화면 생성
                 .tabItem {
                     Image(systemName: "heart")
+                    Text("홈")
                 }
-            MainView()
+                .tag(Tab.home)
+
+            coordinator.build(.home) // 산책하기 화면 생성
                 .tabItem {
-                    Image(systemName: "house")
+                    Image(systemName: "heart")
+                    Text("홈")
                 }
-                
-            TicketStorageView()
+                .tag(Tab.dogWalk)
+
+            coordinator.build(.home)
                 .tabItem {
-                    Image(systemName: "ticket")
+                    Image(systemName: "heart")
+                    Text("홈")
                 }
-            SettingView()
-                .tabItem {  
-                    Image(systemName: "gearshape")
+                .tag(Tab.community)
+
+            coordinator.build(.home)
+                .tabItem {
+                    Image(systemName: "heart")
+                    Text("홈")
                 }
+                .tag(Tab.chatting)
         }
+        .tint(Color.asPurple300)
+        .navigationBarBackButtonHidden()
+
     }
 }
 
-#Preview {
-    TabBarView()
-}
+//#Preview {
+//    MainTabView()
+//}

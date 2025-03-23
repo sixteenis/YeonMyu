@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
     @State private var setNick = false
-    @State private var nick = UserManager.shared.userNick // 초기 닉네임은 유저디폴트에서 가져옴
+    @State private var nick = UserDefaultManager.shared.name // 초기 닉네임은 유저디폴트에서 가져옴
     @State private var tickets: [TicketList] = [TicketList]()
     @State private var policyView = false
     var body: some View {
@@ -152,7 +152,7 @@ private extension SettingView {
         Button {
             if setNick {
                 // 닉네임 저장 로직 (UserDefaults 반영)
-                UserManager.shared.userNick = nick // 유저디폴트에 닉네임 저장
+                UserDefaultManager.shared.name = nick // 유저디폴트에 닉네임 저장
             }
             setNick.toggle() // 버튼 클릭 시 닉네임 수정 가능 여부 전환
         } label: {

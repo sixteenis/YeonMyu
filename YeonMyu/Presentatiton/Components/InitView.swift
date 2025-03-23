@@ -14,10 +14,14 @@ struct InitView: View {
             .foregroundStyle(Color.asPurple300)
             .overlay {
                 VStack {
-                    Image.logoM
+                    Image.logoL
                         .resizable()
                         .frame(width: 166.67, height: 34)
+                        .foregroundStyle(Color.asWhite)
+                        .padding(.bottom, 14)
                     asText("연극과 뮤지컬, 더 가까이 더 깊이")
+                        .font(.font14)
+                        .foregroundStyle(Color.asWhitePurple)
                 }
             }
     }

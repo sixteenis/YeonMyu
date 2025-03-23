@@ -1,40 +1,28 @@
 //
 //  SplashView.swift
-//  musicalRecordProject
+//  YeonMyu
 //
-//  Created by 박성민 on 9/30/24.
+//  Created by 박성민 on 3/23/25.
 //
 
 import SwiftUI
 
 struct SplashView: View {
-    @State private var isActive: Bool = false
+    @EnvironmentObject var appCoordinator: MainCoordinator
+    @State private var loadingFinished = false
+
     var body: some View {
-        if isActive{
-//            TabBarView()
-//                .accentColor(.asBlack)
-            LoginView()
-        }else{
-            VStack {
-                Text("내 안의 연뮤")
-                Spacer()
-                    .frame(height: 50)
-                ProgressView()
-                    .frame(width: 100, height: 100) // 크기 설정
-                Spacer()
-                    .frame(height: 100)
-            }
-                .font(.largeTitle)
-                .asForeground(Color.asMainColor)
-                .fontWeight(.heavy)
-                .onAppear{
-                    withAnimation(.easeInOut(duration: 1.5)){
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                            isActive = true
-                        }
+        InitView()
+            .ignoresSafeArea()
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    Task {
+                        let result = await UserManager.shared.checkSignInState()
+                        let targetScreen: Screen = (result == .signIn) ? .tab : .login
+                        appCoordinator.pushAndReset(targetScreen) // 로딩 후 루트 뷰 변경
                     }
                 }
-        }
+            }
     }
 }
 

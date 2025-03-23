@@ -1,44 +1,86 @@
+//
+//  LoginView.swift
+//  YeonMyu
+//
+//  Created by 박성민 on 3/18/25.
+//
+
 import SwiftUI
 import AuthenticationServices
 
 
 struct LoginView: View {
-    @State var errorMessage: String?
-    @State var givenName: String?
-    @State private var currentNonce: String?
-    
-    //@State var signState: signState = .signOut
     @StateObject private var vm = LoginVM()
-    
+    @EnvironmentObject var appCoordinator: MainCoordinator
     
     var body: some View {
-        VStack(spacing: 20) {
+        NavigationView {
+            VStack(spacing: 0) {
+                LoginTitleView()
+                    .vCenter()
+                    .padding(.bottom, 50)
+                Spacer()
+                
+                LoginButtons()
+                    .padding(.bottom, 50)
+                
+            }
+        }
+        .onChange(of: vm.output.goJoinView) { oldValue, newValue in
+            appCoordinator.pushAndReset(.home)
+        }
+        .onChange(of: vm.output.goMianView) { oldValue, newValue in
+            appCoordinator.pushAndReset(.home)
+        }
+    }
+}
+private extension LoginView {
+    func LoginTitleView() -> some View {
+        VStack {
+            Image.logoL
+                .resizable()
+                .frame(width: 166.67, height: 34)
+                .foregroundStyle(Color.asPurple300)
+                .padding(.bottom, 23)
             
+            Image.loginText
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 205)
+                .foregroundStyle(Color.asGray100)
+        }
+    }
+    func LoginButtons() -> some View {
+        VStack(spacing: 6) {
             Button {
                 vm.input.googleLoginTap.send(())
             } label: {
-                Text("구글 로그인")
+                Image.googleLogin
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 22)
             }
             
             Button {
                 vm.input.kakaoLoginTap.send(())
             } label: {
-                Text("카카오 로그인")
+                Image.kakaoLogin
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 22)
             }
-            
-            Text("애플 로그인")
-                .overlay {
-                    SignInWithAppleButton(
-                        .signIn,
-                        onRequest: { request in vm.input.appleLoginTap.send(request) },
-                        onCompletion: { result in vm.input.appleLoginCompletion.send(result)}
-                    )
-                    .blendMode(.overlay)
-                }
-            
+            Button {
+                let request = ASAuthorizationAppleIDProvider().createRequest()
+                vm.input.appleLoginTap.send(request)
+            } label: {
+                Image.appleLogin
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 22)
+            }
         }
-        
     }
+    
 }
 
 

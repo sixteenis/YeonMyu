@@ -14,18 +14,19 @@ import KakaoSDKCommon
 import KakaoSDKAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-      LocalNotificationManager().requestPermission()
-      FirebaseApp.configure()
-      
-      return true
-  }
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        LocalNotificationManager().requestPermission()
+        FirebaseApp.configure()
+        
+        return true
+    }
 }
 
 @main
 struct YeonMyuApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var appCoordinator: MainCoordinator = MainCoordinator()
     init() {
         let appearance = UINavigationBarAppearance()
         
@@ -44,14 +45,15 @@ struct YeonMyuApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            ContentView()
+                .environmentObject(appCoordinator)
                 .onOpenURL { url in //구글 로그인
                     GIDSignIn.sharedInstance.handle(url)
                 }
                 .onOpenURL { url in //카카오 로그인
                     if (AuthApi.isKakaoTalkLoginUrl(url)) { _ = AuthController.handleOpenUrl(url: url)}
                 }
-                
+            
         }
     }
 }

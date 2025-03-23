@@ -10,6 +10,7 @@ import SwiftUI
 extension Color {
     static let asBorderGray = Color.dynamic(light: "F3F3F3", dark: "3A3A3C")
     static let asBorderGrayLine = Color.dynamic(light: "E7E7E7", dark: "4A4A4C")
+    static let asGray100 = Color.dynamic(light: "272727", dark: "BEBEC0")
     static let asGray200 = Color.dynamic(light: "595959", dark: "BEBEC0")
     static let asGray300 = Color.dynamic(light: "919193", dark: "BEBEC0")
     static let asGray400 = Color.dynamic(light: "E7E7E7", dark: "BEBEC0")
@@ -31,6 +32,7 @@ extension Color {
     static let asPlaceholder = Color.dynamic(light: "C0C0C0", dark: "8D8D8F")
     
     static let asFont = Color.dynamic(light: "242424", dark: "E5E5E7")
+    static let asWhitePurple = Color.dynamic(light: "EBD9FF", dark: "E5E5E7")
     static let asBackground = Color.dynamic(light: "FFFFFF", dark: "000000")
     static let asSubFont = Color.dynamic(light: "666666", dark: "BBBBBB")
     
@@ -46,6 +48,7 @@ extension Color {
     static let asredColor = Color.dynamic(light: "FF4D4F", dark: "D73232")
     static let removeColor = Color.dynamic(light: "D32F2F", dark: "B22222")
     static let ticketButtonColor = Color.dynamic(light: "5C3D99", dark: "2E1F66")
+    
 }
 
 extension Color {
