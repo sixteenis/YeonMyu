@@ -49,6 +49,8 @@ extension Color {
     static let removeColor = Color.dynamic(light: "D32F2F", dark: "B22222")
     static let ticketButtonColor = Color.dynamic(light: "5C3D99", dark: "2E1F66")
     
+    static let errRedColor = Color.dynamic(light: "FC6363", dark: "2E1F66")
+    static let checkGreenColor = Color.dynamic(light: "6AC579", dark: "2E1F66")
 }
 
 extension Color {

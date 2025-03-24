@@ -17,6 +17,7 @@ protocol HomeStateProtocol {
     
     var selectedPost: String? { get } //공연 클릭 시
     var selectedUserInfo: UserInfo? { get }
+    var userName: String { get }
     var selectedCity: CityCode { get } //선택 지역
     var selectedPrfCate: PrfCate { get } //선택된 공연 종류
     
@@ -50,7 +51,8 @@ final class HomeState: HomeStateProtocol, ObservableObject {
     
     var selectedPost: String?
     var selectedUserInfo: UserInfo?
-    var selectedCity: CityCode = .seoul
+    var userName = UserManager.shared.getUserData().name
+    var selectedCity: CityCode = UserManager.shared.getUserData().getCityCode()
     var selectedPrfCate: PrfCate = .all
 }
 

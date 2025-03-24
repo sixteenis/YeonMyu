@@ -18,8 +18,16 @@ enum SignState: String, Identifiable {
     var id: String { self.rawValue}
 }
 struct UserModel {
+    let uid: String
     let name: String
     let area: String
+    
+    func getCityCode() -> CityCode {
+        if let cityCode = CityCode.allCases.first(where: { $0.rawValue == area }) {
+            return cityCode
+        }
+        return .seoul 
+    }
 }
 
 final class UserManager {
@@ -66,6 +74,7 @@ extension UserManager {
         guard let data = document.data() else { return nil}
         
         return UserModel(
+            uid: uid,
             name: data["name"] as? String ?? "알수없음",
             area: data["area"] as? String ?? "알수없음"
         )
@@ -82,8 +91,20 @@ extension UserManager {
         let result = try await self.fetchUserInfo(uid: uid)
         return result
     }
+    func saveUserData(_ user: UserModel) {
+        UserDefaultManager.shared.uid = user.uid
+        UserDefaultManager.shared.name = user.name
+        UserDefaultManager.shared.area = user.area
+    }
+    func getUserData() -> UserModel {
+        return UserModel(
+            uid: UserDefaultManager.shared.uid,
+            name: UserDefaultManager.shared.name,
+            area: UserDefaultManager.shared.area
+        )
+    }
 }
 // MARK: - 게시글 관련 코드
 //extension FirestoreManager {
-//    
+//
 //}

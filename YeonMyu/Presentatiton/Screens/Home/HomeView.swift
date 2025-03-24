@@ -315,7 +315,7 @@ private extension HomeView {
     func infoHeaderView() -> some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 0) {
-                asText("서연")
+                asText(state.userName)
                     .foregroundColor(.asMainSecondaryPurple) // 닉네임의 색상 변경
                     .font(.boldFont20)
                 asText("님의 공연 기록")

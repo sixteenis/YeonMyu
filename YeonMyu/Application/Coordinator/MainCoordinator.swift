@@ -63,8 +63,8 @@ final class MainCoordinator: CoordinatorProtocol {
             
         case .home: HomeView.build()                          // 홈
             
-        case .authStep1(uid: let uid): AuthStep1(uid: uid)
-            //        case .auth2(uid: let uid, area: let area):
+        case .authStep1(let uid): AuthStep1(uid: uid)
+        case .authStep2(let uid, let area): AuthStep2(uid: uid, area: area)
         default: EmptyView()
             
         }

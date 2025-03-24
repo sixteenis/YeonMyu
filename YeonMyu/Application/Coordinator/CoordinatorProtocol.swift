@@ -31,7 +31,7 @@ enum Screen: Identifiable, Hashable {
     case start
     case login  // 로그인 뷰
     case authStep1(uid: String)   // 회원가입 지역 설정
-    case authStep1(uid: String, area: String)   // 회원가입 닉네임 설정
+    case authStep2(uid: String, area: String)   // 회원가입 닉네임 설정
     
     case home   // 홈 뷰
     case tab

@@ -10,7 +10,7 @@ import SwiftUI
 extension Image {
     static let search = Image("검색")
     static let remove = Image(systemName: "trash")
-    static let xMark = Image(systemName: "xmark")
+    static let xMark = Image("닫기")
     static let asBell = Image("bell")
     static let asBellGray = Image("bell_gray")
     
@@ -57,6 +57,9 @@ extension Image {
     static let appleLogin = Image("appleLogin")
     static let kakaoLogin = Image("kakaoLogin")
     static let loginText = Image("로그인문구")
+    static let checkIcon = Image("check")
+    static let errIcon = Image("err")
+    
     
     
 }
