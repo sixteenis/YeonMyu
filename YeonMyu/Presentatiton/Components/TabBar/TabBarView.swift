@@ -9,35 +9,36 @@ import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    
     var body: some View {
         TabView(selection: $coordinator.selectedTab) {
             coordinator.build(.home) // 홈 화면 생성
                 .tabItem {
-                    Image(systemName: "heart")
+                    Image.home
                     Text("홈")
                 }
                 .tag(Tab.home)
 
-            coordinator.build(.home) // 산책하기 화면 생성
+            coordinator.build(.search) // 검색 화면 생성
                 .tabItem {
-                    Image(systemName: "heart")
-                    Text("홈")
+                    Image.search
+                    Text("검색")
                 }
-                .tag(Tab.dogWalk)
+                .tag(Tab.search)
 
-            coordinator.build(.home)
+            coordinator.build(.storage) // 보관함 화면 생성
                 .tabItem {
-                    Image(systemName: "heart")
-                    Text("홈")
+                    Image.storage
+                    Text("보관함")
                 }
-                .tag(Tab.community)
+                .tag(Tab.storage)
 
-            coordinator.build(.home)
+            coordinator.build(.my) //마이 화면 생성
                 .tabItem {
-                    Image(systemName: "heart")
-                    Text("홈")
+                    Image.my
+                    Text("마이")
                 }
-                .tag(Tab.chatting)
+                .tag(Tab.my)
         }
         .tint(Color.asPurple300)
         .navigationBarBackButtonHidden()

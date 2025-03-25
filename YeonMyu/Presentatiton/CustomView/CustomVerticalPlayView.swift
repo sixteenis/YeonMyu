@@ -19,15 +19,15 @@ struct CustomVerticalPlayView: View {
                     .padding(.top, 8)
                 infoView(image: .calendarIcon, text: post.fullDate == nil ? post.startDate+"~"+post.endDate: post.fullDate! )
                 infoView(image: .markerIcon, text: post.location)
-            }
-        }
+            }.vTop()
+        }.frame(height: 80)
     }
 }
 
 private extension CustomVerticalPlayView {
     func genreView() -> some View {
         HStack(spacing: 2) {
-            asText(post.postType)
+            asText(post.getPostString())
                 .font(.font10)
                 .foregroundStyle(Color.asMainPurple)
                 .padding(.horizontal, 5) // 좌우 여백 추가
@@ -42,6 +42,7 @@ private extension CustomVerticalPlayView {
                 .lineLimit(1)
                 .font(.boldFont16)
                 .foregroundStyle(Color.asTextColor)
+                .padding(.trailing, 46)
             
         } //:HSTACK
     }

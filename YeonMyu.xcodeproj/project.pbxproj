@@ -18,6 +18,8 @@
 		063F5D772D903EB8004F4C17 /* AuthStep1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D762D903EB8004F4C17 /* AuthStep1.swift */; };
 		063F5D792D903EBD004F4C17 /* AuthStep2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D782D903EBD004F4C17 /* AuthStep2.swift */; };
 		063F5D7B2D904233004F4C17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D7A2D904233004F4C17 /* ContentView.swift */; };
+		063F5D7F2D91838C004F4C17 /* StorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D7E2D91838C004F4C17 /* StorageView.swift */; };
+		063F5D812D918391004F4C17 /* MyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D802D918391004F4C17 /* MyView.swift */; };
 		066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C872D7F12ED00C44567 /* FirebaseAnalytics */; };
 		066C1C8A2D7F12ED00C44567 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C892D7F12ED00C44567 /* FirebaseAuth */; };
 		066C1C8C2D7F12ED00C44567 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C8B2D7F12ED00C44567 /* FirebaseCore */; };
@@ -150,6 +152,8 @@
 		063F5D762D903EB8004F4C17 /* AuthStep1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStep1.swift; sourceTree = "<group>"; };
 		063F5D782D903EBD004F4C17 /* AuthStep2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStep2.swift; sourceTree = "<group>"; };
 		063F5D7A2D904233004F4C17 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		063F5D7E2D91838C004F4C17 /* StorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageView.swift; sourceTree = "<group>"; };
+		063F5D802D918391004F4C17 /* MyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyView.swift; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -275,6 +279,22 @@
 				063F5D6F2D9035D0004F4C17 /* CoordinatorView.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		063F5D7C2D918325004F4C17 /* storage */ = {
+			isa = PBXGroup;
+			children = (
+				063F5D7E2D91838C004F4C17 /* StorageView.swift */,
+			);
+			path = storage;
+			sourceTree = "<group>";
+		};
+		063F5D7D2D918346004F4C17 /* My */ = {
+			isa = PBXGroup;
+			children = (
+				063F5D802D918391004F4C17 /* MyView.swift */,
+			);
+			path = My;
 			sourceTree = "<group>";
 		};
 		06CD371E2D7DD04E00959852 = {
@@ -518,9 +538,11 @@
 			isa = PBXGroup;
 			children = (
 				06E507E92D7F10CD00F5E7DE /* Login */,
-				06E507EB2D7F10CD00F5E7DE /* Search */,
 				06E507ED2D7F10CD00F5E7DE /* DetailPerf */,
 				06E507F72D7F10CD00F5E7DE /* Home */,
+				06E507EB2D7F10CD00F5E7DE /* Search */,
+				063F5D7C2D918325004F4C17 /* storage */,
+				063F5D7D2D918346004F4C17 /* My */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -823,6 +845,7 @@
 				06E508142D7F10CD00F5E7DE /* Notification.swift in Sources */,
 				06E508152D7F10CD00F5E7DE /* SimplePostModel.swift in Sources */,
 				06E508162D7F10CD00F5E7DE /* FacilityDTO.swift in Sources */,
+				063F5D812D918391004F4C17 /* MyView.swift in Sources */,
 				06E508172D7F10CD00F5E7DE /* DetailView.swift in Sources */,
 				06E508182D7F10CD00F5E7DE /* RandomSimplePlayModel.swift in Sources */,
 				06E508192D7F10CD00F5E7DE /* PlaySate.swift in Sources */,
@@ -837,6 +860,7 @@
 				06E5086D2D7F10D900F5E7DE /* PerformanceModel.swift in Sources */,
 				06E5086E2D7F10D900F5E7DE /* ProcessingPolicyView.swift in Sources */,
 				06E5086F2D7F10D900F5E7DE /* TicketMakeView.swift in Sources */,
+				063F5D7F2D91838C004F4C17 /* StorageView.swift in Sources */,
 				06E508702D7F10D900F5E7DE /* PerformanceStateType.swift in Sources */,
 				06E508712D7F10D900F5E7DE /* CustomSegmentedControl.swift in Sources */,
 				06E508722D7F10D900F5E7DE /* HeaderType.swift in Sources */,
@@ -937,7 +961,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1049,7 +1073,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Sixteenis.musicalRecordProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1088,7 +1112,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Sixteenis.musicalRecordProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

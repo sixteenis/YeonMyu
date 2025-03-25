@@ -57,14 +57,16 @@ final class MainCoordinator: CoordinatorProtocol {
     func build(_ screen: Screen) -> some View {
         switch screen {
         case .start: SplashView()
-        case .tab: MainTabView()
         case .login: LoginView() //로그인
-            
-            
-        case .home: HomeView.build()                          // 홈
-            
         case .authStep1(let uid): AuthStep1(uid: uid)
         case .authStep2(let uid, let area): AuthStep2(uid: uid, area: area)
+            
+        case .tab: MainTabView()
+        case .home: HomeView.build()                          // 홈
+        case .search: SearchView() //검색 뷰
+        case .storage: StorageView() //보관함 뷰
+        case .my: MyView() //마이 뷰
+        
         default: EmptyView()
             
         }

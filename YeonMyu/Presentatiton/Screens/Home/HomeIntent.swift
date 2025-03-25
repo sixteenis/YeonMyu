@@ -142,7 +142,7 @@ private extension HomeIntent {
         let data = try await NetworkManager.shared.requestAwad(startDate: beforDate, endDate: nowDate, cateCode: nil, area: nil, page: nil)
         guard let resultAward = data.first else { return nil }
         //resultAward.awards // 수상 내역
-        let result = MainHeaderPlayModel(mainTitle: "현재 날짜 기준 90일 이전으로 상받은 공연~", subTitle: "타이틀 정하자~", postURL: resultAward.poster, postID: resultAward.mt20id)
+        let result = MainHeaderPlayModel(mainTitle: "현재 날짜 기준 90일 이전으로\n상받은 공연~", subTitle: "타이틀 정하자~", postURL: resultAward.poster, postID: resultAward.mt20id)
         return result
     }
     //현재 날짜 기준 작년 상받은 공연 정보
@@ -152,7 +152,7 @@ private extension HomeIntent {
         guard let resultAward = data.first else { return nil }
         //resultAward.awards // 수상 내역
         let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: resultAward.mt20id)
-        let result = MainHeaderPlayModel(mainTitle: "작년 이날 날짜 기준 상받은 공연~", subTitle: "타이틀 정하자~", postURL: postData.poster, postID: postData.mt20id)
+        let result = MainHeaderPlayModel(mainTitle: "작년 이날 날짜 기준\n상받은 공연~", subTitle: "타이틀 정하자~", postURL: postData.poster, postID: postData.mt20id)
         return result
     }
     //사용자 지정 지역의 실시간 1위 판매 공연
@@ -162,7 +162,7 @@ private extension HomeIntent {
         let area = "11" //임시 지역 서울!
         let data = try await NetworkManager.shared.requestBoxOffice(startDate: date, endDate: ddate, cateCode: "AAAA", area: area) //area 수정해주기
         guard let post = data.first else { return nil }
-        let result = MainHeaderPlayModel(mainTitle: "사용자 지역 기준 실시간 1위 판매 공연!!!", subTitle: "타이틀 정하슈", postURL: post.poster, postID: post.mt20id)
+        let result = MainHeaderPlayModel(mainTitle: "사용자 지역 기준 실시간 1위\n판매 공연!!!", subTitle: "타이틀 정하슈", postURL: post.poster, postID: post.mt20id)
         return result
     }
     

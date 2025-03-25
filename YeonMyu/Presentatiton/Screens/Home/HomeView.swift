@@ -66,8 +66,8 @@ extension HomeView {
             .ignoresSafeArea(edges: state.contentState == .initView ? .all : .top)
             .toolbar(.hidden, for: .navigationBar)
             .toolbar(state.contentState == .initView ? .hidden : .automatic, for: .tabBar, .bottomBar)
-            .task {
-                intent.onAppear(city: state.selectedCity, prfCate: state.selectedPrfCate)
+            .onAppear {
+                if state.contentState != .content { intent.onAppear(city: state.selectedCity, prfCate: state.selectedPrfCate) }
             }
             .navigationDestination(item: Binding(get: {state.selectedPost}, set: {_ in intent.postTapped(id: nil)})) { id in
                 DetailView(postID: id) //공연 상세 뷰로 이동
@@ -112,7 +112,6 @@ private extension HomeView {
                         topBannerView(state.headerPosts)
                             .frame(height: 500)
                             .onScrollVisibilityChange(threshold: 0.999999) { isVisible in
-                                print(isVisible)
                                 isToolbarHidden = isVisible
                             }
                         searchView()
@@ -233,11 +232,12 @@ private extension HomeView {
             HStack {
                 ForEach(posts.indices, id: \.self) { index in
                     Circle()
-                        .fill((index + 1) == currentPage ? Color.white.opacity(80) : Color.white.opacity(30))
+                        .fill((index + 1) == currentPage ? Color.white.opacity(0.8) : Color.white.opacity(0.3))
                         .frame(width: 10, height: 10)
+                        .shadow(color: .asBlack.opacity(0.25), radius: 1.35)
                 }
             }
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 28)
             .padding(.bottom, 33)
         }
     }
@@ -264,8 +264,10 @@ private extension HomeView {
                 asText(post.mainTitle)
                     .foregroundStyle(Color.asWhite)
                     .font(.boldFont28)
+                    .multilineTextAlignment(.leading) // 줄바꿈시 정렬이 적용안되는 이슈 해결용!
                     .padding(.bottom, 4)
                     .shadow(color: Color.asBlack.opacity(0.25), radius: 4, x: 0, y: 0)
+                
                 asText(post.subTitle)
                     .foregroundStyle(Color.asPurple500)
                     .font(.font16)
@@ -275,10 +277,11 @@ private extension HomeView {
             .hLeading()
             .padding(.bottom, 65)
             .padding(.leading, 24)
-            .wrapToButton { //포스터 클릭 시
-                print(post.postID)
-                intent.postTapped(id: post.postID)
-            }
+            
+        }
+        .wrapToButton { //포스터 클릭 시
+            print(post.postID)
+            intent.postTapped(id: post.postID)
         }
     }
 }
@@ -290,12 +293,13 @@ private extension HomeView {
             .stroke(Color.asMainSecondaryPurple, lineWidth: 1.5)
             .fill(Color.clear)
             .overlay(
-                HStack {
+                HStack(spacing: 0) {
                     Image.search
                         .resizable()
                         .frame(width: 24, height: 24)
                         .foregroundStyle(Color.asMainPurple)
-                        .padding(.horizontal)
+                        .padding(.leading, 14)
+                        .padding(.trailing, 10)
                     
                     asText("보고 싶은 공연 이름을 검색하세요")
                         .font(.font14)
@@ -405,14 +409,15 @@ private extension HomeView {
             
             randomHeaderView(main: state.randomPrfs.mainTitle, sub: state.randomPrfs.subTitle)
                 .padding(24)
+                .padding(.top, 12)
             randomTableView(state.randomPrfs.simplePlayData)
         }
     }
     //가로 스크롤 공연 추천 헤더 부분
     func recommendHeaderView() -> some View {
-        VStack(alignment: .leading) {
-            HStack {
-                HStack {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing:0) {
+                HStack(spacing: 0) {
                     asText(state.selectedCity.rawValue)
                     Image.downArrow
                         .resizable()
@@ -420,12 +425,13 @@ private extension HomeView {
                         .foregroundStyle(Color.asPurple300)
                         .rotationEffect(.degrees(isAreSelectedPresented ? 180 : 0)) // 180도 회전
                         .animation(.easeInOut(duration: 0.25), value: isAreSelectedPresented) // 애니메이션 적용
+                        .padding(.leading, 2)
+                        .padding(.trailing, 4)
                 }
                 .font(.boldFont20)
                 .foregroundStyle(Color.asMainPurple)
-                .padding(.leading, 10) // 좌우 여백 추가
-                .padding(.trailing, 5) // 좌우 여백 추가
-                .padding(.vertical, 3)   // 상하 여백 추가
+                .padding(.leading, 10)
+                .padding(.vertical, 3)
                 .background(
                     RoundedRectangle(cornerRadius: 15)
                         .fill(Color.clear)
@@ -437,10 +443,12 @@ private extension HomeView {
                 
                 asText("주변의 추천 공연")
                     .font(.boldFont20)
+                    .padding(.leading, 5)
             } //:HSTACK
             asText("내 지역을 선택해 맞춤 공연을 추천받아 보세요!")
                 .font(.font14)
                 .foregroundStyle(Color.asGray200)
+                .padding([.horizontal, .top], 4)
         }
     }
     //가로 스크롤 공연 추천 뷰
@@ -450,13 +458,14 @@ private extension HomeView {
                 ForEach(posts, id: \.id) { post in
                     CustomHorizontalPlayView(post: post)
                         .frame(width: 120, height: 230)
-                        .padding(.leading, 24)
+                        .padding(.horizontal, 12)
                         .wrapToButton {
                             intent.postTapped(id: post.postId)
                         }
                 }
             }
         } //가로 스크롤 부분
+        .padding(.horizontal, 12)
         .scrollPosition($arePosition)
         .onChange(of: state.selectedPrfCate) { oldValue, newValue in
             arePosition.scrollTo(edge: .leading) //공연 종류 변경 시
@@ -491,7 +500,6 @@ private extension HomeView {
         VStack {
             ForEach(data, id: \.id) { post in
                 CustomVerticalPlayView(post: post)
-                    .frame(height: 80)
                     .padding([.leading, .bottom], 24)
                     .wrapToButton {
                         intent.postTapped(id: post.postId)

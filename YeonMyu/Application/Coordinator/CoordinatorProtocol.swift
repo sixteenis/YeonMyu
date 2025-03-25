@@ -33,8 +33,11 @@ enum Screen: Identifiable, Hashable {
     case authStep1(uid: String)   // 회원가입 지역 설정
     case authStep2(uid: String, area: String)   // 회원가입 닉네임 설정
     
-    case home   // 홈 뷰
     case tab
+    case home   //홈 뷰
+    case search //검색 뷰
+    case storage //보관함 뷰
+    case my //마이 뷰
     
 }
 
@@ -42,10 +45,10 @@ enum Screen: Identifiable, Hashable {
 enum Tab: Identifiable, Hashable {
     var id: Self { return self }
     
-    case home
-    case dogWalk
-    case community
-    case chatting
+    case home   //홈 뷰
+    case search //검색 뷰
+    case storage //보관함 뷰
+    case my //마이 뷰
     
 }
 //MARK: 필요한 뷰 추가해서 사용
@@ -59,7 +62,7 @@ enum Sheet: Identifiable, Hashable {
 enum FullScreenCover:  Identifiable, Hashable {
     var id: Self { return self }
     case auth1(uid: String)
-//    case dogWalkResult(walkTime: Int, walkDistance: Double, routeImage: UIImage)
+    //    case dogWalkResult(walkTime: Int, walkDistance: Double, routeImage: UIImage)
 }
 
 

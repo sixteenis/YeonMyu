@@ -9,6 +9,11 @@ import SwiftUI
 
 struct SearchView: View {
     var body: some View {
-        Text("서치뷰")
+        VStack {
+            Text("서치뷰")
+        }.onAppear {
+            print("서치뷰")
+        }
     }
+        
 }

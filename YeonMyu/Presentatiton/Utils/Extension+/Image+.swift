@@ -8,7 +8,13 @@
 import SwiftUI
 
 extension Image {
+    //탭 이미지
+    
     static let search = Image("검색")
+    static let home = Image("홈")
+    static let storage = Image("보관함")
+    static let my = Image("마이")
+    
     static let remove = Image(systemName: "trash")
     static let xMark = Image("닫기")
     static let asBell = Image("bell")
@@ -24,7 +30,6 @@ extension Image {
     static let asCircleTicket = Image("예매한 티켓")
     
     //로고
-    
     static let logo = Image("logo")
     static let logoTitle = Image("logo+Title")
     static let logoS = Image("로고조합 S사이즈")

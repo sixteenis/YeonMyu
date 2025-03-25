@@ -18,7 +18,7 @@ struct CustomHorizontalPlayView: View {
                 .hLeading()
                 .padding(.vertical, 4)
             infoView(image: .calendarIcon, text: "\(post.startDate)~\(post.endDate)")
-            infoView(image: .markerIcon, text: post.location)
+            //infoView(image: .markerIcon, text: post.location)
         }
     }
 }
@@ -26,7 +26,7 @@ struct CustomHorizontalPlayView: View {
 private extension CustomHorizontalPlayView {
     func genreView() -> some View {
         HStack(spacing: 2) {
-            asText(post.postType)
+            asText(post.getPostString())
                 .font(.font10)
                 .foregroundStyle(Color.asMainPurple)
                 .padding(.horizontal, 5) // 좌우 여백 추가
@@ -38,7 +38,7 @@ private extension CustomHorizontalPlayView {
                 )
             
             asText(post.postTitle)
-                .lineLimit(1)
+                .lineLimit(2)
                 .font(.boldFont16)
                 .foregroundStyle(Color.asTextColor)
             

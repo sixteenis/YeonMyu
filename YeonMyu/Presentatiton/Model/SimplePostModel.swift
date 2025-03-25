@@ -17,4 +17,10 @@ struct SimplePostModel: Identifiable {
     let endDate: String
     var fullDate: String? = nil
     let location: String
+    
+    func getPostString() -> String {
+        if self.postType == "뮤지컬" { return "뮤"}
+        if self.postType == "연극" { return "연"}
+        return ""
+    }
 }
