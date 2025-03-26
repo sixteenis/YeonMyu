@@ -10,16 +10,16 @@ import SwiftUI
 struct CustomVerticalPlayView: View {
     var post: SimplePostModel
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(alignment: .top, spacing: 12) {
             CustomPostImage(url: post.postURL)
                 .frame(width: 60)
             VStack(alignment: .leading, spacing: 0) {
                 genreView()
                     .padding(.bottom, 4)
-                    .padding(.top, 8)
+                    .padding(.top, 2)
                 infoView(image: .calendarIcon, text: post.fullDate == nil ? post.startDate+"~"+post.endDate: post.fullDate! )
                 infoView(image: .markerIcon, text: post.location)
-            }.vTop()
+            }
         }.frame(height: 80)
     }
 }

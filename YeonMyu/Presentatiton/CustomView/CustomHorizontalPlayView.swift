@@ -18,7 +18,7 @@ struct CustomHorizontalPlayView: View {
                 .hLeading()
                 .padding(.vertical, 4)
             infoView(image: .calendarIcon, text: "\(post.startDate)~\(post.endDate)")
-            //infoView(image: .markerIcon, text: post.location)
+            infoView(image: .markerIcon, text: post.location)
         }
     }
 }
@@ -38,7 +38,7 @@ private extension CustomHorizontalPlayView {
                 )
             
             asText(post.postTitle)
-                .lineLimit(2)
+                .lineLimit(1)
                 .font(.boldFont16)
                 .foregroundStyle(Color.asTextColor)
             

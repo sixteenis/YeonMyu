@@ -457,7 +457,7 @@ private extension HomeView {
             LazyHStack {
                 ForEach(posts, id: \.id) { post in
                     CustomHorizontalPlayView(post: post)
-                        .frame(width: 120, height: 230)
+                        .frame(width: 120, height: 240)
                         .padding(.horizontal, 12)
                         .wrapToButton {
                             intent.postTapped(id: post.postId)
