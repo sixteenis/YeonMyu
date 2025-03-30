@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftUIPullToRefresh
 
 struct HomeView: View {
+    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
     @StateObject var container: Container<HomeIntentProtocol, HomeStateProtocol>
     private var intent: HomeIntentProtocol { container.intent }
     private var state: HomeStateProtocol { container.state }
@@ -70,7 +71,7 @@ extension HomeView {
                 if state.contentState != .content { intent.onAppear(city: state.selectedCity, prfCate: state.selectedPrfCate) }
             }
             .navigationDestination(item: Binding(get: {state.selectedPost}, set: {_ in intent.postTapped(id: nil)})) { id in
-                DetailView(postID: id) //공연 상세 뷰로 이동
+                PlayDetailView(postID: id)
             }
             .navigationDestination(item: Binding(get: {state.selectedUserInfo}, set: {_ in intent.userInfoTapped(info: nil)})) { id in
                 SearchView() //사용자 기록 뷰로 이동

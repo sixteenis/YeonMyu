@@ -66,7 +66,7 @@ final class MainCoordinator: CoordinatorProtocol {
         case .search: SearchView() //검색 뷰
         case .storage: StorageView() //보관함 뷰
         case .my: MyView() //마이 뷰
-        
+        case .playDetail(let id) : PlayDetailView(postID: id)
         default: EmptyView()
             
         }

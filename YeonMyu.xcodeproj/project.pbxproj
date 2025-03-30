@@ -20,6 +20,7 @@
 		063F5D7B2D904233004F4C17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D7A2D904233004F4C17 /* ContentView.swift */; };
 		063F5D7F2D91838C004F4C17 /* StorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D7E2D91838C004F4C17 /* StorageView.swift */; };
 		063F5D812D918391004F4C17 /* MyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D802D918391004F4C17 /* MyView.swift */; };
+		063F5D842D98FEC5004F4C17 /* PlayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D832D98FEC5004F4C17 /* PlayDetailView.swift */; };
 		066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C872D7F12ED00C44567 /* FirebaseAnalytics */; };
 		066C1C8A2D7F12ED00C44567 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C892D7F12ED00C44567 /* FirebaseAuth */; };
 		066C1C8C2D7F12ED00C44567 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C8B2D7F12ED00C44567 /* FirebaseCore */; };
@@ -154,6 +155,7 @@
 		063F5D7A2D904233004F4C17 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		063F5D7E2D91838C004F4C17 /* StorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageView.swift; sourceTree = "<group>"; };
 		063F5D802D918391004F4C17 /* MyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyView.swift; sourceTree = "<group>"; };
+		063F5D832D98FEC5004F4C17 /* PlayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayDetailView.swift; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -295,6 +297,15 @@
 				063F5D802D918391004F4C17 /* MyView.swift */,
 			);
 			path = My;
+			sourceTree = "<group>";
+		};
+		063F5D822D98FEAF004F4C17 /* PlayDetail */ = {
+			isa = PBXGroup;
+			children = (
+				063F5D832D98FEC5004F4C17 /* PlayDetailView.swift */,
+				06E5084D2D7F10D900F5E7DE /* PerformanceModel.swift */,
+			);
+			path = PlayDetail;
 			sourceTree = "<group>";
 		};
 		06CD371E2D7DD04E00959852 = {
@@ -543,6 +554,7 @@
 				06E507EB2D7F10CD00F5E7DE /* Search */,
 				063F5D7C2D918325004F4C17 /* storage */,
 				063F5D7D2D918346004F4C17 /* My */,
+				063F5D822D98FEAF004F4C17 /* PlayDetail */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -645,7 +657,6 @@
 			isa = PBXGroup;
 			children = (
 				06E5084C2D7F10D900F5E7DE /* Enum */,
-				06E5084D2D7F10D900F5E7DE /* PerformanceModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -832,6 +843,7 @@
 				06E508092D7F10CD00F5E7DE /* ButtonWrapper.swift in Sources */,
 				063F5D712D9035D0004F4C17 /* CoordinatorProtocol.swift in Sources */,
 				063F5D722D9035D0004F4C17 /* MainCoordinator.swift in Sources */,
+				063F5D842D98FEC5004F4C17 /* PlayDetailView.swift in Sources */,
 				063F5D732D9035D0004F4C17 /* CoordinatorView.swift in Sources */,
 				06E5080A2D7F10CD00F5E7DE /* Image+.swift in Sources */,
 				06E5080B2D7F10CD00F5E7DE /* InitView.swift in Sources */,

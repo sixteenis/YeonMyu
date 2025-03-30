@@ -7,8 +7,11 @@
 import SwiftUI
 
 extension View {
-  func hideKeyboard() {
-    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-  }
+    var screenWidth: CGFloat { UIScreen.main.bounds.width }
+    
+    var screenHeight: CGFloat { UIScreen.main.bounds.height }
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
 

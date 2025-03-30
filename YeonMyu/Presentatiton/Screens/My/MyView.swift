@@ -12,3 +12,7 @@ struct MyView: View {
         Text("마이")
     }
 }
+
+#Preview {
+    MyView()
+}
