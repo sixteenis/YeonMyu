@@ -38,8 +38,9 @@ struct DetailPerformance {
     var DetailPosts: [String]
     var relates: [RelatedLink]
     var guidance: String
+    var genrenm: String //공연 종류
     
-    init(placeId: String, name: String, playDate: String, place: String, actors: String, actorArray: [String], teams: String, runtime: String, limitAge: String, ticketPrice: String, posterURL: String, state: PerformanceStateType, DetailPosts: [String], relates: [RelatedLink], guidance: String) {
+    init(placeId: String, name: String, playDate: String, place: String, actors: String, actorArray: [String], teams: String, runtime: String, limitAge: String, ticketPrice: String, posterURL: String, state: PerformanceStateType, DetailPosts: [String], relates: [RelatedLink], guidance: String, genrenm: String) {
         self.placeId = placeId
         self.name = name
         self.playDate = playDate
@@ -55,6 +56,7 @@ struct DetailPerformance {
         self.DetailPosts = DetailPosts
         self.relates = relates
         self.guidance = guidance
+        self.genrenm = genrenm
     }
     init() {
         self.placeId = ""
@@ -72,6 +74,6 @@ struct DetailPerformance {
         self.DetailPosts = []
         self.relates = []
         self.guidance = ""
-        
+        self.genrenm = ""
     }
 }

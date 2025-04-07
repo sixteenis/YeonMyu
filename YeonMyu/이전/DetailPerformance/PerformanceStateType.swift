@@ -28,13 +28,13 @@ enum PerformanceStateType {
     var backColor: Color {
         switch self {
         case .open:
-            return Color.green
+            return Color(hex: "#6AC579")
         case .close:
-            return Color.red
+            return Color(hex: "#FC6363")
         case .notYet:
-            return Color.orange
+            return Color(hex: "#709FF6")
         case .unowned:
-            return Color.red
+            return Color(hex: "#6AC579")
         }
     }
 }

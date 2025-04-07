@@ -40,7 +40,7 @@ struct DetailPerformanceDTO {
         let actorsStr = checkIsEmptey(self.prfcast)
         let teamsStr = checkIsEmptey(prfcrew)
         
-        return DetailPerformance(placeId: mt10id, name: prfnm, playDate: date, place: fcltynm, actors: actorsStr, actorArray: actorsList, teams: teamsStr, runtime: prfruntime, limitAge: prfage, ticketPrice: pcseguidance, posterURL: poster, state: state, DetailPosts: styurls, relates: relates, guidance: dtguidance)
+        return DetailPerformance(placeId: mt10id, name: prfnm, playDate: date, place: fcltynm, actors: actorsStr, actorArray: actorsList, teams: teamsStr, runtime: prfruntime, limitAge: prfage, ticketPrice: pcseguidance, posterURL: poster, state: state, DetailPosts: styurls, relates: relates, guidance: dtguidance, genrenm: genrenm)
     }
 }
 private extension DetailPerformanceDTO {
