@@ -35,19 +35,19 @@ struct PlayDetailView: View {
 extension PlayDetailView {
     var body: some View {
         contentView()
-        .navigationTitle(postInfo.name)
-        .task {
-            do {
-                let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: postID).transformDetailModel()
-                let placeData = try await NetworkManager.shared.requestFacility(facilityId: postData.placeId).transformPlaceModel()
-                postInfo = postData
-                placeInfo = placeData
-                contentState = .content
-                
-            } catch {
-                contentState = .error
+            .navigationTitle(postInfo.name)
+            .task {
+                do {
+                    let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: postID).transformDetailModel()
+                    let placeData = try await NetworkManager.shared.requestFacility(facilityId: postData.placeId).transformPlaceModel()
+                    postInfo = postData
+                    placeInfo = placeData
+                    contentState = .content
+                    
+                } catch {
+                    contentState = .error
+                }
             }
-        }
     }
 }
 // MARK: - 메인 뷰
@@ -65,30 +65,35 @@ private extension PlayDetailView {
                     inforPost()
                         .id(2)
                     Rectangle()
+                        .foregroundStyle(Color.asGray400)
                         .frame(height: 1)
                         .id(3)
                     
                     Rectangle()
-                        .frame(height: 50)
-                    
+                        .foregroundStyle(Color.asGray400)
+                        .frame(height: 10)
                     
                     
                     Rectangle()
+                        .foregroundStyle(Color.asGray400)
                         .frame(height: 1)
                         .id(4)
                     ticketInfoView()
-                        .frame(height: 600)
                         .id(5)
                     Rectangle()
-                        .frame(height: 12)
+                        .foregroundStyle(Color.asGray400)
+                        .frame(height: 6)
                         .id(6)
+                    
                     Rectangle()
-                        .frame(height: 12)
+                        .foregroundStyle(Color.asGray400)
+                        .frame(height: 6)
                         .id(7)
                     placeInfoView()
                         .frame(height: 600)
                         .id(8)
                     Rectangle()
+                        .foregroundStyle(Color.asGray400)
                         .frame(height: 160)
                         .id(9)
                 }
@@ -188,9 +193,9 @@ private extension PlayDetailView {
                 HStack(spacing: 0) {
                     ForEach(segments.indices, id: \.self) { index in
                         Button {
-//                            withAnimation {
-                                selectPage = index
-//                            }
+                            //                            withAnimation {
+                            selectPage = index
+                            //                            }
                             
                         } label: {
                             ZStack {
@@ -210,7 +215,7 @@ private extension PlayDetailView {
                 Rectangle()
                     .frame(width: UIScreen.main.bounds.width / CGFloat(segments.count), height: 4)
                     .foregroundStyle(Color.asPurple300)
-//                    .animation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.2), value: currentPage)
+                //                    .animation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.2), value: currentPage)
                     .offset(x: CGFloat(currentPage) * (UIScreen.main.bounds.width / CGFloat(segments.count)))
                     .vBottom()
             }
@@ -222,17 +227,19 @@ private extension PlayDetailView {
     func playInfo() -> some View {
         VStack(alignment: .leading, spacing: 28) {
             asText("공연 정보")
-                .font(.font20)
+                .font(.boldFont20)
                 .foregroundStyle(Color.asFont)
                 .padding([.horizontal, .top], 24)
             customInfo(header: "공연기간", info: postInfo.playDate)
             customInfo(header: "공연장소", info: postInfo.place)
-            customInfo(header: "공연시간", info: postInfo.guidance)
+            customInfo(header: "공연시간", info: postInfo.guidanceList.joined(separator: "\n\n"))
             customInfo(header: "러닝타임", info: postInfo.runtime)
             customInfo(header: "관람연령", info: postInfo.limitAge)
             customInfo(header: "출연배우", info: postInfo.actors)
             customInfo(header: "제작진", info: postInfo.teams)
+                .padding(.bottom, 30)
         }
+        .hLeading()
     }
     func customInfo(header: String, info: String) -> some View {
         HStack(alignment: .top, spacing: 0) {
@@ -243,25 +250,50 @@ private extension PlayDetailView {
             asText(info)
                 .font(.font16)
                 .foregroundStyle(Color.asGray100)
-                //.multilineTextAlignment(.leading) // 줄바꿈시 정렬이 적용안되는 이슈 해결용!
+            //.multilineTextAlignment(.leading) // 줄바꿈시 정렬이 적용안되는 이슈 해결용!
         }
         .padding(.horizontal, 24)
     }
-    func ticketInfoView() -> some View {
-        Text("티켓 정보")
-    }
+    
     func placeInfoView() -> some View {
-        Text("공연장 정보")
+        VStack {
+            asText("위치/시설")
+                .font(.boldFont20)
+                .foregroundStyle(Color.asFont)
+                .padding([.horizontal, .top], 24)
+            customInfo(header: "공연장", info: placeInfo.facilityName)
+            customInfo(header: "주소", info: placeInfo.address)
+            customInfo(header: "지도 보기", info: postInfo.playDate)
+            customInfo(header: "공연장 수", info: postInfo.playDate)
+            customInfo(header: "객석 수", info: postInfo.playDate)
+            customInfo(header: "주요 설", info: postInfo.playDate)
+            customInfo(header: "기타시설", info: postInfo.playDate)
+        }.hLeading()
     }
 }
-//공연 설명 포스터 부분
+// MARK: - 공연 설명 포스터 부분
 private extension PlayDetailView {
     func inforPost() -> some View {
         VStack(spacing: 0) {
-            // 이미지들을 포함하는 VStack
-            VStack(spacing: 0) {
-                ForEach(postInfo.DetailPosts, id: \.self) { imageUrl in
-                    KFImage(URL(string: imageUrl))
+            if allInfo {
+                // 전체보기 상태: 모든 이미지 보여줌
+                VStack(spacing: 0) {
+                    ForEach(postInfo.DetailPosts, id: \.self) { imageUrl in
+                        KFImage(URL(string: imageUrl))
+                            .placeholder {
+                                Image.postPlaceholder
+                                    .resizable()
+                            }
+                            .retry(maxCount: 3, interval: .seconds(5))
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(maxWidth: .infinity)
+                    }
+                }
+            } else {
+                // 전체보기 이전: 첫 번째 이미지의 앞부분 300만 보여줌
+                if let firstImageUrl = postInfo.DetailPosts.first {
+                    KFImage(URL(string: firstImageUrl))
                         .placeholder {
                             Image.postPlaceholder
                                 .resizable()
@@ -269,32 +301,101 @@ private extension PlayDetailView {
                         .retry(maxCount: 3, interval: .seconds(5))
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(maxWidth: .infinity) // 가로 폭을 화면에 맞춤
-                        .clipped() // 프레임 밖으로 나가는 부분 잘라내기
+                        .vTop()
+                        .frame(height: 300) // 앞부분만 잘라서 보여주기
+                        .frame(maxWidth: .infinity)
+                        .clipped()
                 }
             }
-            .frame(maxHeight: allInfo ? nil : 300) // allInfo가 true면 높이 제한 없음, false면 300으로 제한
-            .clipped() // 높이 제한 시 잘리도록 설정
             
             // 전체보기 버튼
             Button {
-                withAnimation(.easeInOut(duration: 0.3)) { // 부드러운 전환을 위한 애니메이션 추가
+                withAnimation(.easeInOut(duration: 0.3)) {
                     allInfo.toggle()
                 }
             } label: {
-                Text(allInfo ? "접기" : "전체보기") // 버튼 텍스트 동적 변경
+                Text(allInfo ? "접기" : "전체보기")
                     .font(.boldFont16)
-                    .foregroundColor(.asPurple300)
+                    .foregroundColor(.asGray200)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.asGray100.opacity(0.2))
-                    )
+                    .background(Color.asWhite)
             }
-            .padding(.top, 8)
+            .frame(height: 56)
         }
     }
+}
+// MARK: - 티켓 부분
+private extension PlayDetailView {
+    func ticketInfoView() -> some View {
+        VStack(alignment: .leading, spacing: 15) {
+            asText("티켓 정보")
+                .font(.boldFont20)
+                .foregroundStyle(Color.asFont)
+                .padding([.horizontal, .top], 24)
+                .padding(.bottom, 20)
+            
+            customTicketInfo(header: "티켓금액", info: postInfo.ticketPriceList)
+                .padding(.bottom, 40)
+            
+            HStack(alignment: .top, spacing: 0) {
+                asText("판매처")
+                    .font(.font16)
+                    .foregroundStyle(Color.asFont)
+                    .frame(width: 100, alignment: .leading)
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(postInfo.relates) {
+                        TicketPageView(ticketImage: "", ticketName: $0.relatename, goticketPageURL: $0.relateurl)
+                    }
+                }
+                
+            }.padding(.horizontal, 24).padding(.bottom, 40)
+            
+            
+        }.hLeading()
+    }
+    func customTicketInfo(header: String, info: [String]) -> some View {
+        HStack(alignment: .top, spacing: 0) {
+            asText(header)
+                .font(.font16)
+                .foregroundStyle(Color.asFont)
+                .frame(width: 100, alignment: .leading)
+            
+            VStack(alignment: .leading, spacing: 8) { // 각 항목을 수직으로 배치
+                ForEach(info, id: \.self) {
+                    let components = splitTextBeforeNumber($0)
+                    HStack(alignment: .top, spacing: 0) {
+                        asText(components.beforeNumber)
+                            .font(.boldFont16) // 숫자 이전 텍스트의 폰트 사이즈
+                            .foregroundStyle(Color.asPurple300) // 숫자 이전 텍스트의 색상
+                        asText(components.afterNumber)
+                            .font(.font16) // 숫자 이후 텍스트의 폰트 사이즈 (기존 스타일 유지)
+                            .foregroundStyle(Color.asGray100) // 숫자 이후 텍스트의 색상
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, 24)
+    }
+    // 숫자가 나오기 이전과 이후를 분리하는 헬퍼 함수
+    func splitTextBeforeNumber(_ text: String) -> (beforeNumber: String, afterNumber: String) {
+        // 정규식을 사용하여 숫자가 시작되는 위치를 찾음
+        let regex = try? NSRegularExpression(pattern: "\\d")
+        let range = regex?.rangeOfFirstMatch(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count))
+        
+        if let numberStartIndex = range?.lowerBound, numberStartIndex != NSNotFound {
+            let beforeNumber = String(text[..<text.index(text.startIndex, offsetBy: numberStartIndex)])
+            let afterNumber = String(text[text.index(text.startIndex, offsetBy: numberStartIndex)...])
+            return (beforeNumber, afterNumber)
+        } else {
+            // 숫자가 없는 경우 전체를 beforeNumber로 처리
+            return (text, "")
+        }
+    }
+}
+private extension PlayDetailView {
+    
 }
 
 #Preview {

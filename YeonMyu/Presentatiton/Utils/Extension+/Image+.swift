@@ -52,7 +52,6 @@ extension Image {
     
     static let postPlaceholder = Image("postPlaceholder")
     static let calendarImage = Image(systemName: "calendar")
-    static let exPost = Image("testImage")
     static let downImage = Image(systemName: "chevron.down")
     static let upImage = Image(systemName: "chevron.up")
     static let ticketPlus = Image("ticketPlus")
@@ -65,7 +64,8 @@ extension Image {
     static let checkIcon = Image("check")
     static let errIcon = Image("err")
     
-    
+    static let exPost = Image("testImage")
+    static let exTicket = Image("exTicket")
     
 }
 

@@ -6,7 +6,28 @@
 //
 
 import Foundation
-
+//var fcltynm: String // 시설 이름
+//var mt10id: String // 시설 ID
+//var mt13cnt: String // 관련 공연장 수
+//var fcltychartr: String // 시설 특징
+//var opende: String // 오픈 날짜
+//var seatscale: String // 좌석 수
+//var telno: String // 전화번호
+//var relateurl: String // 관련 URL
+//var adres: String // 주소
+//var la: String // 위도
+//var lo: String // 경도
+//var restaurant: String // 레스토랑 여부
+//var cafe: String // 카페 여부
+//var store: String // 상점 여부
+//var nolibang: String // 노래방 여부
+//var suyu: String // 수유실 여부
+//var parkbarrier: String // 장애인 주차장 여부
+//var restbarrier: String // 장애인 화장실 여부
+//var runwbarrier: String // 장애인 통로 여부
+//var elevbarrier: String // 장애인 엘리베이터 여부
+//var parkinglot: String // 주차장 여부
+//var performancePlaces: [PerformancePlace] // 공연장 세부 정보
 struct PlaceModel {
     var facilityName = ""
     var address = ""

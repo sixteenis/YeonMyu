@@ -76,7 +76,8 @@ private extension DetailPerformanceDTO {
     }
 }
 // 관련 링크 정보를 담는 구조체
-struct RelatedLink {
+struct RelatedLink: Identifiable {
+    var id = UUID().uuidString
     var relatename: String
     var relateurl: String
 }

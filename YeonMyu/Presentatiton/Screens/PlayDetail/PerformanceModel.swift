@@ -36,8 +36,32 @@ struct DetailPerformance {
     var posterURL: String //포스터URL
     var state: PerformanceStateType //현재상태
     var DetailPosts: [String]
-    var relates: [RelatedLink]
-    var guidance: String
+    var relates: [RelatedLink] //티켓 사이트
+    var guidance: String //공연 시간
+    var guidanceList: [String] {
+        let pattern = #"\),\s*"#  // ) 뒤에 , 그리고 공백도 포함해서 제거
+        let regex = try! NSRegularExpression(pattern: pattern)
+        let range = NSRange(guidance.startIndex..<guidance.endIndex, in: guidance)
+        let replaced = regex.stringByReplacingMatches(
+                in: guidance,
+                options: [],
+                range: NSRange(location: 0, length: guidance.utf16.count),
+                withTemplate: ")|"
+            )
+        return replaced.components(separatedBy: "|").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+    }
+    var ticketPriceList: [String] {
+        let pattern = #"원,\s*"#  // "원" 다음에 쉼표와 공백 제거
+        let regex = try! NSRegularExpression(pattern: pattern)
+        let range = NSRange(ticketPrice.startIndex..<ticketPrice.endIndex, in: ticketPrice)
+        let replaced = regex.stringByReplacingMatches(
+            in: ticketPrice,
+            options: [],
+            range: range,
+            withTemplate: "원|"
+        )
+        return replaced.components(separatedBy: "|").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+    }
     var genrenm: String //공연 종류
     
     init(placeId: String, name: String, playDate: String, place: String, actors: String, actorArray: [String], teams: String, runtime: String, limitAge: String, ticketPrice: String, posterURL: String, state: PerformanceStateType, DetailPosts: [String], relates: [RelatedLink], guidance: String, genrenm: String) {

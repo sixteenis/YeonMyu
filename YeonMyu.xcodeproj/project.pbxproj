@@ -37,6 +37,7 @@
 		066C1CA72D7F153400C44567 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1CA62D7F153400C44567 /* GoogleSignIn */; };
 		066C1CA92D7F153400C44567 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1CA82D7F153400C44567 /* GoogleSignInSwift */; };
 		066C1CAF2D7F167F00C44567 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1CAE2D7F167F00C44567 /* Kingfisher */; };
+		06AFEED22DAB88C600D1BE28 /* TicketPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AFEED12DAB88C600D1BE28 /* TicketPageView.swift */; };
 		06CD38232D7DD0EB00959852 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CD381E2D7DD0EB00959852 /* Preview Assets.xcassets */; };
 		06CD38242D7DD0EB00959852 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CD38202D7DD0EB00959852 /* Assets.xcassets */; };
 		06CD38252D7DD0EB00959852 /* YeonMyuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD38212D7DD0EB00959852 /* YeonMyuApp.swift */; };
@@ -158,6 +159,7 @@
 		063F5D832D98FEC5004F4C17 /* PlayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayDetailView.swift; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06AFEED12DAB88C600D1BE28 /* TicketPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketPageView.swift; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06CD381E2D7DD0EB00959852 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		06CD38202D7DD0EB00959852 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 			children = (
 				063F5D832D98FEC5004F4C17 /* PlayDetailView.swift */,
 				06E5084D2D7F10D900F5E7DE /* PerformanceModel.swift */,
+				06AFEED12DAB88C600D1BE28 /* TicketPageView.swift */,
 			);
 			path = PlayDetail;
 			sourceTree = "<group>";
@@ -840,6 +843,7 @@
 			files = (
 				06E508072D7F10CD00F5E7DE /* MainHeaderPlayModel.swift in Sources */,
 				06E508082D7F10CD00F5E7DE /* HomeView.swift in Sources */,
+				06AFEED22DAB88C600D1BE28 /* TicketPageView.swift in Sources */,
 				06E508092D7F10CD00F5E7DE /* ButtonWrapper.swift in Sources */,
 				063F5D712D9035D0004F4C17 /* CoordinatorProtocol.swift in Sources */,
 				063F5D722D9035D0004F4C17 /* MainCoordinator.swift in Sources */,
