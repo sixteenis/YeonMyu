@@ -71,12 +71,7 @@ private extension PlayDetailView {
                     
                     Rectangle()
                         .foregroundStyle(Color.asGray400)
-                        .frame(height: 10)
-                    
-                    
-                    Rectangle()
-                        .foregroundStyle(Color.asGray400)
-                        .frame(height: 1)
+                        .frame(height: 11)
                         .id(4)
                     ticketInfoView()
                         .id(5)
@@ -90,9 +85,27 @@ private extension PlayDetailView {
                         .frame(height: 6)
                         .id(7)
                     placeInfoView()
-                        .frame(height: 600)
                         .id(8)
                     Rectangle()
+                        .overlay {
+                            VStack {
+                                Image.logoS
+                                    .resizable()
+                                    .foregroundStyle(Color.asGray300)
+                                    .frame(width: 108, height: 22)
+                                    .padding(.bottom, 12)
+                                
+                                Text("공연정보 출처")
+                                    .font(.font12)
+                                    .foregroundStyle(Color.asGray300)
+                                Link(destination: URL(string: "https://www.kopis.or.kr")!) {
+                                    Text("(재)예술경영지원센터 공연예술통합전산망")
+                                        .font(.font12)
+                                        .foregroundStyle(Color.asGray300)
+                                }
+                                    
+                            }
+                        }
                         .foregroundStyle(Color.asGray400)
                         .frame(height: 160)
                         .id(9)
@@ -100,6 +113,7 @@ private extension PlayDetailView {
             }
             .scrollTargetLayout()
         }
+        .ignoresSafeArea(edges: .bottom)
         .scrollPosition($position, anchor: .top)
         .onScrollTargetVisibilityChange(idType: Int.self) { id in
             // 사용자가 클릭으로 스크롤 중일 때는 동작하지 않음
@@ -131,7 +145,7 @@ private extension PlayDetailView {
                     position.scrollTo(id: 0, anchor: .top)
                     currentPage = newValue
                 case 1:
-                    position.scrollTo(id: 5, anchor: .top)
+                    position.scrollTo(id: 4, anchor: .top)
                     currentPage = newValue
                 case 2:
                     position.scrollTo(id: 8, anchor: .top)
@@ -253,22 +267,6 @@ private extension PlayDetailView {
             //.multilineTextAlignment(.leading) // 줄바꿈시 정렬이 적용안되는 이슈 해결용!
         }
         .padding(.horizontal, 24)
-    }
-    
-    func placeInfoView() -> some View {
-        VStack {
-            asText("위치/시설")
-                .font(.boldFont20)
-                .foregroundStyle(Color.asFont)
-                .padding([.horizontal, .top], 24)
-            customInfo(header: "공연장", info: placeInfo.facilityName)
-            customInfo(header: "주소", info: placeInfo.address)
-            customInfo(header: "지도 보기", info: postInfo.playDate)
-            customInfo(header: "공연장 수", info: postInfo.playDate)
-            customInfo(header: "객석 수", info: postInfo.playDate)
-            customInfo(header: "주요 설", info: postInfo.playDate)
-            customInfo(header: "기타시설", info: postInfo.playDate)
-        }.hLeading()
     }
 }
 // MARK: - 공연 설명 포스터 부분
@@ -394,8 +392,25 @@ private extension PlayDetailView {
         }
     }
 }
+// MARK: - 공연 시설 부분
 private extension PlayDetailView {
-    
+    // TODO: 진행중
+    func placeInfoView() -> some View {
+        VStack(alignment: .leading, spacing: 28) {
+            asText("위치/시설")
+                .font(.boldFont20)
+                .foregroundStyle(Color.asFont)
+                .padding([.horizontal, .top], 24)
+            customInfo(header: "공연장", info: placeInfo.facilityName)
+            customInfo(header: "주소", info: placeInfo.address)
+            customInfo(header: "지도 보기", info: postInfo.playDate)
+            customInfo(header: "공연장 수", info: postInfo.playDate)
+            customInfo(header: "객석 수", info: postInfo.playDate)
+            customInfo(header: "주요시설", info: postInfo.playDate)
+            customInfo(header: "장애시설", info: postInfo.playDate)
+                .padding(.bottom, 30)
+        }.hLeading()
+    }
 }
 
 #Preview {
