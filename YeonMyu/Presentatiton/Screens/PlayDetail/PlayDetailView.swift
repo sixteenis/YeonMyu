@@ -6,13 +6,8 @@
 //
 
 import SwiftUI
+import MapKit
 import Kingfisher
-
-enum ScrollType: Int {
-    case playInfo
-    case ticketInfo
-    case placeInfo
-}
 
 struct PlayDetailView: View {
     let segments: [String] = ["공연정보", "티켓예매", "위치/시설"]
@@ -29,6 +24,8 @@ struct PlayDetailView: View {
     @State private var placeInfo = PlaceModel()
     var postID: String
     
+    //지도
+    @State private var region = MKCoordinateRegion()
     
 }
 
@@ -40,8 +37,12 @@ extension PlayDetailView {
                 do {
                     let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: postID).transformDetailModel()
                     let placeData = try await NetworkManager.shared.requestFacility(facilityId: postData.placeId).transformPlaceModel()
+                    print(postData.placeId)
+                    print("-------")
                     postInfo = postData
                     placeInfo = placeData
+                    region.center = CLLocationCoordinate2D(latitude: placeData.latitude, longitude: placeData.longitude)
+                    region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
                     contentState = .content
                     
                 } catch {
@@ -61,30 +62,33 @@ private extension PlayDetailView {
                 Color.clear.frame(height: 1).id(0)
                 Section(header: stickyHeader()) {
                     playInfo()
+                        .padding(.horizontal, 24)
                         .id(1)
                     inforPost()
                         .id(2)
                     Rectangle()
                         .foregroundStyle(Color.asGray400)
-                        .frame(height: 1)
+                        .frame(height: 14)
                         .id(3)
                     
                     Rectangle()
                         .foregroundStyle(Color.asGray400)
-                        .frame(height: 11)
+                        .frame(height: 14)
                         .id(4)
                     ticketInfoView()
+                        .padding(.horizontal, 24)
                         .id(5)
                     Rectangle()
                         .foregroundStyle(Color.asGray400)
-                        .frame(height: 6)
+                        .frame(height: 1)
                         .id(6)
                     
                     Rectangle()
                         .foregroundStyle(Color.asGray400)
-                        .frame(height: 6)
+                        .frame(height: 27)
                         .id(7)
                     placeInfoView()
+                        .padding(.horizontal, 24)
                         .id(8)
                     Rectangle()
                         .overlay {
@@ -122,13 +126,12 @@ private extension PlayDetailView {
             print("스크롤 감지로 변경 \(firstId)")
             let newcurrent: Int
             switch firstId {
-            case -1,0,1,2,3:
-                newcurrent = 0
-                selectPage = -1
+            case -1,0,1,2,3: newcurrent = 0
             case 4,5,6: newcurrent = 1
             case 7,8,9: newcurrent = 2
             default: newcurrent = 0
             }
+            selectPage = -1
             withAnimation(.interactiveSpring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.3)) {
                 currentPage = newcurrent
             }
@@ -136,6 +139,7 @@ private extension PlayDetailView {
         .onChange(of: selectPage) { oldValue, newValue in
             print("사용자 클릭 감지로 변경 이전 \(oldValue)")
             print("사용자 클릭 감지로 변경 \(newValue)")
+            if newValue == -1 { return }
             isStopCurrentPage = true
             
             
@@ -148,7 +152,7 @@ private extension PlayDetailView {
                     position.scrollTo(id: 4, anchor: .top)
                     currentPage = newValue
                 case 2:
-                    position.scrollTo(id: 8, anchor: .top)
+                    position.scrollTo(id: 7, anchor: .top)
                     currentPage = newValue
                 default: break
                 }
@@ -183,12 +187,15 @@ private extension PlayDetailView {
                 Text(postInfo.genrenm)
                     .font(.boldFont14)
                     .foregroundStyle(Color.asGray300)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 Rectangle()
-                    .frame(width: 1, height: 9)
+                    .frame(width: 2, height: 9)
                     .foregroundStyle(Color.asGray400)
+                    .alignmentGuide(VerticalAlignment.center) { d in d[VerticalAlignment.center] }
                 Text(postInfo.limitAge)
                     .font(.boldFont14)
                     .foregroundStyle(Color.asGray300)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             Text(postInfo.name)
                 .font(.font20)
@@ -243,7 +250,7 @@ private extension PlayDetailView {
             asText("공연 정보")
                 .font(.boldFont20)
                 .foregroundStyle(Color.asFont)
-                .padding([.horizontal, .top], 24)
+                .padding(.top, 24)
             customInfo(header: "공연기간", info: postInfo.playDate)
             customInfo(header: "공연장소", info: postInfo.place)
             customInfo(header: "공연시간", info: postInfo.guidanceList.joined(separator: "\n\n"))
@@ -266,7 +273,6 @@ private extension PlayDetailView {
                 .foregroundStyle(Color.asGray100)
             //.multilineTextAlignment(.leading) // 줄바꿈시 정렬이 적용안되는 이슈 해결용!
         }
-        .padding(.horizontal, 24)
     }
 }
 // MARK: - 공연 설명 포스터 부분
@@ -283,6 +289,9 @@ private extension PlayDetailView {
                                     .resizable()
                             }
                             .retry(maxCount: 3, interval: .seconds(5))
+                            .onSuccess { _ in
+                                currentPage = 0 //계속 티켓쪽으로 가서 임시로 공연정보로 가게 이동
+                            }
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(maxWidth: .infinity)
@@ -299,27 +308,41 @@ private extension PlayDetailView {
                         .retry(maxCount: 3, interval: .seconds(5))
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .vTop()
-                        .frame(height: 300) // 앞부분만 잘라서 보여주기
+                        .frame(height: 300, alignment: .top) // 앞부분만 잘라서 보여주기
                         .frame(maxWidth: .infinity)
                         .clipped()
                 }
             }
             
             // 전체보기 버튼
-            Button {
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    allInfo.toggle()
-                }
-            } label: {
-                Text(allInfo ? "접기" : "전체보기")
-                    .font(.boldFont16)
-                    .foregroundColor(.asGray200)
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 16)
-                    .background(Color.asWhite)
+            if !allInfo {
+                Rectangle()
+                    .frame(height: 56)
+                    .foregroundStyle(Color.asWhite)
+                    .overlay {
+                        HStack {
+                            Text(allInfo ? "접기" : "전체보기")
+                                .font(.boldFont16)
+                                .foregroundColor(.asGray200)
+                            if allInfo {
+                                Image.upArrow
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                    .foregroundStyle(Color.asGray300)
+                            } else {
+                                Image.downArrow
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                    .foregroundStyle(Color.asGray300)
+                            }
+                        }
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                    }
+                    .wrapToButton {
+                        allInfo.toggle()
+                    }
             }
-            .frame(height: 56)
         }
     }
 }
@@ -330,7 +353,7 @@ private extension PlayDetailView {
             asText("티켓 정보")
                 .font(.boldFont20)
                 .foregroundStyle(Color.asFont)
-                .padding([.horizontal, .top], 24)
+                .padding(.top, 24)
                 .padding(.bottom, 20)
             
             customTicketInfo(header: "티켓금액", info: postInfo.ticketPriceList)
@@ -348,7 +371,7 @@ private extension PlayDetailView {
                     }
                 }
                 
-            }.padding(.horizontal, 24).padding(.bottom, 40)
+            }.padding(.bottom, 40)
             
             
         }.hLeading()
@@ -374,12 +397,11 @@ private extension PlayDetailView {
                 }
             }
         }
-        .padding(.horizontal, 24)
     }
     // 숫자가 나오기 이전과 이후를 분리하는 헬퍼 함수
     func splitTextBeforeNumber(_ text: String) -> (beforeNumber: String, afterNumber: String) {
         // 정규식을 사용하여 숫자가 시작되는 위치를 찾음
-        let regex = try? NSRegularExpression(pattern: "\\d")
+        let regex = try? NSRegularExpression(pattern: "\\s+\\d")
         let range = regex?.rangeOfFirstMatch(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count))
         
         if let numberStartIndex = range?.lowerBound, numberStartIndex != NSNotFound {
@@ -400,16 +422,68 @@ private extension PlayDetailView {
             asText("위치/시설")
                 .font(.boldFont20)
                 .foregroundStyle(Color.asFont)
-                .padding([.horizontal, .top], 24)
+                .padding(.top, 24)
             customInfo(header: "공연장", info: placeInfo.facilityName)
             customInfo(header: "주소", info: placeInfo.address)
-            customInfo(header: "지도 보기", info: postInfo.playDate)
-            customInfo(header: "공연장 수", info: postInfo.playDate)
-            customInfo(header: "객석 수", info: postInfo.playDate)
-            customInfo(header: "주요시설", info: postInfo.playDate)
-            customInfo(header: "장애시설", info: postInfo.playDate)
-                .padding(.bottom, 30)
+            HStack(alignment: .top, spacing: 0) {
+                asText("지도 보기")
+                    .font(.font16)
+                    .foregroundStyle(Color.asFont)
+                    .frame(width: 100, alignment: .leading)
+                mapView()
+                    .frame(height: 160)
+            }
+            customInfo(header: "공연장 수", info: placeInfo.mt13cnt + "개")
+            customInfo(header: "객석 수", info: "총 "+placeInfo.seatscale + "석")
+            HStack(alignment: .top, spacing: 0) {
+                asText("편의시설")
+                    .font(.font16)
+                    .foregroundStyle(Color.asFont)
+                    .frame(width: 100, alignment: .leading)
+                checkView(placeInfo.amenities)
+            }
+            HStack(alignment: .top, spacing: 0) {
+                asText("장애시설")
+                    .font(.font16)
+                    .foregroundStyle(Color.asFont)
+                    .frame(width: 100, alignment: .leading)
+//                placeCheckView()
+                checkView(placeInfo.accessibleFacilities)
+            }
+            .padding(.bottom, 30)
         }.hLeading()
+    }
+    func mapView() -> some View {
+        VStack {
+            Map(coordinateRegion: self.$region, annotationItems: [Location(coordinates: CLLocationCoordinate2D(latitude: self.placeInfo.latitude, longitude: self.placeInfo.longitude))]) { location in
+                //MapMarker(coordinate: location.coordinates, tint: .blue)
+                MapAnnotation(coordinate: location.coordinates) {
+                    Image.asMarker
+                        .resizable()
+                        .foregroundStyle(Color.asPurple300)
+                        .frame(width: 40, height: 50)
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .allowsHitTesting(false)
+                
+        }
+    }
+    func checkView(_ data: [Facilities]) -> some View {
+        let item = GridItem(.adaptive(minimum: 100), spacing: 0)
+        let columns = Array(repeating: item, count: 3)
+        return LazyVGrid(columns: columns, alignment: .leading, spacing: 10) {
+            ForEach(data, id: \.id) { i in
+                HStack(spacing: 0) {
+                    Image.asCheck
+                        .resizable()
+                        .foregroundStyle(i.isChecked ? Color.asPurple300 : Color.asGray300)
+                        .frame(width: 20, height: 20)
+                    asText(i.name)
+                        .font(.font15)
+                }
+            }
+        }
     }
 }
 

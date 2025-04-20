@@ -34,7 +34,22 @@ struct FacilityDTO {
     func transformPlaceModel() -> PlaceModel {
         let la = Double(self.la) ?? 37.5666791
         let lo = Double(self.lo) ?? 126.9782914
-        let model = PlaceModel(facilityName: self.fcltynm, address: self.adres, latitude: la, longitude: lo)
+        let amenities = [
+            Facilities(name: "주차장", check: parkinglot),
+            Facilities(name: "레스토랑", check: restaurant),
+            Facilities(name: "카페", check: cafe),
+            Facilities(name: "상점", check: store),
+            Facilities(name: "노래방", check: nolibang),
+            Facilities(name: "수유실", check: suyu),
+        ]
+        let accessibleFacilities = [
+            Facilities(name: "주차장", check: parkbarrier),
+            Facilities(name: "화장실", check: restbarrier),
+            Facilities(name: "장애인통로", check: runwbarrier),
+            Facilities(name: "엘리베이터", check: elevbarrier),
+        ]
+        let model = PlaceModel(facilityName: self.fcltynm, address: self.adres, latitude: la, longitude: lo, mt13cnt: mt13cnt, seatscale: seatscale, amenities: amenities, accessibleFacilities: accessibleFacilities)
+    
         return model
     }
 }

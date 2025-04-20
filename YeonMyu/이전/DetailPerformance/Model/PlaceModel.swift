@@ -28,11 +28,25 @@ import Foundation
 //var elevbarrier: String // 장애인 엘리베이터 여부
 //var parkinglot: String // 주차장 여부
 //var performancePlaces: [PerformancePlace] // 공연장 세부 정보
+struct Facilities {
+    let id = UUID().uuidString
+    let name: String
+    let check: String
+    var isChecked: Bool {
+        if check == "Y" { return true }
+        return false
+    }
+}
 struct PlaceModel {
     var facilityName = ""
     var address = ""
     var latitude = 37.5666791
     var longitude = 126.9782914
+    var mt13cnt = ""
+    var seatscale = ""
+    var amenities: [Facilities] = [] //편의시설 리스트
+    var accessibleFacilities: [Facilities] = [] //장애시설 리스트
+    
     
 //latitude: 37.5666791, longitude: 126.9782914
 }
