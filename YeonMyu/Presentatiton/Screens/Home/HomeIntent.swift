@@ -177,7 +177,7 @@ private extension HomeIntent {
             data.append(contentsOf: result.map{$0.transformSimplePostModel()})
         }
         data.shuffle()
-        return data
+        return data.filter { $0.getPostString() != "" }
     }
     
     //최종 랜덤 포스터 데이터
@@ -199,7 +199,7 @@ private extension HomeIntent {
         let data = try await NetworkManager.shared.requestPerformance(date: date, cateCode: "", area: "", title: "", page: nil, openrun: nil, prfstate: "?")
 //        guard let post = data.first else { return nil}
 //        let result = MainHeaderPlayModel(mainTitle: "곧 상영 예정인 공연", subTitle: "타이틀 회의하자~", postURL: post.poster, postID: post.mt20id)
-        let result = RandomSimplePlayModel(mainTitle: "곧 상영 예정", subTitle: "서브타이틀입니돠~", simplePlayData: data.map{ $0.transformSimplePostModel() })
+        let result = RandomSimplePlayModel(mainTitle: "곧 상영 예정", subTitle: "서브타이틀입니돠~", simplePlayData: data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" })
         return result
     }
     

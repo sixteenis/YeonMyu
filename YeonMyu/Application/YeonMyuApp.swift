@@ -30,19 +30,24 @@ struct YeonMyuApp: App {
     init() {
         let appearance = UINavigationBarAppearance()
         
-        // 뒤로 가기 버튼의 텍스트 제거
-        let coloredImage = UIImage.leftTailArrow!.withTintColor(UIColor(hex: "919193"), renderingMode: .alwaysOriginal)
-        appearance.setBackIndicatorImage(coloredImage, transitionMaskImage: coloredImage)
-        appearance.backButtonAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: -1000, vertical: 0) // 텍스트 위치를 화면 밖으로 밀어내기
+        // 뒤로 가기 버튼 이미지 리사이징
+        let originalImage = UIImage.leftTailArrow!
+        let targetSize = CGSize(width: 25, height: 25)
+        let resizedImage = originalImage.resized(to: targetSize).withTintColor(UIColor(hex: "919193"), renderingMode: .alwaysOriginal)
+        
+        // 뒤로 가기 버튼 설정
+        appearance.setBackIndicatorImage(resizedImage, transitionMaskImage: resizedImage)
+        appearance.backButtonAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: -1000, vertical: 0)
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear
+        
         // 전체 내비게이션 바 스타일 설정
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().tintColor = UIColor(hex: "919193")
+        
         KakaoSDK.initSDK(appKey: APIKey.kakaoKey)
-        //UserDefaultManager.shared.uid = ""
     }
     var body: some Scene {
         WindowGroup {

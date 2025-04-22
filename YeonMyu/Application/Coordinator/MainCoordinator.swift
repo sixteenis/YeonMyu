@@ -67,6 +67,7 @@ final class MainCoordinator: CoordinatorProtocol {
         case .storage: StorageView() //보관함 뷰
         case .my: MyView() //마이 뷰
         case .playDetail(let id) : PlayDetailView(postID: id)
+        case .searchResult(let search): SearchResultView(searchText: search)
         default: EmptyView()
             
         }
@@ -76,9 +77,9 @@ final class MainCoordinator: CoordinatorProtocol {
     @ViewBuilder
     func build(_ sheet: Sheet) -> some View {
         //MARK: 추가 구현시 예시 실제 사용시 삭제하고 사용하시면 됩니다.
-        //        switch sheet {
-        //        case .dogProfile(let dogID): DogProfileView(dogID: dogID)
-        //        }
+//        switch sheet {
+//        case .
+//        }
     }
     
     // 풀스크린 커버

@@ -38,6 +38,8 @@
 		066C1CA72D7F153400C44567 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1CA62D7F153400C44567 /* GoogleSignIn */; };
 		066C1CA92D7F153400C44567 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1CA82D7F153400C44567 /* GoogleSignInSwift */; };
 		066C1CAF2D7F167F00C44567 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1CAE2D7F167F00C44567 /* Kingfisher */; };
+		066F3D482DB52F7D00EA77FB /* SearchVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066F3D472DB52F7D00EA77FB /* SearchVM.swift */; };
+		066F3D4A2DB53B9B00EA77FB /* DateSelectBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066F3D492DB53B9B00EA77FB /* DateSelectBottomSheetView.swift */; };
 		06AFEED22DAB88C600D1BE28 /* TicketPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AFEED12DAB88C600D1BE28 /* TicketPageView.swift */; };
 		06CD38232D7DD0EB00959852 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CD381E2D7DD0EB00959852 /* Preview Assets.xcassets */; };
 		06CD38242D7DD0EB00959852 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CD38202D7DD0EB00959852 /* Assets.xcassets */; };
@@ -125,6 +127,9 @@
 		06E508812D7F10D900F5E7DE /* EXDetailPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E5085A2D7F10D900F5E7DE /* EXDetailPerformanceView.swift */; };
 		06E508822D7F10D900F5E7DE /* DetailPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E5085B2D7F10D900F5E7DE /* DetailPerformanceView.swift */; };
 		06E508832D7F10D900F5E7DE /* ViewModeltype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E508642D7F10D900F5E7DE /* ViewModeltype.swift */; };
+		06F4A80C2DB67530008B1D29 /* RecentSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A80B2DB67530008B1D29 /* RecentSearch.swift */; };
+		06F4A80E2DB67F81008B1D29 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A80D2DB67F81008B1D29 /* FlowLayout.swift */; };
+		06F4A8112DB685DF008B1D29 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8102DB685DF008B1D29 /* SearchResultView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -161,6 +166,8 @@
 		0666EAE72DABFB1100A7E6DD /* placeCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeCheckView.swift; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		066F3D472DB52F7D00EA77FB /* SearchVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVM.swift; sourceTree = "<group>"; };
+		066F3D492DB53B9B00EA77FB /* DateSelectBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectBottomSheetView.swift; sourceTree = "<group>"; };
 		06AFEED12DAB88C600D1BE28 /* TicketPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketPageView.swift; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06CD381E2D7DD0EB00959852 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -249,6 +256,9 @@
 		06E508612D7F10D900F5E7DE /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		06E508622D7F10D900F5E7DE /* TicketState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketState.swift; sourceTree = "<group>"; };
 		06E508642D7F10D900F5E7DE /* ViewModeltype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModeltype.swift; sourceTree = "<group>"; };
+		06F4A80B2DB67530008B1D29 /* RecentSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearch.swift; sourceTree = "<group>"; };
+		06F4A80D2DB67F81008B1D29 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		06F4A8102DB685DF008B1D29 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,6 +399,7 @@
 			children = (
 				06E507BF2D7F10CD00F5E7DE /* TicketManager.swift */,
 				06E507C02D7F10CD00F5E7DE /* TicketList.swift */,
+				06F4A80B2DB67530008B1D29 /* RecentSearch.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -437,6 +448,7 @@
 			isa = PBXGroup;
 			children = (
 				06E507D22D7F10CD00F5E7DE /* CitySelectBottomSheetView.swift */,
+				066F3D492DB53B9B00EA77FB /* DateSelectBottomSheetView.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -450,6 +462,7 @@
 				06E507D62D7F10CD00F5E7DE /* CustomVerticalPlayView.swift */,
 				06E507D72D7F10CD00F5E7DE /* asText.swift */,
 				06E507D82D7F10CD00F5E7DE /* CustomPostImage.swift */,
+				06F4A80D2DB67F81008B1D29 /* FlowLayout.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -508,7 +521,9 @@
 		06E507EB2D7F10CD00F5E7DE /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				06F4A80F2DB685D1008B1D29 /* SeachResult */,
 				06E507EA2D7F10CD00F5E7DE /* SearchView.swift */,
+				066F3D472DB52F7D00EA77FB /* SearchVM.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -742,6 +757,14 @@
 			path = "이전";
 			sourceTree = "<group>";
 		};
+		06F4A80F2DB685D1008B1D29 /* SeachResult */ = {
+			isa = PBXGroup;
+			children = (
+				06F4A8102DB685DF008B1D29 /* SearchResultView.swift */,
+			);
+			path = SeachResult;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -875,6 +898,7 @@
 				06E508692D7F10D900F5E7DE /* HorizontalCalendarView.swift in Sources */,
 				06E5086A2D7F10D900F5E7DE /* TicketStorageView.swift in Sources */,
 				06E5086B2D7F10D900F5E7DE /* TicketMakeModel.swift in Sources */,
+				066F3D4A2DB53B9B00EA77FB /* DateSelectBottomSheetView.swift in Sources */,
 				06E5086C2D7F10D900F5E7DE /* TicketView.swift in Sources */,
 				06E5086D2D7F10D900F5E7DE /* PerformanceModel.swift in Sources */,
 				06E5086E2D7F10D900F5E7DE /* ProcessingPolicyView.swift in Sources */,
@@ -900,6 +924,7 @@
 				06E5087E2D7F10D900F5E7DE /* GenreType.swift in Sources */,
 				06E5087F2D7F10D900F5E7DE /* RatingView.swift in Sources */,
 				06E508802D7F10D900F5E7DE /* Location.swift in Sources */,
+				066F3D482DB52F7D00EA77FB /* SearchVM.swift in Sources */,
 				063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */,
 				06E508812D7F10D900F5E7DE /* EXDetailPerformanceView.swift in Sources */,
 				06E508822D7F10D900F5E7DE /* DetailPerformanceView.swift in Sources */,
@@ -919,8 +944,10 @@
 				06E508262D7F10CD00F5E7DE /* PrimaryText.swift in Sources */,
 				06E508272D7F10CD00F5E7DE /* TicketList.swift in Sources */,
 				06E508282D7F10CD00F5E7DE /* asText.swift in Sources */,
+				06F4A80E2DB67F81008B1D29 /* FlowLayout.swift in Sources */,
 				06E508292D7F10CD00F5E7DE /* CustomHorizontalPlayView.swift in Sources */,
 				063F5D682D8C3DE1004F4C17 /* FirestoreManager.swift in Sources */,
+				06F4A8112DB685DF008B1D29 /* SearchResultView.swift in Sources */,
 				06E5082A2D7F10CD00F5E7DE /* NetworkManager.swift in Sources */,
 				06E5082B2D7F10CD00F5E7DE /* TicketManager.swift in Sources */,
 				06E5082C2D7F10CD00F5E7DE /* CustomMapMarker.swift in Sources */,
@@ -937,6 +964,7 @@
 				063F5D772D903EB8004F4C17 /* AuthStep1.swift in Sources */,
 				06E508372D7F10CD00F5E7DE /* PrfCate.swift in Sources */,
 				06E508382D7F10CD00F5E7DE /* ContentState.swift in Sources */,
+				06F4A80C2DB67530008B1D29 /* RecentSearch.swift in Sources */,
 				06E508392D7F10CD00F5E7DE /* LoadingView.swift in Sources */,
 				06E507B92D7F10C700F5E7DE /* SplashView.swift in Sources */,
 				06CD38252D7DD0EB00959852 /* YeonMyuApp.swift in Sources */,

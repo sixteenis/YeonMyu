@@ -23,4 +23,9 @@ struct SimplePostModel: Identifiable {
         if self.postType == "연극" { return "연"}
         return ""
     }
+    func isPlayCheck() -> Bool {
+        if postType == "뮤지컬" || postType == "연극" {return true}
+        return false
+    }
+    
 }

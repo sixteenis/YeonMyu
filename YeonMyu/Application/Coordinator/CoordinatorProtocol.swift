@@ -40,6 +40,7 @@ enum Screen: Identifiable, Hashable {
     case my //마이 뷰
     
     case playDetail(id: String) //공연 상세 뷰
+    case searchResult(search: String)
     
 }
 

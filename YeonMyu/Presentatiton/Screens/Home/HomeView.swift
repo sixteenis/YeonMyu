@@ -19,7 +19,7 @@ struct HomeView: View {
     @State private var isToolbarHidden = true // 탭바 숨김 유무
     @State private var isAreSelectedPresented = false //지역 선택 바텀시트 토글
     @MainActor private var navHeight = CGFloat.safeAreaTop + 12 + 28 + 12
-
+    
     private let colors: [Color] = [.white, .blue, .green]
     @State private var segmentedPage: Int = 0
     @State private var stickyOffset: CGFloat = 0
@@ -49,37 +49,45 @@ extension HomeView {
 extension HomeView {
     @ViewBuilder
     var body: some View {
-        NavigationStack {
-            //지역 선택 바텀 시트
-            ZStack {
-                content()
-                switch state.contentState {
-                case .initView:
-                    InitView()
-                case .loading:
-                    LoadingView()
-                case .error:
-                    EmptyView()
-                default:
-                    EmptyView()
-                }
+        //        NavigationStack {
+        //지역 선택 바텀 시트
+        ZStack {
+            content()
+            switch state.contentState {
+            case .initView:
+                InitView()
+                    .ignoresSafeArea(.all)
+                    .toolbar(.hidden, for: .tabBar)
+
+            case .loading:
+                LoadingView()
+            case .error:
+                EmptyView()
+            default:
+                EmptyView()
             }
-            .ignoresSafeArea(edges: state.contentState == .initView ? .all : .top)
-            .toolbar(.hidden, for: .navigationBar)
-            .toolbar(state.contentState == .initView ? .hidden : .automatic, for: .tabBar, .bottomBar)
-            .onAppear {
-                if state.contentState != .content { intent.onAppear(city: state.selectedCity, prfCate: state.selectedPrfCate) }
-            }
-            .navigationDestination(item: Binding(get: {state.selectedPost}, set: {_ in intent.postTapped(id: nil)})) { id in
-                PlayDetailView(postID: id)
-            }
-            .navigationDestination(item: Binding(get: {state.selectedUserInfo}, set: {_ in intent.userInfoTapped(info: nil)})) { id in
-                SearchView() //사용자 기록 뷰로 이동
-            }
-            .navigationDestination(isPresented: $goSearchView) {
-                SearchView() //검색 뷰로 이동
-            }
+            //            }
+            //            .ignoresSafeArea(edges: state.contentState == .initView ? .all : .top)
+            //            .toolbar(.hidden, for: .navigationBar)
+            //            .toolbar(state.contentState == .initView ? .hidden : .automatic, for: .tabBar, .bottomBar)
+        } //:VSTACK
+        .onAppear {
+            if state.contentState != .content { intent.onAppear(city: state.selectedCity, prfCate: state.selectedPrfCate) }
         }
+        .onChange(of: state.selectedPost) { oldValue, newValue in // 공연 상세뷰로 이동
+            guard let id = newValue else { return }
+            intent.postTapped(id: nil)
+            coordinator.push(.playDetail(id: id))
+        }
+        .onChange(of: state.selectedUserInfo) { oldValue, newValue in // 사용자 정보 뷰로 이동
+            guard let newValue else { return }
+            intent.userInfoTapped(info: nil)
+            coordinator.push(.search)
+        }
+        .onChange(of: goSearchView) { oldValue, newValue in // 검색 뷰 이동
+            coordinator.push(.search)
+        }
+        
     }
 }
 
@@ -98,7 +106,6 @@ private extension HomeView {
             CitySelectBottomSheetView(selectedCity: state.selectedCity, compltionCity: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}))
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.fraction(0.45)]) //바텀시트 크기
-            
         }
     }
     func mainContent() -> some View {
@@ -209,7 +216,7 @@ private extension HomeView {
                 ForEach(posts.indices, id: \.self) { index in
                     bannerView(posts[index])
                         .tag(index + 1)
-                        
+                    
                 }
                 
                 // 가짜 첫 페이지 (index 0)
@@ -474,7 +481,7 @@ private extension HomeView {
         .onChange(of: state.selectedCity) { oldValue, newValue in
             arePosition.scrollTo(edge: .leading) //지역 변경 시
         }
-    
+        
     }
     
     func randomHeaderView(main: String, sub: String) -> some View {

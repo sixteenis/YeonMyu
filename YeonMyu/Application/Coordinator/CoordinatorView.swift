@@ -23,6 +23,5 @@ struct CoordinatorView: View {
                     appCoordinator.build(fullScreenCover)
                 }
         }
-        .environmentObject(appCoordinator)
     }
 }
