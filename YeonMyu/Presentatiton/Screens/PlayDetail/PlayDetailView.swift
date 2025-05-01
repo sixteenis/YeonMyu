@@ -68,24 +68,24 @@ private extension PlayDetailView {
                         .id(2)
                     Rectangle()
                         .foregroundStyle(Color.asBorderGray)
-                        .frame(height: 5)
+                        .frame(height: 1)
                         .id(3)
                     
                     Rectangle()
                         .foregroundStyle(Color.asBorderGray)
-                        .frame(height: 5)
+                        .frame(height: 14)
                         .id(4)
                     ticketInfoView()
                         .padding(.horizontal, 24)
                         .id(5)
                     Rectangle()
                         .foregroundStyle(Color.asBorderGray)
-                        .frame(height: 5)
+                        .frame(height: 1)
                         .id(6)
                     
                     Rectangle()
                         .foregroundStyle(Color.asBorderGray)
-                        .frame(height: 5)
+                        .frame(height: 14)
                         .id(7)
                     placeInfoView()
                         .padding(.horizontal, 24)
@@ -168,16 +168,15 @@ private extension PlayDetailView {
     func postView() -> some View {
         VStack(spacing: 9) {
             ZStack {
-                CustomPostImage(url: postInfo.posterURL)
-                    .scaledToFill()
-                    .frame(width: screenWidth + 10, height: screenWidth)
-                    .blur(radius: 3)
-                    .clipped() // 블러가 경계 바깥으로 퍼지지 않도록 클리핑
-//                    .mask {
-//                        // 원본 이미지를 마스크로 사용해 선명한 경계 유지
-//                        CustomPostImage(url: postInfo.posterURL)
-//                            .frame(width: screenWidth, height: screenWidth)
-//                    }
+                ZStack {
+                    CustomPostImage(url: postInfo.posterURL)
+                        .scaledToFill()
+                        .frame(width: screenWidth + 10, height: screenWidth)
+                        .blur(radius: 3)
+                        .clipped() // 블러가 경계 바깥으로 퍼지지 않도록 클리핑
+                    Rectangle()
+                        .foregroundStyle(Color.asBlack.opacity(0.5))
+                }
                 
                 CustomPostImage(url: postInfo.posterURL)
                     .frame(width: screenWidth / 2.0, height: screenWidth / 1.5)

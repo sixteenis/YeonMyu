@@ -9,11 +9,13 @@ import SwiftUI
 
 struct SearchView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
-    @StateObject private var vm: SearchVM = SearchVM()
+    @StateObject private var vm: SearchVM
     @FocusState private var isFocused: Bool //키보드 포커싱
     @State private var isAreSelectedPresented = false
     @State private var isDateSelectedPresented = false
-    
+    init() {
+        _vm = StateObject(wrappedValue: SearchVM())
+    }
 }
 extension SearchView {
     var body: some View {
@@ -28,6 +30,9 @@ extension SearchView {
                 CitySelectBottomSheetView(selectedCity: vm.output.selectedCity, compltionCity: $vm.output.selectedCity)
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.fraction(0.45)]) //바텀시트 크기
+            }
+            .onAppear {
+                vm.coordinator = coordinator
             }
     }
 }
@@ -48,18 +53,6 @@ private extension SearchView {
                 .hLeading()
                 .padding([.horizontal, .top], 24)
             
-        }
-        .onChange(of: vm.output.moveSearchResult) { oldValue, newValue in
-            if newValue != "" {
-                coordinator.push(.searchResult(search: newValue))
-                vm.output.moveSearchResult = ""
-            }
-        }
-        .onChange(of: vm.output.moveDetailPlayView) { oldValue, newValue in
-            if newValue != "" {
-                coordinator.push(.playDetail(id: newValue))
-                vm.output.moveDetailPlayView = ""
-            }
         }
     }
 }
@@ -113,7 +106,7 @@ private extension SearchView {
                 HStack {
                     Image.markerIcon
                         .resizable()
-//                        .foregroundStyle(Color.asGray300)
+                        .foregroundStyle(Color.asGray300)
                         .frame(width: 24, height: 24)
                     asText(vm.output.selectedCity.rawValue)
                         .font(.font14)

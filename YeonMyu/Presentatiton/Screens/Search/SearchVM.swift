@@ -15,6 +15,8 @@ final class SearchVM: ViewModeltype {
     var input = Input()
     @Published var output = Output()
     private let realm: Realm
+    var coordinator: MainCoordinator?
+        
     init() {
         self.cancellables = Set<AnyCancellable>()
         do {
@@ -44,8 +46,6 @@ final class SearchVM: ViewModeltype {
         //        let appleLoginCompletion = PassthroughSubject<Result<ASAuthorization, any Error>,Never>()
     }
     struct Output {
-        var moveSearchResult = ""
-        var moveDetailPlayView = ""
         var seachText = ""
         var seachDate = "오늘: 25/01/20"
         var selectedCity: CityCode = UserManager.shared.getUserData().getCityCode()
@@ -68,7 +68,7 @@ final class SearchVM: ViewModeltype {
             .sink { [weak self] term in
                 guard let self else { return }
                 self.addSearchTerm(term) //검색어 추가
-                self.output.moveSearchResult = term
+                coordinator?.push(.searchResult(search: term))
             }.store(in: &cancellables)
         
         input.deleteSearchTerm
@@ -80,7 +80,7 @@ final class SearchVM: ViewModeltype {
         input.tapTop10Item
             .sink { [weak self] id in
                 guard let self else { return }
-                self.output.moveDetailPlayView = id
+                coordinator?.push(.playDetail(id: id))
             }.store(in: &cancellables)
     }
 }
