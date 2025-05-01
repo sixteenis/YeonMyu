@@ -67,25 +67,25 @@ private extension PlayDetailView {
                     inforPost()
                         .id(2)
                     Rectangle()
-                        .foregroundStyle(Color.asGray400)
-                        .frame(height: 14)
+                        .foregroundStyle(Color.asBorderGray)
+                        .frame(height: 5)
                         .id(3)
                     
                     Rectangle()
-                        .foregroundStyle(Color.asGray400)
-                        .frame(height: 14)
+                        .foregroundStyle(Color.asBorderGray)
+                        .frame(height: 5)
                         .id(4)
                     ticketInfoView()
                         .padding(.horizontal, 24)
                         .id(5)
                     Rectangle()
-                        .foregroundStyle(Color.asGray400)
-                        .frame(height: 1)
+                        .foregroundStyle(Color.asBorderGray)
+                        .frame(height: 5)
                         .id(6)
                     
                     Rectangle()
-                        .foregroundStyle(Color.asGray400)
-                        .frame(height: 27)
+                        .foregroundStyle(Color.asBorderGray)
+                        .frame(height: 5)
                         .id(7)
                     placeInfoView()
                         .padding(.horizontal, 24)
@@ -107,10 +107,10 @@ private extension PlayDetailView {
                                         .font(.font12)
                                         .foregroundStyle(Color.asGray300)
                                 }
-                                    
+                                
                             }
                         }
-                        .foregroundStyle(Color.asGray400)
+                        .foregroundStyle(Color.asBorderGray)
                         .frame(height: 160)
                         .id(9)
                 }
@@ -169,8 +169,16 @@ private extension PlayDetailView {
         VStack(spacing: 9) {
             ZStack {
                 CustomPostImage(url: postInfo.posterURL)
-                    .frame(width: screenWidth, height: screenWidth)
+                    .scaledToFill()
+                    .frame(width: screenWidth + 10, height: screenWidth)
                     .blur(radius: 3)
+                    .clipped() // 블러가 경계 바깥으로 퍼지지 않도록 클리핑
+//                    .mask {
+//                        // 원본 이미지를 마스크로 사용해 선명한 경계 유지
+//                        CustomPostImage(url: postInfo.posterURL)
+//                            .frame(width: screenWidth, height: screenWidth)
+//                    }
+                
                 CustomPostImage(url: postInfo.posterURL)
                     .frame(width: screenWidth / 2.0, height: screenWidth / 1.5)
             } //: ZStack
@@ -185,20 +193,19 @@ private extension PlayDetailView {
                 )
             HStack(alignment: .center, spacing: 9) {
                 Text(postInfo.genrenm)
-                    .font(.boldFont14)
+                    .font(.font14)
                     .foregroundStyle(Color.asGray300)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
+                
                 Rectangle()
-                    .frame(width: 2, height: 9)
+                    .frame(width: 1, height: 16)
                     .foregroundStyle(Color.asGray400)
-                    .alignmentGuide(VerticalAlignment.center) { d in d[VerticalAlignment.center] }
+                
                 Text(postInfo.limitAge)
-                    .font(.boldFont14)
+                    .font(.font14)
                     .foregroundStyle(Color.asGray300)
-                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             Text(postInfo.name)
-                .font(.font20)
+                .font(.boldFont20)
                 .foregroundStyle(Color.font)
                 .lineLimit(2)
                 .padding(.horizontal, 24)
@@ -447,7 +454,7 @@ private extension PlayDetailView {
                     .font(.font16)
                     .foregroundStyle(Color.asFont)
                     .frame(width: 100, alignment: .leading)
-//                placeCheckView()
+                //                placeCheckView()
                 checkView(placeInfo.accessibleFacilities)
             }
             .padding(.bottom, 30)
@@ -460,13 +467,12 @@ private extension PlayDetailView {
                 MapAnnotation(coordinate: location.coordinates) {
                     Image.asMarker
                         .resizable()
-                        .foregroundStyle(Color.asPurple300)
-                        .frame(width: 40, height: 50)
+                        .frame(width: 35, height: 45)
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .allowsHitTesting(false)
-                
+            
         }
     }
     func checkView(_ data: [Facilities]) -> some View {

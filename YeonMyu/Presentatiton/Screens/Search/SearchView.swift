@@ -113,7 +113,7 @@ private extension SearchView {
                 HStack {
                     Image.markerIcon
                         .resizable()
-                        .foregroundStyle(Color.asGray300)
+//                        .foregroundStyle(Color.asGray300)
                         .frame(width: 24, height: 24)
                     asText(vm.output.selectedCity.rawValue)
                         .font(.font14)
