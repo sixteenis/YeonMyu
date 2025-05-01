@@ -55,15 +55,29 @@ enum Tab: Identifiable, Hashable {
     
 }
 //MARK: 필요한 뷰 추가해서 사용
-enum Sheet: Identifiable, Hashable {
-    var id: Self { return self }
+enum Sheet: Identifiable{
     case auth1(uid: String)
+    case citySelect(selected: CityCode, binding: Binding<CityCode>, onDismiss: () -> Void)
+    var id: String {
+        switch self {
+        case .auth1: return "auth1"
+        case .citySelect: return "citySelect"
+        }
+    }
+    /// 바텀시트 크기 비율
+    var detentSize: CGFloat {
+        switch self {
+        case .citySelect:
+            return 0.45
+        default:
+            return 0.4
+        }
+    }
 }
 
 
 //MARK: 필요한 뷰 추가해서 사용
-enum FullScreenCover:  Identifiable, Hashable {
-    var id: Self { return self }
+enum FullScreenCover {
     case auth1(uid: String)
     //    case dogWalkResult(walkTime: Int, walkDistance: Double, routeImage: UIImage)
 }

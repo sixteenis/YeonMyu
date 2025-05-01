@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CitySelectBottomSheetView: View {
     @Environment(\.dismiss) var dismiss
+    @State var selectedCity: CityCode
+    @Binding var compltionCity: CityCode
+    
     private let columns = [
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12),
@@ -16,10 +19,8 @@ struct CitySelectBottomSheetView: View {
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12)
     ]
-    
     let allCity = CityCode.allCases
-    @State var selectedCity: CityCode
-    @Binding var compltionCity: CityCode
+    
     var body: some View {
         VStack(alignment: .leading) { // VStack을 leading 정렬
             asText("지역 선택")

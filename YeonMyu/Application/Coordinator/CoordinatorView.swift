@@ -19,9 +19,9 @@ struct CoordinatorView: View {
                 .sheet(item: $appCoordinator.sheet) { sheet in
                     appCoordinator.build(sheet)
                 }
-                .fullScreenCover(item: $appCoordinator.fullScreenCover) { fullScreenCover in
-                    appCoordinator.build(fullScreenCover)
-                }
+//                .fullScreenCover(item: $appCoordinator.fullScreenCover) { fullScreenCover in
+//                    appCoordinator.build(fullScreenCover)
+//                }
         }
     }
 }

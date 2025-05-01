@@ -87,6 +87,12 @@ extension HomeView {
         .onChange(of: goSearchView) { oldValue, newValue in // 검색 뷰 이동
             coordinator.push(.search)
         }
+        .onChange(of: isAreSelectedPresented) { oldValue, newValue in
+            if !newValue { return }
+            coordinator.presentSheet(.citySelect(selected: state.selectedCity, binding: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}), onDismiss: {
+                isAreSelectedPresented = false
+            }))
+        }
         
     }
 }
@@ -102,11 +108,12 @@ private extension HomeView {
                     .vTop()
             }
         }
-        .sheet(isPresented: $isAreSelectedPresented) {
-            CitySelectBottomSheetView(selectedCity: state.selectedCity, compltionCity: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}))
-                .presentationDragIndicator(.visible)
-                .presentationDetents([.fraction(0.45)]) //바텀시트 크기
-        }
+        
+//        .sheet(isPresented: $isAreSelectedPresented) {
+//            CitySelectBottomSheetView(selectedCity: state.selectedCity, compltionCity: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}))
+//                .presentationDragIndicator(.visible)
+//                .presentationDetents([.fraction(0.45)]) //바텀시트 크기
+//        }
     }
     func mainContent() -> some View {
         RefreshableScrollView(onRefresh: { done in
@@ -432,7 +439,7 @@ private extension HomeView {
                         .frame(width: 20, height: 20)
                         .foregroundStyle(Color.asPurple300)
                         .rotationEffect(.degrees(isAreSelectedPresented ? 180 : 0)) // 180도 회전
-                        .animation(.easeInOut(duration: 0.25), value: isAreSelectedPresented) // 애니메이션 적용
+                        .animation(.easeInOut(duration: 0.15), value: isAreSelectedPresented) // 애니메이션 적용
                         .padding(.leading, 2)
                         .padding(.trailing, 4)
                 }
