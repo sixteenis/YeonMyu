@@ -57,7 +57,7 @@ enum Tab: Identifiable, Hashable {
 //MARK: 필요한 뷰 추가해서 사용
 enum Sheet: Identifiable{
     case auth1(uid: String)
-    case citySelect(selected: CityCode, binding: Binding<CityCode>, onDismiss: () -> Void)
+    case citySelect(binding: Binding<CityCode>, onDismiss: () -> Void)
     var id: String {
         switch self {
         case .auth1: return "auth1"

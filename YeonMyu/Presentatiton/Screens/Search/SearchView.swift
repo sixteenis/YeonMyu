@@ -27,7 +27,7 @@ extension SearchView {
                     .presentationDetents([.fraction(0.45)]) //바텀시트 크기
             }
             .sheet(isPresented: $isAreSelectedPresented) {
-                CitySelectBottomSheetView(selectedCity: vm.output.selectedCity, compltionCity: $vm.output.selectedCity)
+                CitySelectBottomSheetView(compltionCity: $vm.output.selectedCity)
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.fraction(0.45)]) //바텀시트 크기
             }

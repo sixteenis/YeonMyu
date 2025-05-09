@@ -20,6 +20,7 @@ extension Color {
     static let asMainSecondaryPurple = Color.dynamic(light: "9A6BE3", dark: "6A52A5")
     static let asMainPurpleBorder = Color.dynamic(light: "F7EFFF", dark: "322940")
     static let asMainPurpleBorderLine = Color.dynamic(light: "D6B6F8", dark: "5A3C8C")
+    static let asPurple200 = Color.dynamic(light: "9A6BE3", dark: "5A3C8C")
     static let asPurple300 = Color.dynamic(light: "B086F0", dark: "5A3C8C")
     static let asPurple500 = Color.dynamic(light: "F7EFFF", dark: "5A3C8C")
     

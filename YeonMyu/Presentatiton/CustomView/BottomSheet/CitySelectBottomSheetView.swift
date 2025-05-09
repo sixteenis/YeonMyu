@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct CitySelectBottomSheetView: View {
-    @Environment(\.dismiss) var dismiss
-    @State var selectedCity: CityCode
+    @State private var selectedCity: CityCode
     @Binding var compltionCity: CityCode
-    
+    @Environment(\.dismiss) var dismiss
     private let columns = [
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12),
@@ -19,7 +18,12 @@ struct CitySelectBottomSheetView: View {
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12)
     ]
-    let allCity = CityCode.allCases
+    private let allCity = CityCode.allCases
+    
+    init(compltionCity: Binding<CityCode>) {
+        self._selectedCity = State(initialValue: compltionCity.wrappedValue)
+        self._compltionCity = compltionCity
+    }
     
     var body: some View {
         VStack(alignment: .leading) { // VStack을 leading 정렬
@@ -62,6 +66,9 @@ struct CitySelectBottomSheetView: View {
                 compltionCity = selectedCity
                 dismiss()
             }
+        }
+        .onAppear {
+            self.selectedCity = compltionCity
         }
         Spacer()
     }

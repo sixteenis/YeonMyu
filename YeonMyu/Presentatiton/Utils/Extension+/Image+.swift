@@ -29,6 +29,9 @@ extension Image {
     static let asperformance = Image("관람한 공연")
     static let asCircleTicket = Image("예매한 티켓")
     
+    static let asSlider = Image("슬라이드")
+    
+    
     //로고
     static let logo = Image("logo")
     static let logoTitle = Image("logo+Title")

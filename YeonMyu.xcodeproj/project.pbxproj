@@ -130,6 +130,8 @@
 		06F4A80C2DB67530008B1D29 /* RecentSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A80B2DB67530008B1D29 /* RecentSearch.swift */; };
 		06F4A80E2DB67F81008B1D29 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A80D2DB67F81008B1D29 /* FlowLayout.swift */; };
 		06F4A8112DB685DF008B1D29 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8102DB685DF008B1D29 /* SearchResultView.swift */; };
+		06F4A8662DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8652DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift */; };
+		06F4A8682DCBD9CC008B1D29 /* ItsukiSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8672DCBD9CC008B1D29 /* ItsukiSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -259,6 +261,8 @@
 		06F4A80B2DB67530008B1D29 /* RecentSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearch.swift; sourceTree = "<group>"; };
 		06F4A80D2DB67F81008B1D29 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		06F4A8102DB685DF008B1D29 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
+		06F4A8652DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalSelectBottomSheetView.swift; sourceTree = "<group>"; };
+		06F4A8672DCBD9CC008B1D29 /* ItsukiSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItsukiSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -449,6 +453,8 @@
 			children = (
 				06E507D22D7F10CD00F5E7DE /* CitySelectBottomSheetView.swift */,
 				066F3D492DB53B9B00EA77FB /* DateSelectBottomSheetView.swift */,
+				06F4A8652DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift */,
+				06F4A8672DCBD9CC008B1D29 /* ItsukiSlider.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -882,6 +888,7 @@
 				06E5080F2D7F10CD00F5E7DE /* Color+.swift in Sources */,
 				06E508102D7F10CD00F5E7DE /* LoginView.swift in Sources */,
 				06E508112D7F10CD00F5E7DE /* UserInfoModel.swift in Sources */,
+				06F4A8682DCBD9CC008B1D29 /* ItsukiSlider.swift in Sources */,
 				06E508122D7F10CD00F5E7DE /* PerformanceError.swift in Sources */,
 				06E508132D7F10CD00F5E7DE /* TabBarView.swift in Sources */,
 				06E508142D7F10CD00F5E7DE /* Notification.swift in Sources */,
@@ -931,6 +938,7 @@
 				06E508832D7F10D900F5E7DE /* ViewModeltype.swift in Sources */,
 				06E5081B2D7F10CD00F5E7DE /* UserDefault.swift in Sources */,
 				06E5081C2D7F10CD00F5E7DE /* DetailPerformanceDTO.swift in Sources */,
+				06F4A8662DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift in Sources */,
 				06E5081D2D7F10CD00F5E7DE /* CitySelectBottomSheetView.swift in Sources */,
 				06E5081E2D7F10CD00F5E7DE /* BoxOfficeDTO.swift in Sources */,
 				06E5081F2D7F10CD00F5E7DE /* SearchView.swift in Sources */,

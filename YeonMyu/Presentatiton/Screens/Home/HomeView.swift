@@ -89,7 +89,7 @@ extension HomeView {
         }
         .onChange(of: isAreSelectedPresented) { oldValue, newValue in
             if !newValue { return }
-            coordinator.presentSheet(.citySelect(selected: state.selectedCity, binding: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}), onDismiss: {
+            coordinator.presentSheet(.citySelect(binding: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}), onDismiss: {
                 isAreSelectedPresented = false
             }))
         }

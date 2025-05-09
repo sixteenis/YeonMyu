@@ -78,8 +78,8 @@ final class MainCoordinator: CoordinatorProtocol {
     func build(_ sheet: Sheet) -> some View {
         //MARK: 추가 구현시 예시 실제 사용시 삭제하고 사용하시면 됩니다.
         switch sheet {
-        case .citySelect(let city, let result, let onDismiss):
-            CitySelectBottomSheetView(selectedCity: city, compltionCity: result)
+        case .citySelect(let result, let onDismiss):
+            CitySelectBottomSheetView(compltionCity: result)
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.fraction(sheet.detentSize)]) //바텀시트 크기
                 .onDisappear {
