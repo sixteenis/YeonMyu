@@ -36,39 +36,45 @@ final class SearchVM: ViewModeltype {
         transform()
     }
     struct Input {
-        let chanageCity = PassthroughSubject<CityCode,Never>()
-        let addSearchTerm = PassthroughSubject<String, Never>()
-        let deleteSearchTerm = PassthroughSubject<String, Never>()
-        let tapTop10Item = PassthroughSubject<String, Never>()
-        //        let googleLoginTap = PassthroughSubject<Void,Never>()
-        //        let kakaoLoginTap = PassthroughSubject<Void,Never>()
-        //        let appleLoginTap = PassthroughSubject<ASAuthorizationAppleIDRequest,Never>()
-        //        let appleLoginCompletion = PassthroughSubject<Result<ASAuthorization, any Error>,Never>()
+        let presentBottomSheet = PassthroughSubject<Int,Never>() //날짜, 지역 클릭시 바텀시트
+        let addSearchTerm = PassthroughSubject<String, Never>() //검색어 검색 시
+        let deleteSearchTerm = PassthroughSubject<String, Never>() //검색 기록 삭제 시
+        let tapTop10Item = PassthroughSubject<String, Never>() // top10 공연 클릭 시
     }
     struct Output {
-        var seachText = ""
-        var seachDate = "오늘: 25/01/20"
-        var selectedCity: CityCode = UserManager.shared.getUserData().getCityCode()
-        
-        var seachHistories: [String] = []
-        var top10List: [SimplePostModel] = []
-        //        var err: String?
-        //        var uid: String = ""
-        //        var goJoinView = false
-        //        var goMianView = false
+        var seachText = "" //검색어
+        var selectedDate = Date() //검색 날짜
+        var selectedCity: CityCode = UserManager.shared.getUserData().getCityCode() //검색 지역
+        var seachHistories: [String] = [] //검색 기록
+        var top10List: [SimplePostModel] = [] //top10 공연 정보
     }
     func transform() {
-        input.chanageCity
-            .sink { [weak self] city in
-                guard let self else { return }
-                self.output.selectedCity = city
-            }.store(in: &cancellables)
+        input.presentBottomSheet
+                .sink { [weak self] page in
+                    guard let self else { return }
+                    // Create Binding for selectedDate and selectedCity
+                    let dateBinding = Binding<Date>(
+                        get: { self.output.selectedDate },
+                        set: { self.output.selectedDate = $0 }
+                    )
+                    let cityBinding = Binding<CityCode>(
+                        get: { self.output.selectedCity },
+                        set: { self.output.selectedCity = $0 }
+                    )
+                    // Pass the bindings to presentSheet
+                    coordinator?.presentSheet(.totalSelect(
+                        selected: page,
+                        date: dateBinding,
+                        city: cityBinding,
+                        price: .constant(nil)
+                    ))
+                }.store(in: &cancellables)
         
         input.addSearchTerm
             .sink { [weak self] term in
                 guard let self else { return }
                 self.addSearchTerm(term) //검색어 추가
-                coordinator?.push(.searchResult(search: term))
+                coordinator?.push(.searchResult(search: term, date: output.selectedDate, city: output.selectedCity))
             }.store(in: &cancellables)
         
         input.deleteSearchTerm

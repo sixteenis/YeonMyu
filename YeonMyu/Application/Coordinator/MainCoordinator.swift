@@ -67,7 +67,7 @@ final class MainCoordinator: CoordinatorProtocol {
         case .storage: StorageView() //보관함 뷰
         case .my: MyView() //마이 뷰
         case .playDetail(let id) : PlayDetailView(postID: id)
-        case .searchResult(let search): SearchResultView(searchText: search)
+        case .searchResult(let search, let date, let city): SearchResultView(searchText: search, date: date, city: city)
         default: EmptyView()
             
         }
@@ -84,6 +84,12 @@ final class MainCoordinator: CoordinatorProtocol {
                 .presentationDetents([.fraction(sheet.detentSize)]) //바텀시트 크기
                 .onDisappear {
                     onDismiss()
+                }
+        case .totalSelect(let selected, let date, let city, let price):
+            TotalSelectBottomSheetView(selected: selected, compltionDate: date, compltionCity: city, compltionPrice: price)
+                .presentationDragIndicator(.visible)
+                .presentationDetents([.fraction(sheet.detentSize)]) 
+                .onDisappear {
                 }
         default: EmptyView()
         }

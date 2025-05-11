@@ -132,6 +132,8 @@
 		06F4A8112DB685DF008B1D29 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8102DB685DF008B1D29 /* SearchResultView.swift */; };
 		06F4A8662DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8652DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift */; };
 		06F4A8682DCBD9CC008B1D29 /* ItsukiSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8672DCBD9CC008B1D29 /* ItsukiSlider.swift */; };
+		06F4A86A2DD06985008B1D29 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8692DD06985008B1D29 /* Date+.swift */; };
+		06F4A86C2DD06BB8008B1D29 /* SearchResultVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -263,6 +265,8 @@
 		06F4A8102DB685DF008B1D29 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		06F4A8652DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalSelectBottomSheetView.swift; sourceTree = "<group>"; };
 		06F4A8672DCBD9CC008B1D29 /* ItsukiSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItsukiSlider.swift; sourceTree = "<group>"; };
+		06F4A8692DD06985008B1D29 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -606,6 +610,7 @@
 				06E508012D7F10CD00F5E7DE /* View+.swift */,
 				06E508022D7F10CD00F5E7DE /* String+.swift */,
 				06E508032D7F10CD00F5E7DE /* UIApplication+.swift */,
+				06F4A8692DD06985008B1D29 /* Date+.swift */,
 			);
 			path = "Extension+";
 			sourceTree = "<group>";
@@ -767,6 +772,7 @@
 			isa = PBXGroup;
 			children = (
 				06F4A8102DB685DF008B1D29 /* SearchResultView.swift */,
+				06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */,
 			);
 			path = SeachResult;
 			sourceTree = "<group>";
@@ -912,6 +918,7 @@
 				06E5086F2D7F10D900F5E7DE /* TicketMakeView.swift in Sources */,
 				063F5D7F2D91838C004F4C17 /* StorageView.swift in Sources */,
 				06E508702D7F10D900F5E7DE /* PerformanceStateType.swift in Sources */,
+				06F4A86A2DD06985008B1D29 /* Date+.swift in Sources */,
 				06E508712D7F10D900F5E7DE /* CustomSegmentedControl.swift in Sources */,
 				06E508722D7F10D900F5E7DE /* HeaderType.swift in Sources */,
 				06E508732D7F10D900F5E7DE /* TicketState.swift in Sources */,
@@ -924,6 +931,7 @@
 				06E508782D7F10D900F5E7DE /* UpadteTicketModel.swift in Sources */,
 				06E508792D7F10D900F5E7DE /* PerformancePicker.swift in Sources */,
 				063F5D792D903EBD004F4C17 /* AuthStep2.swift in Sources */,
+				06F4A86C2DD06BB8008B1D29 /* SearchResultVM.swift in Sources */,
 				06E5087A2D7F10D900F5E7DE /* SettingView.swift in Sources */,
 				06E5087B2D7F10D900F5E7DE /* MainVM.swift in Sources */,
 				06E5087C2D7F10D900F5E7DE /* ReviewView.swift in Sources */,

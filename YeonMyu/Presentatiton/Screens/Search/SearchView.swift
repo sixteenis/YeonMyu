@@ -11,8 +11,7 @@ struct SearchView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
     @StateObject private var vm: SearchVM
     @FocusState private var isFocused: Bool //키보드 포커싱
-    @State private var isAreSelectedPresented = false
-    @State private var isDateSelectedPresented = false
+    
     init() {
         _vm = StateObject(wrappedValue: SearchVM())
     }
@@ -21,16 +20,6 @@ extension SearchView {
     var body: some View {
         content()
             .navigationTitle("검색")
-            .sheet(isPresented: $isDateSelectedPresented) {
-                DateSelectBottomSheetView()
-                    .presentationDragIndicator(.visible)
-                    .presentationDetents([.fraction(0.45)]) //바텀시트 크기
-            }
-            .sheet(isPresented: $isAreSelectedPresented) {
-                CitySelectBottomSheetView(compltionCity: $vm.output.selectedCity)
-                    .presentationDragIndicator(.visible)
-                    .presentationDetents([.fraction(0.45)]) //바텀시트 크기
-            }
             .onAppear {
                 vm.coordinator = coordinator
             }
@@ -89,14 +78,14 @@ private extension SearchView {
                         .resizable()
                         .foregroundStyle(Color.asGray300)
                         .frame(width: 24, height: 24)
-                    asText(vm.output.seachDate)
+                    asText(vm.output.selectedDate.asTrasnFormyy_mm_dd())
                         .font(.font14)
                         .foregroundStyle(Color.asGray300)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 14)
                 .wrapToButton {
-                    isDateSelectedPresented.toggle()
+                    vm.input.presentBottomSheet.send(0)
                 }
                 
                 Rectangle()
@@ -116,7 +105,7 @@ private extension SearchView {
                 .padding(.trailing, 14)
                 .padding(.vertical, 10)
                 .wrapToButton {
-                    isAreSelectedPresented.toggle()
+                    vm.input.presentBottomSheet.send(1)
                 }
             }
         }

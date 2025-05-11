@@ -37,13 +37,16 @@ struct TotalSelectBottomSheetView: View {
     @State private var value: ClosedRange<Double> = 50_000...150_000
     let range: ClosedRange<Double> = 10_000...300_000
     let segments: [String]
-    @State private var selectPage = 0
+    
+    
+    @State var selectPage = 0
     private let oneSegmentWidth: CGFloat = 50
     private let sheetHeight: CGFloat = 300
     private let priceList = TicketPriceEnum.allCases
     
     private let allCity = CityCode.allCases
-    init(compltionDate: Binding<Date>, compltionCity: Binding<CityCode>, compltionPrice: Binding<ClosedRange<Int>?>) {
+    init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>, compltionPrice: Binding<ClosedRange<Int>?>) {
+        self.selectPage = selected
         self._selecetedDate = State(initialValue: compltionDate.wrappedValue)
         self._compltionDate = compltionDate
         
@@ -63,6 +66,7 @@ struct TotalSelectBottomSheetView: View {
         stickyHeader()
             .hLeading()
             .padding(.leading, 24)
+            .padding(.vertical, 12)
         switch selectPage {
         case 0: dateSelectView().frame(height: sheetHeight)
         case 1: citySelectView().frame(height: sheetHeight)
@@ -74,6 +78,8 @@ struct TotalSelectBottomSheetView: View {
         HStack(spacing: 0) {
             Button {
                 // Action
+                selecetedDate = compltionDate
+                selectedCity = compltionCity
                 
             } label: {
                 Rectangle()
@@ -86,7 +92,14 @@ struct TotalSelectBottomSheetView: View {
                     }
             }
             Button {
-                // Action
+                compltionDate = selecetedDate
+                compltionCity = selectedCity
+                if selectPrice == nil {
+                    compltionPrice = Int(range.lowerBound)...Int(range.upperBound)
+                } else {
+                    compltionPrice = selectPrice?.priceRange
+                }
+                dismiss()
                 
             } label: {
                 Rectangle()
@@ -140,8 +153,19 @@ private extension TotalSelectBottomSheetView {
     }
     //날짜 선택
     func dateSelectView() -> some View {
-        Text("가격선택 ㅋ")
-            .vTop()
+//        VStack {
+            DatePicker(
+                "Start Date",
+                selection: $selecetedDate,
+                displayedComponents: [.date]
+            )
+            .datePickerStyle(.graphical)
+            .environment(\.locale, Locale(identifier: "ko_KR")) // ✅ 한국어 적용
+            .tint(Color.asPurple300)
+            .padding(.horizontal, 24)
+            .frame(maxHeight: 200)
+            
+//        }.vTop()
     }
     //지역 선택
     func citySelectView() -> some View {
@@ -203,7 +227,6 @@ private extension TotalSelectBottomSheetView {
                     Text("직접 선택")
                         .font(.font16)
                         .foregroundStyle(selectPrice == nil ? Color.asGray400 : Color.asGray300)
-                        .frame(maxWidth: 80)
                     
                 }
                 .padding(.horizontal, 16) // 좌우 여백 추가
@@ -218,12 +241,14 @@ private extension TotalSelectBottomSheetView {
                 }
             }
             .hLeading()
+            .padding(.leading, 24)
             if selectPrice == nil {
                 sliderView()
                     .padding(.top, 36)
+                    .padding(.horizontal, 24)
             }
             
-        }.padding(.horizontal, 24).vTop()
+        }.vTop()
     }
     func sliderView() -> some View {
         VStack {
@@ -261,5 +286,5 @@ private extension TotalSelectBottomSheetView {
     
 }
 #Preview {
-    TotalSelectBottomSheetView(compltionDate: .constant(Date()), compltionCity: .constant(.busan), compltionPrice: .constant(0...1000))
+    TotalSelectBottomSheetView(selected: 0, compltionDate: .constant(Date()), compltionCity: .constant(.busan), compltionPrice: .constant(0...1000))
 }
