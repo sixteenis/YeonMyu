@@ -58,11 +58,13 @@ enum Tab: Identifiable, Hashable {
 enum Sheet: Identifiable{
     case auth1(uid: String)
     case citySelect(binding: Binding<CityCode>, onDismiss: () -> Void)
+    case dateAndPriceSelect(selected: Int, date: Binding<Date>, city: Binding<CityCode>)
     case totalSelect(selected: Int, date: Binding<Date>, city: Binding<CityCode>, price: Binding<ClosedRange<Int>?>)
     var id: String {
         switch self {
         case .auth1: return "auth1"
         case .citySelect: return "citySelect"
+        case .dateAndPriceSelect: return "dateAndPriceSelect"
         case .totalSelect: return "totalSelect"
         }
     }
@@ -71,7 +73,8 @@ enum Sheet: Identifiable{
         switch self {
         case .citySelect: 0.45
         case .totalSelect: 0.6
-        default: 0.4
+        case .dateAndPriceSelect: 0.6
+        default: 0.6
         }
     }
 }

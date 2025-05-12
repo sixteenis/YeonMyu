@@ -54,13 +54,18 @@ struct TotalSelectBottomSheetView: View {
         self._compltionCity = compltionCity
         
         self._compltionPrice = compltionPrice
+        self.segments =  ["날짜", "지역", "가격대"]
+    }
+    init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>) {
+        self.selectPage = selected
+        self._selecetedDate = State(initialValue: compltionDate.wrappedValue)
+        self._compltionDate = compltionDate
         
-        if compltionPrice.wrappedValue == nil {
-            self.segments =  ["날짜", "지역"]
-        } else {
-            self.segments =  ["날짜", "지역", "가격대"]
-        }
+        self._selectedCity = State(initialValue: compltionCity.wrappedValue)
+        self._compltionCity = compltionCity
         
+        self._compltionPrice = .constant(nil)
+        self.segments =  ["날짜", "지역"]
     }
     var body: some View {
         stickyHeader()

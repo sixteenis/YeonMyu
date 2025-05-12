@@ -37,7 +37,7 @@ final class NetworkManager {
         return XMLPerformanceParser().parse(data: data)
     }
     // MARK: - 여러개의 공연 데이터 통신
-    func requestPerformance(date: String, cateCode: String, area: String?,title: String, page: Int?, openrun: String?, prfstate: String?) async throws -> [PerformanceDTO] {
+    func requestPerformance(date: String, cateCode: String, area: String?,title: String, page: Int?, openrun: String?, prfstate: String?, maxOnePage: String = "10") async throws -> [PerformanceDTO] {
         let urlString = APIKey.performanceURL
         var urlComponents = URLComponents(string: urlString)
         urlComponents?.queryItems = [
@@ -45,7 +45,7 @@ final class NetworkManager {
             URLQueryItem(name: "stdate", value: date),
             URLQueryItem(name: "eddate", value: date),
             URLQueryItem(name: "cpage", value: String(page ?? 1)),
-            URLQueryItem(name: "rows", value: "10"),
+            URLQueryItem(name: "rows", value: maxOnePage), //페이지당 목록 수
             URLQueryItem(name: "shcate", value: cateCode),
             URLQueryItem(name: "shprfnm", value: title),
             URLQueryItem(name: "signgucode", value: area),

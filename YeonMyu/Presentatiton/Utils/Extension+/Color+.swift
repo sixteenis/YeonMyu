@@ -14,6 +14,7 @@ extension Color {
     static let asGray200 = Color.dynamic(light: "595959", dark: "BEBEC0")
     static let asGray300 = Color.dynamic(light: "919193", dark: "BEBEC0")
     static let asGray400 = Color.dynamic(light: "E7E7E7", dark: "BEBEC0")
+    static let asGray500 = Color.dynamic(light: "F3F3F3", dark: "BEBEC0")
     static let asText = Color.dynamic(light: "1A1A1A", dark: "BEBEC0")
 
     static let asMainPurple = Color.dynamic(light: "B086F0", dark: "7D5FB2")
