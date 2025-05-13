@@ -15,7 +15,7 @@ enum TicketPriceEnum: String, CaseIterable {
     
     var priceRange: ClosedRange<Int> {
         switch self {
-        case .all: 0...100_000_000
+        case .all: 0...0
         case .under30000: 0...30_000
         case .between30000And70000: 30_000...70_000
         case .between70000And100000: 70_000...100_000
@@ -28,11 +28,13 @@ struct TotalSelectBottomSheetView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var compltionDate: Date
     @Binding var compltionCity: CityCode
+    @Binding var compltionTicketEnum: TicketPriceEnum?
     @Binding var compltionPrice: ClosedRange<Int>?
     
     @State private var selecetedDate: Date
     @State private var selectedCity: CityCode
-    @State private var selectPrice: TicketPriceEnum? = .all
+    @State private var selectTicketEnum: TicketPriceEnum?
+    @State private var selectPrice: ClosedRange<Int>?
     
     @State private var value: ClosedRange<Double> = 50_000...150_000
     let range: ClosedRange<Double> = 10_000...300_000
@@ -45,7 +47,7 @@ struct TotalSelectBottomSheetView: View {
     private let priceList = TicketPriceEnum.allCases
     
     private let allCity = CityCode.allCases
-    init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>, compltionPrice: Binding<ClosedRange<Int>?>) {
+    init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>, compltionPriceEnum: Binding<TicketPriceEnum?>, compltionPrice: Binding<ClosedRange<Int>?>) {
         self.selectPage = selected
         self._selecetedDate = State(initialValue: compltionDate.wrappedValue)
         self._compltionDate = compltionDate
@@ -53,7 +55,12 @@ struct TotalSelectBottomSheetView: View {
         self._selectedCity = State(initialValue: compltionCity.wrappedValue)
         self._compltionCity = compltionCity
         
+        self._selectTicketEnum = State(initialValue: compltionPriceEnum.wrappedValue)
+        self._compltionTicketEnum = compltionPriceEnum
+        
+        self._selectPrice = State(initialValue: compltionPrice.wrappedValue)
         self._compltionPrice = compltionPrice
+        
         self.segments =  ["날짜", "지역", "가격대"]
     }
     init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>) {
@@ -64,6 +71,7 @@ struct TotalSelectBottomSheetView: View {
         self._selectedCity = State(initialValue: compltionCity.wrappedValue)
         self._compltionCity = compltionCity
         
+        self._compltionTicketEnum = .constant(nil)
         self._compltionPrice = .constant(nil)
         self.segments =  ["날짜", "지역"]
     }
@@ -85,6 +93,8 @@ struct TotalSelectBottomSheetView: View {
                 // Action
                 selecetedDate = compltionDate
                 selectedCity = compltionCity
+                selectTicketEnum = compltionTicketEnum
+                selectPrice  = compltionPrice
                 
             } label: {
                 Rectangle()
@@ -99,11 +109,13 @@ struct TotalSelectBottomSheetView: View {
             Button {
                 compltionDate = selecetedDate
                 compltionCity = selectedCity
-                if selectPrice == nil {
-                    compltionPrice = Int(range.lowerBound)...Int(range.upperBound)
+                compltionTicketEnum = selectTicketEnum
+                if compltionTicketEnum == nil {
+                    compltionPrice = selectTicketEnum?.priceRange
                 } else {
-                    compltionPrice = selectPrice?.priceRange
+                    compltionPrice = Int(value.lowerBound)...Int(value.upperBound)
                 }
+                
                 dismiss()
                 
             } label: {
@@ -208,7 +220,7 @@ private extension TotalSelectBottomSheetView {
                         
                         Text(price.rawValue)
                             .font(.font16)
-                            .foregroundStyle(selectPrice == price ? Color.asGray400 : Color.asGray300)
+                            .foregroundStyle(selectTicketEnum == price ? Color.asGray400 : Color.asGray300)
                             .frame(maxWidth: 80)
                         
                     }
@@ -216,10 +228,11 @@ private extension TotalSelectBottomSheetView {
                     .padding(.vertical, 8)   // 상하 여백 추가
                     .background(
                         RoundedRectangle(cornerRadius: 30)
-                            .fill(selectPrice == price ? Color.asGray300 : Color.asGray400)
+                            .fill(selectTicketEnum == price ? Color.asGray300 : Color.asGray400)
                     )
                     .wrapToButton {
-                        selectPrice = price
+                        selectTicketEnum = price
+                        selectPrice = price.priceRange
                         //금액 선택 시 이벤트 구현
                     }
                 }
@@ -241,13 +254,14 @@ private extension TotalSelectBottomSheetView {
                         .fill(selectPrice == nil ? Color.asGray300 : Color.asGray400)
                 )
                 .wrapToButton {
-                    selectPrice = nil
+                    selectTicketEnum = nil
+//                    selectPrice = Int(value.lowerBound)...Int(value.upperBound)
                     //금액 선택 시 이벤트 구현
                 }
             }
             .hLeading()
             .padding(.leading, 24)
-            if selectPrice == nil {
+            if selectTicketEnum == nil {
                 sliderView()
                     .padding(.top, 36)
                     .padding(.horizontal, 24)
@@ -291,5 +305,5 @@ private extension TotalSelectBottomSheetView {
     
 }
 #Preview {
-    TotalSelectBottomSheetView(selected: 0, compltionDate: .constant(Date()), compltionCity: .constant(.busan), compltionPrice: .constant(0...1000))
+    TotalSelectBottomSheetView(selected: 0, compltionDate: .constant(Date()), compltionCity: .constant(.busan), compltionPriceEnum: .constant(nil), compltionPrice: .constant(0...1000))
 }

@@ -59,7 +59,7 @@ enum Sheet: Identifiable{
     case auth1(uid: String)
     case citySelect(binding: Binding<CityCode>, onDismiss: () -> Void)
     case dateAndPriceSelect(selected: Int, date: Binding<Date>, city: Binding<CityCode>)
-    case totalSelect(selected: Int, date: Binding<Date>, city: Binding<CityCode>, price: Binding<ClosedRange<Int>?>)
+    case totalSelect(selected: Int, date: Binding<Date>, city: Binding<CityCode>, ticketType: Binding<TicketPriceEnum?>, price: Binding<ClosedRange<Int>?>)
     var id: String {
         switch self {
         case .auth1: return "auth1"
