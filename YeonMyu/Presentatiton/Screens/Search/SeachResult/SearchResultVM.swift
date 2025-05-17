@@ -66,8 +66,7 @@ final class SearchResultVM: ViewModeltype {
                         selected: page,
                         date: dateBinding,
                         city: cityBinding,
-                        ticketType: .constant(nil),
-                        price: .constant(nil)
+                        price: .constant(0...Int.max)
                     ))
                 }.store(in: &cancellables)
         

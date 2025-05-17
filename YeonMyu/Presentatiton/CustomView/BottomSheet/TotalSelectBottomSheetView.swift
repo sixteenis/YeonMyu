@@ -15,21 +15,23 @@ enum TicketPriceEnum: String, CaseIterable {
     
     var priceRange: ClosedRange<Int> {
         switch self {
-        case .all: 0...100_000_000
+        case .all: 0...Int.max
         case .under30000: 0...30_000
         case .between30000And70000: 30_000...70_000
         case .between70000And100000: 70_000...100_000
         case .over100000: 100_000...100_000_000
-            
         }
+    }
+    static func getType(_ value: ClosedRange<Int>) -> TicketPriceEnum? {
+        let result = Self.allCases.filter{ $0.priceRange == value }.first
+        return result
     }
 }
 struct TotalSelectBottomSheetView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var compltionDate: Date
     @Binding var compltionCity: CityCode
-    @Binding var compltionTicketEnum: TicketPriceEnum?
-    @Binding var compltionPrice: ClosedRange<Int>?
+    @Binding var compltionPrice: ClosedRange<Int>
     
     @State private var selecetedDate: Date
     @State private var selectedCity: CityCode
@@ -48,7 +50,7 @@ struct TotalSelectBottomSheetView: View {
     private let priceList = TicketPriceEnum.allCases
     
     private let allCity = CityCode.allCases
-    init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>, compltionPriceEnum: Binding<TicketPriceEnum?>, compltionPrice: Binding<ClosedRange<Int>?>) {
+    init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>, compltionPrice: Binding<ClosedRange<Int>>) {
         self.selectPage = selected
         if compltionDate.wrappedValue == Date.noSelect() {
             self._selecetedDate = State(initialValue: Date())
@@ -60,9 +62,9 @@ struct TotalSelectBottomSheetView: View {
         self._selectedCity = State(initialValue: compltionCity.wrappedValue)
         self._compltionCity = compltionCity
         
-        self._selectTicketEnum = State(initialValue: compltionPriceEnum.wrappedValue)
-        self._compltionTicketEnum = compltionPriceEnum
-        
+        let ticketEnum = TicketPriceEnum.getType(compltionPrice.wrappedValue)
+        self._selectTicketEnum = State(initialValue: ticketEnum)
+        if ticketEnum == nil { self._value = State(initialValue: Double(compltionPrice.wrappedValue.lowerBound)...Double(compltionPrice.wrappedValue.upperBound)) }
         self._selectPrice = State(initialValue: compltionPrice.wrappedValue)
         self._compltionPrice = compltionPrice
         
@@ -80,8 +82,7 @@ struct TotalSelectBottomSheetView: View {
         self._selectedCity = State(initialValue: compltionCity.wrappedValue)
         self._compltionCity = compltionCity
         
-        self._compltionTicketEnum = .constant(nil)
-        self._compltionPrice = .constant(nil)
+        self._compltionPrice = .constant(0...0)
         self.segments =  ["날짜", "지역"]
     }
     var body: some View {
@@ -103,8 +104,7 @@ struct TotalSelectBottomSheetView: View {
                 // Action
                 selecetedDate = Date()
                 selectedCity = .all
-                selectTicketEnum = compltionTicketEnum
-                selectPrice  = compltionPrice
+                selectTicketEnum = .all
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         isReset = true
@@ -130,9 +130,9 @@ struct TotalSelectBottomSheetView: View {
                 }
                 
                 compltionCity = selectedCity
-                compltionTicketEnum = selectTicketEnum
-                if compltionTicketEnum == nil {
-                    compltionPrice = selectTicketEnum?.priceRange
+                
+                if selectTicketEnum != nil {
+                    compltionPrice = selectTicketEnum!.priceRange
                 } else {
                     compltionPrice = Int(value.lowerBound)...Int(value.upperBound)
                 }
@@ -266,18 +266,18 @@ private extension TotalSelectBottomSheetView {
                 HStack(spacing: 4) {
                     Image.asSlider
                         .resizable()
-                        .foregroundStyle(selectPrice == nil ? Color.asGray400 : Color.asGray300)
+                        .foregroundStyle(selectTicketEnum == nil ? Color.asGray400 : Color.asGray300)
                         .frame(width: 20, height: 20)
                     Text("직접 선택")
                         .font(.font16)
-                        .foregroundStyle(selectPrice == nil ? Color.asGray400 : Color.asGray300)
+                        .foregroundStyle(selectTicketEnum == nil ? Color.asGray400 : Color.asGray300)
                     
                 }
                 .padding(.horizontal, 16) // 좌우 여백 추가
                 .padding(.vertical, 8)   // 상하 여백 추가
                 .background(
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(selectPrice == nil ? Color.asGray300 : Color.asGray400)
+                        .fill(selectTicketEnum == nil ? Color.asGray300 : Color.asGray400)
                 )
                 .wrapToButton {
                     selectTicketEnum = nil
@@ -310,7 +310,7 @@ private extension TotalSelectBottomSheetView {
             }
             .padding(.bottom, 10)
             
-            ItsukiSlider(value: $value, in: range, step: 1000, barStyle: (18, 10), fillBackground: Color.asGray400, fillTrack: Color.asPurple200, firstThumb: {
+            ItsukiSlider(value: $value, in: range, step: 10000, barStyle: (18, 10), fillBackground: Color.asGray400, fillTrack: Color.asPurple200, firstThumb: {
                 Circle()
                     .foregroundStyle(.white)
                     .frame(width: 28, height: 28)
@@ -331,5 +331,5 @@ private extension TotalSelectBottomSheetView {
     
 }
 #Preview {
-    TotalSelectBottomSheetView(selected: 0, compltionDate: .constant(Date()), compltionCity: .constant(.busan), compltionPriceEnum: .constant(nil), compltionPrice: .constant(0...1000))
+    TotalSelectBottomSheetView(selected: 0, compltionDate: .constant(Date()), compltionCity: .constant(.busan), compltionPrice: .constant(0...1000))
 }

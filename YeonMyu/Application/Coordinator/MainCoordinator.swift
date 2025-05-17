@@ -92,8 +92,8 @@ final class MainCoordinator: CoordinatorProtocol {
                 .presentationDetents([.fraction(sheet.detentSize)])
                 .onDisappear {
                 }
-        case .totalSelect(let selected, let date, let city, let priceType, let price):
-            TotalSelectBottomSheetView(selected: selected, compltionDate: date, compltionCity: city, compltionPriceEnum: priceType,compltionPrice: price)
+        case .totalSelect(let selected, let date, let city, let price):
+            TotalSelectBottomSheetView(selected: selected, compltionDate: date, compltionCity: city, compltionPrice: price)
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.fraction(sheet.detentSize)]) 
                 .onDisappear {

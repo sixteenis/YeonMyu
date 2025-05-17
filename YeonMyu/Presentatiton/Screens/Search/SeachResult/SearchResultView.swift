@@ -13,8 +13,7 @@ struct SearchResultView: View {
     @State private var searchText: String
     @State private var searchCity: CityCode
     @State private var searchDate: Date
-    @State private var searchTicektType: TicketPriceEnum? = nil
-    @State private var searchPrice: ClosedRange<Int>? = nil
+    @State private var searchPrice: ClosedRange<Int> = 0...Int.max
     
     
     init(searchText: String, date: Date, city: CityCode) {
@@ -38,28 +37,29 @@ private extension SearchResultView {
             Button {
                 // Action
                 print("???")
-                coordinator.presentSheet(.totalSelect(selected: 0, date: $searchDate, city: $searchCity, ticketType: $searchTicektType, price: $searchPrice))
+                coordinator.presentSheet(.totalSelect(selected: 0, date: $searchDate, city: $searchCity, price: $searchPrice))
             } label: {
                 Text("??")
             }
             HStack {
                 optionView(searchDate.asTrasnFormyy_mm_dd())
                     .wrapToButton {
-                        coordinator.presentSheet(.totalSelect(selected: 0, date: $searchDate, city: $searchCity, ticketType: $searchTicektType, price: $searchPrice))
+                        coordinator.presentSheet(.totalSelect(selected: 0, date: $searchDate, city: $searchCity, price: $searchPrice))
                     }
                 optionView(searchCity.rawValue)
                     .wrapToButton {
-                        coordinator.presentSheet(.totalSelect(selected: 1, date: $searchDate, city: $searchCity, ticketType: $searchTicektType, price: $searchPrice))
+                        coordinator.presentSheet(.totalSelect(selected: 1, date: $searchDate, city: $searchCity, price: $searchPrice))
                     }
-                if searchPrice == nil && searchTicektType == nil {
-                    optionView("가격대")
+                
+                if TicketPriceEnum.getType(self.searchPrice) != nil{
+                    optionView(TicketPriceEnum.getType(self.searchPrice)!.rawValue)
                         .wrapToButton {
-                            coordinator.presentSheet(.totalSelect(selected: 2, date: $searchDate, city: $searchCity, ticketType: $searchTicektType, price: $searchPrice))
+                            coordinator.presentSheet(.totalSelect(selected: 2, date: $searchDate, city: $searchCity, price: $searchPrice))
                         }
                 } else {
-                    optionView(searchTicektType == nil ? "\(searchPrice?.lowerBound.formatted() ?? 0.formatted())원~\(searchPrice?.upperBound.formatted() ?? 0.formatted())원" : searchTicektType?.rawValue ?? "" )
+                    optionView("\(searchPrice.lowerBound / 10_000)만원~\(searchPrice.upperBound / 10_000)만원")
                         .wrapToButton {
-                            coordinator.presentSheet(.totalSelect(selected: 2, date: $searchDate, city: $searchCity, ticketType: $searchTicektType, price: $searchPrice))
+                            coordinator.presentSheet(.totalSelect(selected: 2, date: $searchDate, city: $searchCity, price: $searchPrice))
                         }
                 }
                 
