@@ -17,7 +17,7 @@ struct AuthStep1: View {
         GridItem(.fixed(CGFloat(80)), spacing: 8),
         GridItem(.fixed(CGFloat(80)), spacing: 8),
     ]
-    private let allCity = CityCode.allCases
+    private let allCity = CityCode.allCases.filter { $0 != .all }
     
     var body: some View {
         NavigationView {

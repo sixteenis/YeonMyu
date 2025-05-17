@@ -14,4 +14,14 @@ extension Date {
         formatter.dateFormat = "yy/MM/dd"
         return formatter.string(from: self)
     }
+    //날짜 선택했는지 판별
+    func checkSelect() -> Bool {
+        return self != Date.noSelect()
+    }
+    //날짜 선택 안할 시
+    static func noSelect() -> Date {
+        let calendar = Calendar.current
+        let components = DateComponents(year: 1, month: 1, day: 1)
+        return calendar.date(from: components)!
+    }
 }

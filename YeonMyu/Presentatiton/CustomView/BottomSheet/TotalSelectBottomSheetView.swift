@@ -49,7 +49,11 @@ struct TotalSelectBottomSheetView: View {
     private let allCity = CityCode.allCases
     init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>, compltionPriceEnum: Binding<TicketPriceEnum?>, compltionPrice: Binding<ClosedRange<Int>?>) {
         self.selectPage = selected
-        self._selecetedDate = State(initialValue: compltionDate.wrappedValue)
+        if compltionDate.wrappedValue == Date.noSelect() {
+            self._selecetedDate = State(initialValue: Date())
+        } else {
+            self._selecetedDate = State(initialValue: compltionDate.wrappedValue)
+        }
         self._compltionDate = compltionDate
         
         self._selectedCity = State(initialValue: compltionCity.wrappedValue)
@@ -65,7 +69,11 @@ struct TotalSelectBottomSheetView: View {
     }
     init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>) {
         self.selectPage = selected
-        self._selecetedDate = State(initialValue: compltionDate.wrappedValue)
+        if compltionDate.wrappedValue == Date.noSelect() {
+            self._selecetedDate = State(initialValue: Date())
+        } else {
+            self._selecetedDate = State(initialValue: compltionDate.wrappedValue)
+        }
         self._compltionDate = compltionDate
         
         self._selectedCity = State(initialValue: compltionCity.wrappedValue)
@@ -87,12 +95,13 @@ struct TotalSelectBottomSheetView: View {
         default: EmptyView().frame(height: sheetHeight)
         }
         
-        //확인 버튼
+        
         HStack(spacing: 0) {
+            //초기화 버튼
             Button {
                 // Action
-                selecetedDate = compltionDate
-                selectedCity = compltionCity
+                selecetedDate = Date()
+                selectedCity = .all
                 selectTicketEnum = compltionTicketEnum
                 selectPrice  = compltionPrice
                 
@@ -106,6 +115,7 @@ struct TotalSelectBottomSheetView: View {
                             .font(.boldFont18)
                     }
             }
+            //확인 버튼
             Button {
                 compltionDate = selecetedDate
                 compltionCity = selectedCity

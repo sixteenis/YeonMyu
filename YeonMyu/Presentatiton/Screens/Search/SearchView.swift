@@ -76,11 +76,11 @@ private extension SearchView {
                 HStack {
                     Image.calendarIcon
                         .resizable()
-                        .foregroundStyle(Color.asGray300)
+                        .foregroundStyle(vm.output.selectedDate.checkSelect() ? Color.asFont: Color.asGray300).foregroundStyle(Color.asGray300)
                         .frame(width: 24, height: 24)
-                    asText(vm.output.selectedDate.asTrasnFormyy_mm_dd())
+                    asText(vm.output.selectedDate.checkSelect() ? vm.output.selectedDate.asTrasnFormyy_mm_dd() : "날짜 선택")
                         .font(.font14)
-                        .foregroundStyle(Color.asGray300)
+                        .foregroundStyle(vm.output.selectedDate.checkSelect() ? Color.asFont: Color.asGray300)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 14)
@@ -95,11 +95,11 @@ private extension SearchView {
                 HStack {
                     Image.markerIcon
                         .resizable()
-                        .foregroundStyle(Color.asGray300)
+                        .foregroundStyle(vm.output.selectedCity == .all ? Color.asGray300 : Color.asFont)
                         .frame(width: 24, height: 24)
                     asText(vm.output.selectedCity.rawValue)
                         .font(.font14)
-                        .foregroundStyle(Color.asGray300)
+                        .foregroundStyle(vm.output.selectedCity == .all ? Color.asGray300 : Color.asFont)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.trailing, 14)

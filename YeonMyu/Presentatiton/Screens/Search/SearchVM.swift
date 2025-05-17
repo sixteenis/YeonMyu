@@ -43,8 +43,8 @@ final class SearchVM: ViewModeltype {
     }
     struct Output {
         var seachText = "" //검색어
-        var selectedDate = Date() //검색 날짜
-        var selectedCity: CityCode = UserManager.shared.getUserData().getCityCode() //검색 지역
+        var selectedDate = Date.noSelect() //검색 날짜
+        var selectedCity: CityCode = .all
         var seachHistories: [String] = [] //검색 기록
         var top10List: [SimplePostModel] = [] //top10 공연 정보
     }
