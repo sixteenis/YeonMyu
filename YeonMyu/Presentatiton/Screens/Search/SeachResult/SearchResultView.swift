@@ -10,84 +10,111 @@ import SwiftUI
 
 struct SearchResultView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
-    @State private var searchText: String
-    @State private var searchCity: CityCode
-    @State private var searchDate: Date
-    @State private var searchPrice: ClosedRange<Int> = 0...Int.max
-    
+    @StateObject private var vm: SearchResultVM
     
     init(searchText: String, date: Date, city: CityCode) {
-        self.searchText = searchText
-        self.searchCity = city
-        self.searchDate = date
-        
+        _vm = StateObject(wrappedValue: SearchResultVM(searchText: searchText, selectedDate: date, selectedCity: city))
     }
     
 }
 
 extension SearchResultView {
     var body: some View {
-        contentView()
+        content()
+            .onAppear {
+                vm.coordinator = coordinator
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    searchView()
+                }
+            }
     }
 }
 private extension SearchResultView {
-    func contentView() -> some View {
+    func content() -> some View {
         VStack {
-            Text(searchText)
-            Button {
-                // Action
-                print("???")
-                coordinator.presentSheet(.totalSelect(selected: 0, date: $searchDate, city: $searchCity, price: $searchPrice))
-            } label: {
-                Text("??")
-            }
-            HStack {
-                optionView(searchDate.asTrasnFormyy_mm_dd())
-                    .wrapToButton {
-                        coordinator.presentSheet(.totalSelect(selected: 0, date: $searchDate, city: $searchCity, price: $searchPrice))
-                    }
-                optionView(searchCity.rawValue)
-                    .wrapToButton {
-                        coordinator.presentSheet(.totalSelect(selected: 1, date: $searchDate, city: $searchCity, price: $searchPrice))
-                    }
-                
-                if TicketPriceEnum.getType(self.searchPrice) != nil{
-                    optionView(TicketPriceEnum.getType(self.searchPrice)!.rawValue)
-                        .wrapToButton {
-                            coordinator.presentSheet(.totalSelect(selected: 2, date: $searchDate, city: $searchCity, price: $searchPrice))
-                        }
-                } else {
-                    optionView("\(searchPrice.lowerBound / 10_000)만원~\(searchPrice.upperBound / 10_000)만원")
-                        .wrapToButton {
-                            coordinator.presentSheet(.totalSelect(selected: 2, date: $searchDate, city: $searchCity, price: $searchPrice))
-                        }
-                }
-                
-            }
+            CustomSegmentedView(segments: vm.output.playCategorys.map { $0.title},
+                                currentPage: Binding<Int>(
+                                    get: { vm.output.playCurrentPage},
+                                    set: { vm.input.selectPlayCurrentPage.send($0)}
+                                )
+            )
+            optionsView()
         }
     }
 }
 private extension SearchResultView {
-    func optionView(_ title: String) -> some View {
+    func searchView() -> some View {
+        RoundedRectangle(cornerRadius: 30)
+            .fill(Color.asGray500)
+            .frame(width: 265,height: 40) // 외부 프레임 재지정
+            .overlay(
+                HStack(spacing: 0) {
+                    TextField("검색어를 입력해주세요", text: $vm.output.seachText)
+                        .font(.font14)
+                        .foregroundStyle(Color.asGray300)
+                        .padding(.horizontal)
+                        .frame(width: 207, alignment: .leading)
+                        .textFieldStyle(PlainTextFieldStyle())
+                    
+                    Image.search
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.asGray300)
+                        .padding(.leading, 14)
+                        .padding(.trailing, 10)
+                        .hTrailing()
+                    
+                }
+            )
+        
+    }
+    //검색 설정 옵션 뷰
+    func optionsView() -> some View {
+        HStack {
+            optionView(vm.output.selectedDate.checkSelect() ? vm.output.selectedDate.asTrasnFormyy_mm_dd() : "날짜", isCheck: vm.output.selectedDate.checkSelect())
+                .wrapToButton {
+                    vm.input.presentBottomSheet.send(0)
+                }
+            optionView(vm.output.selectedCity != .all ? vm.output.selectedCity.rawValue : "지역", isCheck: vm.output.selectedCity != .all)
+                .wrapToButton {
+                    vm.input.presentBottomSheet.send(1)
+                }
+            
+            if TicketPriceEnum.getType(vm.output.selectedPrice) != nil{
+                optionView(TicketPriceEnum.getType(vm.output.selectedPrice)! != .all ? TicketPriceEnum.getType(vm.output.selectedPrice)!.rawValue : "가격", isCheck: TicketPriceEnum.getType(vm.output.selectedPrice)! != .all)
+                    .wrapToButton {
+                        vm.input.presentBottomSheet.send(2)
+                    }
+            } else {
+                optionView("\(vm.output.selectedPrice.lowerBound / 10_000)만원~\(vm.output.selectedPrice.upperBound / 10_000)만원", isCheck: true)
+                    .wrapToButton {
+                        vm.input.presentBottomSheet.send(2)
+                    }
+            }
+            
+        }
+    }
+    func optionView(_ title: String, isCheck: Bool) -> some View {
         HStack(spacing: 0) {
             asText(title)
             Image.downArrow
                 .resizable()
-                .frame(width: 20, height: 20)
-                .foregroundStyle(Color.asGray300)
-//                .rotationEffect(.degrees(isAreSelectedPresented ? 180 : 0)) // 180도 회전
-//                .animation(.easeInOut(duration: 0.15), value: isAreSelectedPresented) // 애니메이션 적용
+                .frame(width: 18, height: 18)
+                .foregroundStyle(isCheck ? Color.asBlack : Color.asGray300)
                 .padding(.leading, 2)
                 .padding(.trailing, 4)
         }
-        .font(.boldFont20)
-        .foregroundStyle(Color.asGray300)
+        .frame(height: 25)
+        .font(.font16)
+        .foregroundStyle(isCheck ? Color.asBlack : Color.asGray300)
         .padding(.leading, 10)
         .padding(.vertical, 3)
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.asGray500)
-                .stroke(Color.asGray300, lineWidth: 1.5)
+                .fill(Color.clear)
+                .stroke(isCheck ? Color.asBlack : Color.asGray300, lineWidth: 1.5)
         )
     }
 }

@@ -78,7 +78,7 @@ private extension SearchView {
                         .resizable()
                         .foregroundStyle(vm.output.selectedDate.checkSelect() ? Color.asFont: Color.asGray300).foregroundStyle(Color.asGray300)
                         .frame(width: 24, height: 24)
-                    asText(vm.output.selectedDate.checkSelect() ? vm.output.selectedDate.asTrasnFormyy_mm_dd() : "날짜 선택")
+                    asText(vm.output.selectedDate.checkSelect() ? vm.output.selectedDate.asTrasnFormyy_mm_dd() : "날짜")
                         .font(.font14)
                         .foregroundStyle(vm.output.selectedDate.checkSelect() ? Color.asFont: Color.asGray300)
                 }
@@ -97,7 +97,7 @@ private extension SearchView {
                         .resizable()
                         .foregroundStyle(vm.output.selectedCity == .all ? Color.asGray300 : Color.asFont)
                         .frame(width: 24, height: 24)
-                    asText(vm.output.selectedCity.rawValue)
+                    asText(vm.output.selectedCity == .all ? "지역" : vm.output.selectedCity.rawValue)
                         .font(.font14)
                         .foregroundStyle(vm.output.selectedCity == .all ? Color.asGray300 : Color.asFont)
                 }
