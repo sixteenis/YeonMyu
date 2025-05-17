@@ -15,7 +15,7 @@ enum TicketPriceEnum: String, CaseIterable {
     
     var priceRange: ClosedRange<Int> {
         switch self {
-        case .all: 0...0
+        case .all: 0...100_000_000
         case .under30000: 0...30_000
         case .between30000And70000: 30_000...70_000
         case .between70000And100000: 70_000...100_000
@@ -37,6 +37,7 @@ struct TotalSelectBottomSheetView: View {
     @State private var selectPrice: ClosedRange<Int>?
     
     @State private var value: ClosedRange<Double> = 50_000...150_000
+    @State private var isReset = false
     let range: ClosedRange<Double> = 10_000...300_000
     let segments: [String]
     
@@ -105,6 +106,9 @@ struct TotalSelectBottomSheetView: View {
                 selectTicketEnum = compltionTicketEnum
                 selectPrice  = compltionPrice
                 
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        isReset = true
+                }
             } label: {
                 Rectangle()
                     .fill(Color.asGray400)
@@ -117,7 +121,14 @@ struct TotalSelectBottomSheetView: View {
             }
             //확인 버튼
             Button {
-                compltionDate = selecetedDate
+                print(self.isReset)
+                print("??")
+                if isReset {
+                    compltionDate = .noSelect()
+                } else {
+                    compltionDate = selecetedDate
+                }
+                
                 compltionCity = selectedCity
                 compltionTicketEnum = selectTicketEnum
                 if compltionTicketEnum == nil {
@@ -142,6 +153,11 @@ struct TotalSelectBottomSheetView: View {
         .frame(height: 50)
         .padding(.horizontal, 22)
         .vBottom()
+        .onChange(of: selecetedDate) { oldValue, newValue in
+            print(newValue)
+            print(self.isReset)
+            self.isReset = false
+        }
         
     }
 }
@@ -294,7 +310,7 @@ private extension TotalSelectBottomSheetView {
             }
             .padding(.bottom, 10)
             
-            ItsukiSlider(value: $value, in: range, step: 100, barStyle: (18, 10), fillBackground: Color.asGray400, fillTrack: Color.asPurple200, firstThumb: {
+            ItsukiSlider(value: $value, in: range, step: 1000, barStyle: (18, 10), fillBackground: Color.asGray400, fillTrack: Color.asPurple200, firstThumb: {
                 Circle()
                     .foregroundStyle(.white)
                     .frame(width: 28, height: 28)
