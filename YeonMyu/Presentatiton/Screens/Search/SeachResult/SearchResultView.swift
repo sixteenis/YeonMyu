@@ -34,17 +34,57 @@ extension SearchResultView {
 private extension SearchResultView {
     func content() -> some View {
         VStack {
-            CustomSegmentedView(segments: vm.output.playCategorys.map { $0.title},
-                                currentPage: Binding<Int>(
-                                    get: { vm.output.playCurrentPage},
-                                    set: { vm.input.selectPlayCurrentPage.send($0)}
-                                )
-            )
+            stickyHeader()
+                .padding(.vertical, 12)
             optionsView()
+                .padding(.horizontal, 22)
+                .hLeading()
+            HStack {
+                Text("100건")
+                Spacer()
+                menuView()
+            }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 8)
+            scrollView([SimplePostModel(postId: "", postURL: "", postType: "", postTitle: "", startDate: "", endDate: "", location: "")])
+            Spacer()
         }
     }
 }
 private extension SearchResultView {
+    func stickyHeader() -> some View {
+        VStack {
+            ZStack(alignment: .leading) {
+                HStack(spacing: 0) {
+                    ForEach(vm.output.playCategorys.indices, id: \.self) { index in
+                        Button {
+                            vm.input.selectPlayCurrentPage.send(index)
+                        } label: {
+                            ZStack {
+                                Text(vm.output.playCategorys[index].title)
+                                    .font(.boldFont16)
+                                    .foregroundColor(vm.output.playCurrentPage == index ? Color.asGray100 : Color.asGray300)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundStyle(Color.asBorderGrayLine)
+                                    .vBottom()
+                            }
+                            
+                        }
+                    }
+                }
+                Rectangle()
+                    .frame(width: UIScreen.main.bounds.width / CGFloat(vm.output.playCategorys.count), height: 2)
+                    .foregroundStyle(Color.asGray100)
+                    .animation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0.2), value: vm.output.playCurrentPage)
+                    .offset(x: CGFloat(vm.output.playCurrentPage) * (UIScreen.main.bounds.width / CGFloat(vm.output.playCategorys.count)))
+                    .vBottom()
+            }
+            .frame(height: 40)
+        }
+        .background(Color.asWhite)
+    }
     func searchView() -> some View {
         RoundedRectangle(cornerRadius: 30)
             .fill(Color.asGray500)
@@ -117,4 +157,45 @@ private extension SearchResultView {
                 .stroke(isCheck ? Color.asBlack : Color.asGray300, lineWidth: 1.5)
         )
     }
+    func menuView() -> some View {
+        Menu("인기순") {
+            Button {
+                // Action
+                
+            } label: {
+                Text("인기순")
+            }
+            Button {
+                // Action
+                
+            } label: {
+                Text("최신 개봉순")
+            }
+            Button {
+                // Action
+                
+            } label: {
+                Text("마감일 빠른순")
+            }
+            Button {
+                // Action
+                
+            } label: {
+                Text("마감일 늦은순")
+            }
+        }
+
+    }
+    func scrollView(_ data: [SimplePostModel]) -> some View {
+        VStack {
+            ForEach(data, id: \.id) { post in
+                CustomVerticalPlayView(post: post)
+                    .padding([.leading, .bottom], 24)
+                    .wrapToButton {
+                        
+                    }
+            }
+        }
+    }
+
 }

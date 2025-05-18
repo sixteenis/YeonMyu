@@ -38,6 +38,7 @@ final class SearchVM: ViewModeltype {
     struct Input {
         let presentBottomSheet = PassthroughSubject<Int,Never>() //날짜, 지역 클릭시 바텀시트
         let addSearchTerm = PassthroughSubject<String, Never>() //검색어 검색 시
+        let tapSearchTerm = PassthroughSubject<String, Never>()
         let deleteSearchTerm = PassthroughSubject<String, Never>() //검색 기록 삭제 시
         let tapTop10Item = PassthroughSubject<String, Never>() // top10 공연 클릭 시
     }
@@ -76,6 +77,12 @@ final class SearchVM: ViewModeltype {
                 coordinator?.push(.searchResult(search: term, date: output.selectedDate, city: output.selectedCity))
             }.store(in: &cancellables)
         
+        input.tapSearchTerm
+            .sink { [weak self] term in
+                guard let self else { return }
+                self.addSearchTerm(term) //검색어 추가
+                coordinator?.push(.searchResult(search: term, date: Date.noSelect(), city: .all))
+            }.store(in: &cancellables)
         input.deleteSearchTerm
             .sink { [weak self] term in
                 guard let self else { return }

@@ -149,7 +149,7 @@ private extension SearchView {
                             .stroke(Color.asGray300, lineWidth: 1)
                     )
                     .wrapToButton {
-                        vm.input.addSearchTerm.send(text)
+                        vm.input.tapSearchTerm.send(text)
                     }
                 }
             }
