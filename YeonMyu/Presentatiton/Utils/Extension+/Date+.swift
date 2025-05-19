@@ -14,7 +14,14 @@ extension Date {
         formatter.dateFormat = "yy/MM/dd"
         return formatter.string(from: self)
     }
-    //날짜 선택했는지 판별
+    // yyyyMMdd 형식으로 반환 네트워크 전용
+    func asTrasnFormyyyyMMdd() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        if formatter.string(from: self) == "00010101" { return "" }
+        return formatter.string(from: self)
+    }
+    //날짜 선택했는지 판별 true: 날짜 선택함  false: 날짜 미선택
     func checkSelect() -> Bool {
         return self != Date.noSelect()
     }

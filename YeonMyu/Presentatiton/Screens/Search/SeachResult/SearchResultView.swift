@@ -46,8 +46,8 @@ private extension SearchResultView {
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 8)
-            scrollView([SimplePostModel(postId: "", postURL: "", postType: "", postTitle: "", startDate: "", endDate: "", location: "")])
-            Spacer()
+            
+            scrollView(vm.output.searchPosts)
         }
     }
 }
@@ -187,7 +187,7 @@ private extension SearchResultView {
 
     }
     func scrollView(_ data: [SimplePostModel]) -> some View {
-        VStack {
+        ScrollView {
             ForEach(data, id: \.id) { post in
                 CustomVerticalPlayView(post: post)
                     .padding([.leading, .bottom], 24)

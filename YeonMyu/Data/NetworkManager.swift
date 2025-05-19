@@ -58,6 +58,28 @@ final class NetworkManager {
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw PerformanceError.invalidResponse}
         return XMLPerformanceParser().parse(data: data)
     }
+    // MARK: - 여러개의 공연 데이터 통신 (시작일 + 종료일)
+    func requestPerformance(stdate: String, eddate: String, cateCode: String, area: String?,title: String, page: Int?, openrun: String?, prfstate: String?, maxOnePage: String = "10") async throws -> [PerformanceDTO] {
+        let urlString = APIKey.performanceURL
+        var urlComponents = URLComponents(string: urlString)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "service", value: APIKey.key),
+            URLQueryItem(name: "stdate", value: stdate),
+            URLQueryItem(name: "eddate", value: eddate),
+            URLQueryItem(name: "cpage", value: String(page ?? 1)),
+            URLQueryItem(name: "rows", value: maxOnePage), //페이지당 목록 수
+            URLQueryItem(name: "shcate", value: cateCode),
+            URLQueryItem(name: "shprfnm", value: title),
+            URLQueryItem(name: "signgucode", value: area),
+        ]
+        guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
+        request.httpMethod = "GET"
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw PerformanceError.invalidResponse}
+        return XMLPerformanceParser().parse(data: data)
+    }
 
     // MARK: - 한개의 공연의 디테일한 정보 통신
     func requestDetailPerformance(performanceId id: String) async throws -> DetailPerformanceDTO {
