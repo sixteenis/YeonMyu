@@ -24,11 +24,18 @@ final class SearchResultVM: ViewModeltype {
         )
         
         transform()
+        Task {
+            let posts = try await self.fetchSearchPosts(term: searchText, date: selectedDate, cityCode: selectedCity)
+            await MainActor.run {
+                self.output.searchPosts = self.removeDuplicatePosts(posts)
+            }
+        }
         bindOutputChanges()
     }
     struct Input {
         let presentBottomSheet = PassthroughSubject<Int,Never>() //날짜, 지역, 금액 클릭시 바텀시트
         let selectPlayCurrentPage = PassthroughSubject<Int, Never>()
+        let tapPost = PassthroughSubject<String, Never>() //포스터 클릭 시
     }
     struct Output {
         var seachText: String
@@ -71,6 +78,12 @@ final class SearchResultVM: ViewModeltype {
                 guard let self else { return }
                 self.output.playCurrentPage = index
             }.store(in: &cancellables)
+        
+        input.tapPost
+            .sink { [weak self] id in
+                guard let self else { return }
+                coordinator?.push(.playDetail(id: id))
+            }.store(in: &cancellables)
     }
     private func bindOutputChanges() {
         Publishers.CombineLatest4(
@@ -80,6 +93,7 @@ final class SearchResultVM: ViewModeltype {
                     $output.map(\.selectedPrice).removeDuplicates()
                 )
                 .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+                .dropFirst(1)
                 .sink { [weak self] (searchText, selectedDate, selectedCity, selectedPrice) in
                     guard let self else { return }
                     do {
@@ -100,7 +114,7 @@ private extension SearchResultVM {
 // MARK: - 네트워크 부분
 private extension SearchResultVM {
     func fetchSearchPosts(term: String, date: Date, cityCode: CityCode) async throws -> [SimplePostModel] {
-        if date.checkSelect() { return try await fetchSearchPosts(term: term, date: date, cityCode: cityCode)}
+        if date.checkSelect() { return try await fetchSearchResult(term: term, date: date, cityCode: cityCode)}
         return try await fetchAllDaySearchResult(term: term, cityCode: cityCode)
     }
     //검색 결과 공연정보
@@ -133,37 +147,47 @@ private extension SearchResultVM {
     //검색 결과 날짜 미선택 시
     func fetchAllDaySearchResult(term: String, cityCode: CityCode) async throws -> [SimplePostModel] {
         var data: [SimplePostModel] = []
-        try await withThrowingTaskGroup(of: [SimplePostModel].self) { group in
+        let min = -150
+        let max = 60
+
+        try await withThrowingTaskGroup(of: [SimplePostModel].self) { outerGroup in
             for cate in PrfCate.all.code {
-                let min = -210
-                let max = 30
-                for i in stride(from: min, to: max, by: 30) {
-                    print(i, i + 30)
-                    print("-------")
-                    group.addTask {
-                        let result = try await NetworkManager.shared.requestPerformance(
-                            stdate: String.getDateRelativeToToday(daysOffset: i),
-                            eddate: String.getDateRelativeToToday(daysOffset: i + 30),
-                            cateCode: cate,
-                            area: cityCode.code,
-                            title: term,
-                            page: nil,
-                            openrun: nil,
-                            prfstate: nil,
-                            maxOnePage: "1"
-                        )
-                        return result.map { $0.transformSimplePostModel() }
+                outerGroup.addTask {
+                    var localData: [SimplePostModel] = []
+
+                    try await withThrowingTaskGroup(of: [SimplePostModel].self) { innerGroup in
+                        for i in stride(from: min, to: max, by: 30) {
+                            innerGroup.addTask {
+                                let result = try await NetworkManager.shared.requestPerformance(
+                                    stdate: String.getDateRelativeToToday(daysOffset: i),
+                                    eddate: String.getDateRelativeToToday(daysOffset: i + 30),
+                                    cateCode: cate,
+                                    area: cityCode.code,
+                                    title: term,
+                                    page: nil,
+                                    openrun: nil,
+                                    prfstate: nil,
+                                    maxOnePage: "30"
+                                )
+                                print("[\(cate)] \(String.getDateRelativeToToday(daysOffset: i)) ~ \(String.getDateRelativeToToday(daysOffset: i + 30))")
+                                return result.map { $0.transformSimplePostModel() }
+                            }
+                        }
+
+                        for try await result in innerGroup {
+                            localData.append(contentsOf: result)
+                        }
                     }
+
+                    return localData
                 }
-                
             }
-            
-            for try await result in group {
+
+            for try await result in outerGroup {
                 data.append(contentsOf: result)
             }
         }
-        print(data)
-        print("날짜 미선택 시 결과값")
+
         return data
     }
     //중복 포스터 제거
@@ -172,3 +196,19 @@ private extension SearchResultVM {
     }
 }
 
+//group.addTask {
+//    let result = try await NetworkManager.shared.requestPerformance(
+//        stdate: String.getDateRelativeToToday(daysOffset: i),
+//        eddate: String.getDateRelativeToToday(daysOffset: i + 30),
+//        cateCode: PrfCate.play.code.first!,
+//        area: cityCode.code,
+//        title: term,
+//        page: nil,
+//        openrun: nil,
+//        prfstate: nil,
+//        maxOnePage: "1"
+//    )
+//    print(i, i + 30)
+//    print("-----\(PrfCate.play.code.first!)-----")
+//    return result.map { $0.transformSimplePostModel() }
+//}

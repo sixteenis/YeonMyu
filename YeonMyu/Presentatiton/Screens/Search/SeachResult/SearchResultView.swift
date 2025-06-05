@@ -40,7 +40,7 @@ private extension SearchResultView {
                 .padding(.horizontal, 22)
                 .hLeading()
             HStack {
-                Text("100건")
+                Text(vm.output.searchPosts.count.formatted() + "건")
                 Spacer()
                 menuView()
             }
@@ -157,6 +157,7 @@ private extension SearchResultView {
                 .stroke(isCheck ? Color.asBlack : Color.asGray300, lineWidth: 1.5)
         )
     }
+    //순서정렬 뷰
     func menuView() -> some View {
         Menu("인기순") {
             Button {
@@ -186,14 +187,18 @@ private extension SearchResultView {
         }
 
     }
+    
+    //검색 결과 포스터 스크롤뷰
     func scrollView(_ data: [SimplePostModel]) -> some View {
         ScrollView {
-            ForEach(data, id: \.id) { post in
-                CustomVerticalPlayView(post: post)
-                    .padding([.leading, .bottom], 24)
-                    .wrapToButton {
-                        
-                    }
+            LazyVStack {
+                ForEach(data, id: \.id) { post in
+                    CustomVerticalPlayView(post: post)
+                        .padding([.leading, .bottom], 24)
+                        .wrapToButton {
+                            vm.input.tapPost.send(post.postId)
+                        }
+                }
             }
         }
     }
