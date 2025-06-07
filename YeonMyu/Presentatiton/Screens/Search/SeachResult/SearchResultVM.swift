@@ -14,7 +14,7 @@ final class SearchResultVM: ViewModeltype {
     var input = Input()
     @Published var output: Output
     var coordinator: MainCoordinator?
-    
+    var allSearchPosts: [SimplePostModel] = []
     init(searchText: String, selectedDate: Date, selectedCity: CityCode) {
         self.cancellables = Set<AnyCancellable>()
         self.output = Output(
@@ -27,7 +27,8 @@ final class SearchResultVM: ViewModeltype {
         Task {
             let posts = try await self.fetchSearchPosts(term: searchText, date: selectedDate, cityCode: selectedCity)
             await MainActor.run {
-                self.output.searchPosts = self.removeDuplicatePosts(posts)
+                self.allSearchPosts = self.removeDuplicatePosts(posts)
+                self.output.searchPosts = filterPostData(allData: allSearchPosts)
             }
         }
         bindOutputChanges()
@@ -100,7 +101,8 @@ final class SearchResultVM: ViewModeltype {
                         Task {
                             let posts = try await self.fetchSearchPosts(term: searchText, date: selectedDate, cityCode: selectedCity)
                             await MainActor.run {
-                                self.output.searchPosts = self.removeDuplicatePosts(posts)
+                                self.allSearchPosts = self.removeDuplicatePosts(posts)
+                                self.output.searchPosts = self.filterPostData(allData: self.allSearchPosts)
                             }
                         }
                     }
@@ -109,7 +111,11 @@ final class SearchResultVM: ViewModeltype {
 }
 
 private extension SearchResultVM {
-    
+    func filterPostData(allData: [SimplePostModel]) -> [SimplePostModel] {
+        let sort = allData //정렬 기준 맞춰주기
+        if PrfCate.allCases[self.output.playCurrentPage] == .all { return sort}
+        return sort.filter{$0.postType == PrfCate.allCases[self.output.playCurrentPage].title}
+    }
 }
 // MARK: - 네트워크 부분
 private extension SearchResultVM {
