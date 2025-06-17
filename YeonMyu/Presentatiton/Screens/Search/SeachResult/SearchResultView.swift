@@ -159,28 +159,24 @@ private extension SearchResultView {
     }
     //순서정렬 뷰
     func menuView() -> some View {
-        Menu("인기순") {
+        Menu(vm.output.searchSortEnum.title) {
             Button {
-                // Action
-                
+                vm.input.searchTypeTap.send(.nomal)
             } label: {
                 Text("인기순")
             }
             Button {
-                // Action
-                
+                vm.input.searchTypeTap.send(.date)
             } label: {
                 Text("최신 개봉순")
             }
             Button {
-                // Action
-                
+                vm.input.searchTypeTap.send(.endFiest)
             } label: {
                 Text("마감일 빠른순")
             }
             Button {
-                // Action
-                
+                vm.input.searchTypeTap.send(.endLate)
             } label: {
                 Text("마감일 늦은순")
             }
