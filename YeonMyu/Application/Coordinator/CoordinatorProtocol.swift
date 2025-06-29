@@ -36,7 +36,7 @@ enum Screen: Identifiable, Hashable {
     case tab
     case home   //홈 뷰
     case search //검색 뷰
-    case storage //보관함 뷰
+    case storage(selected: StorageType) //보관함 뷰
     case my //마이 뷰
     
     case playDetail(id: String) //공연 상세 뷰

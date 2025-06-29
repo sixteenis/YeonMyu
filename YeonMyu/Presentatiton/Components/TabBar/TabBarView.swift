@@ -36,7 +36,7 @@ struct MainTabView: View {
                 }
             
             
-            coordinator.build(.storage) // 보관함 화면 생성
+            coordinator.build(.storage(selected: .likes)) // 보관함 화면 생성
                 .tabItem {
                     Image.storage
                     Text("보관함")

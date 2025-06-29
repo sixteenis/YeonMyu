@@ -64,7 +64,7 @@ final class MainCoordinator: CoordinatorProtocol {
         case .tab: MainTabView()
         case .home: HomeView.build()                          // 홈
         case .search: SearchView() //검색 뷰
-        case .storage: StorageView() //보관함 뷰
+        case .storage(let selected): StorageView(selected: selected) //보관함 뷰
         case .my: MyView() //마이 뷰
         case .playDetail(let id) : PlayDetailView(postID: id)
         case .searchResult(let search, let date, let city): SearchResultView(searchText: search, date: date, city: city)

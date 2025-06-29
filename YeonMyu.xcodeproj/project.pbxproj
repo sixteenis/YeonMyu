@@ -21,6 +21,7 @@
 		063F5D7F2D91838C004F4C17 /* StorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D7E2D91838C004F4C17 /* StorageView.swift */; };
 		063F5D812D918391004F4C17 /* MyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D802D918391004F4C17 /* MyView.swift */; };
 		063F5D842D98FEC5004F4C17 /* PlayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D832D98FEC5004F4C17 /* PlayDetailView.swift */; };
+		0655F8CA2E07E32E00A1AAF4 /* StorageVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F8C92E07E32E00A1AAF4 /* StorageVM.swift */; };
 		0666EAE82DABFB1100A7E6DD /* placeCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666EAE72DABFB1100A7E6DD /* placeCheckView.swift */; };
 		066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C872D7F12ED00C44567 /* FirebaseAnalytics */; };
 		066C1C8A2D7F12ED00C44567 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C892D7F12ED00C44567 /* FirebaseAuth */; };
@@ -167,6 +168,7 @@
 		063F5D7E2D91838C004F4C17 /* StorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageView.swift; sourceTree = "<group>"; };
 		063F5D802D918391004F4C17 /* MyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyView.swift; sourceTree = "<group>"; };
 		063F5D832D98FEC5004F4C17 /* PlayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayDetailView.swift; sourceTree = "<group>"; };
+		0655F8C92E07E32E00A1AAF4 /* StorageVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageVM.swift; sourceTree = "<group>"; };
 		0666EAE72DABFB1100A7E6DD /* placeCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeCheckView.swift; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				063F5D7E2D91838C004F4C17 /* StorageView.swift */,
+				0655F8C92E07E32E00A1AAF4 /* StorageVM.swift */,
 			);
 			path = storage;
 			sourceTree = "<group>";
@@ -891,6 +894,7 @@
 				06E5080B2D7F10CD00F5E7DE /* InitView.swift in Sources */,
 				06E5080C2D7F10CD00F5E7DE /* HomeIntent.swift in Sources */,
 				06E5080E2D7F10CD00F5E7DE /* UIApplication+.swift in Sources */,
+				0655F8CA2E07E32E00A1AAF4 /* StorageVM.swift in Sources */,
 				06E5080F2D7F10CD00F5E7DE /* Color+.swift in Sources */,
 				06E508102D7F10CD00F5E7DE /* LoginView.swift in Sources */,
 				06E508112D7F10CD00F5E7DE /* UserInfoModel.swift in Sources */,

@@ -139,7 +139,8 @@ final class SearchResultVM: ViewModeltype {
         //검색 공연 종류, 정렬방식 변경 시 동작
         Publishers.CombineLatest(
             $output.map(\.playCurrentPage).removeDuplicates(),
-            $output.map(\.searchSortEnum).removeDuplicates())
+            $output.map(\.searchSortEnum).removeDuplicates()
+        )
         .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
         .dropFirst(1)
         .sink { [weak self] (index, sort) in
