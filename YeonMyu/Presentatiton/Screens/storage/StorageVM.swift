@@ -27,9 +27,9 @@ final class StorageVM: ViewModeltype {
             self.realm = try Realm()
             Task {
     
-                
+                let mockData = try await getUserAreaPlayList(area: .all, PrfCate: .all, page: nil)
                 await MainActor.run {
-//                    self.output.top10List = top10
+                    self.output.scrollPostData = mockData
                 }
             }
         } catch {
@@ -38,11 +38,13 @@ final class StorageVM: ViewModeltype {
         transform()
     }
     struct Input {
-        let infoTap = PassthroughSubject<StorageType,Never>() //날짜, 지역 클릭시 바텀시트
+        let infoTap = PassthroughSubject<StorageType,Never>() //보관함 종류 선택 시
+        let postTapped = PassthroughSubject<String,Never>() // 포스트 클릭 시
         
     }
     struct Output {
         var selectedStorageType = StorageType.likes
+        var scrollPostData: [SimplePostModel] = []
 
     }
     func transform() {
@@ -50,7 +52,47 @@ final class StorageVM: ViewModeltype {
             .sink { [weak self] type in
                 guard let self else { return }
                 self.output.selectedStorageType = type
+                self.output.scrollPostData = self.getPostData(type: type)
             }.store(in: &cancellables)
-
+        
+        input.postTapped
+            .sink { [weak self] postId in
+                guard let self else { return }
+                self.coordinator?.push(.playDetail(id: postId))
+            }.store(in: &cancellables)
+        
     }
+    //검색 결과 공연정보
+    func getUserAreaPlayList(area: CityCode, PrfCate: PrfCate, page: Int?) async throws -> [SimplePostModel] {
+        var data: [SimplePostModel] = []
+        for cate in PrfCate.code {
+            let result = try await NetworkManager.shared.requestPerformance(date: String.getDateRelativeToToday(daysOffset: 0), cateCode: cate, area: area.code, title: "", page: page, openrun: nil, prfstate: nil)
+            data.append(contentsOf: result.map{$0.transformSimplePostModel()})
+        }
+        data.shuffle()
+        return data.filter { $0.getPostString() != "" }
+    }
+}
+
+private extension StorageVM {
+    func getPostData(type: StorageType) -> [SimplePostModel] {
+        switch type {
+        case .likes:
+            return getLikeData()
+        case .watched:
+            return getWatchedData()
+        case .scheduled:
+            return getScheduledData()
+        }
+    }
+    func getLikeData() -> [SimplePostModel] {
+        return []
+    }
+    func getWatchedData() -> [SimplePostModel] {
+        return []
+    }
+    func getScheduledData() -> [SimplePostModel] {
+        return []
+    }
+    
 }

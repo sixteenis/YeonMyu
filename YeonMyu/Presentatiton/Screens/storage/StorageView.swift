@@ -9,22 +9,34 @@ import SwiftUI
 
 struct StorageView: View {
     @StateObject private var vm: StorageVM
+    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
     
     init(selected: StorageType) {
         _vm = StateObject(wrappedValue: StorageVM(selected: selected))
     }
     var body: some View {
-        VStack {
-            inforView()
-                .frame(height: 120)
-                .padding(.horizontal, 22)
-                .padding(.vertical, 6)
-                .padding(.bottom, 48)
-                .background(Color.blue)
-            
+        VStack(spacing: 0) {
+            ZStack(alignment: .bottom) {
+                inforView()
+                    .frame(height: 120)
+                    .padding(.horizontal, 22)
+                    .padding(.vertical, 6)
+                    .padding(.bottom, 48)
+                    .background(Color.asBackground)
+                // TODO: 경계 그림자 주기 ㅠㅠ...
+                // 하단 경계 + 그림자
+                Rectangle()
+                    .fill(Color.black.opacity(0.01)) // 그림자만 생성
+                    .frame(height: 1)
+                    .shadow(color: .black.opacity(0.5), radius: 5, y: 4)
+            }
+
             playInfoView()
+                .background(Color.asGray600)
         }
-        
+        .onAppear {
+            vm.coordinator = coordinator
+        }
     }
 }
 
@@ -40,26 +52,19 @@ private extension StorageView {
                     
                     oneInforView(title: "찜한 공연", logo: Image.asHeart, result: "10", type: .likes)
                         .frame(maxWidth: .infinity)
-                        .wrapToButton {
-                            vm.input.infoTap.send(.likes)
-                        }
                     
                     inforLine()
                     
                     oneInforView(title: "관람한 공연", logo: Image.asperformance, result: "2", type: .watched)
                         .frame(maxWidth: .infinity)
-                        .wrapToButton {
-                            vm.input.infoTap.send(.watched)
-                        }
-                        
+                    
+                    
                     inforLine()
                     
                     oneInforView(title: "예정된 티켓", logo: Image.asCircleTicket, result: "1", type: .scheduled)
                         .frame(maxWidth: .infinity)
-                        .wrapToButton {
-                            vm.input.infoTap.send(.scheduled)
-                        }
-                        
+                    
+                    
                 }
             }
     }
@@ -81,6 +86,9 @@ private extension StorageView {
                         .font(.boldFont28)
                 }
             }
+            .wrapToButton {
+                vm.input.infoTap.send(type)
+            }
     }
     
     func inforLine() -> some View {
@@ -95,20 +103,35 @@ private extension StorageView {
     func playInfoView() -> some View {
         VStack {
             playHeader()
-            
+            playScollView()
         }
-        .background(Color.asGray600)
     }
     func playHeader() -> some View {
         VStack {
             asText("찜한 공연")
+                .font(.boldFont20)
+                .foregroundStyle(Color.asFont)
+                .hLeading()
+                .padding([.top,.leading],24)
             asText("18개의 공연을 찜했어요")
+                .font(.font14)
+                .foregroundStyle(Color.asGray300)
+                .hLeading()
+                .padding(.leading, 24)
+                .padding(.bottom, 12)
         }
+        
     }
     func playScollView() -> some View {
         ScrollView {
             LazyVStack(spacing: 0) {
-                
+                ForEach(vm.output.scrollPostData, id: \.id) { post in
+                    CustomVerticalPlayView(post: post)
+                        .padding([.leading, .bottom], 24)
+                        .wrapToButton {
+                            vm.input.postTapped.send(post.postId)
+                        }
+                }
             }
         }
     }

@@ -32,6 +32,7 @@ final class SearchResultVM: ViewModeltype {
     @Published var output: Output
     var coordinator: MainCoordinator?
     var allSearchPosts: [SimplePostModel] = []
+    
     init(searchText: String, selectedDate: Date, selectedCity: CityCode) {
         self.cancellables = Set<AnyCancellable>()
         self.output = Output(
@@ -50,6 +51,7 @@ final class SearchResultVM: ViewModeltype {
         }
         bindOutputChanges()
     }
+    
     struct Input {
         let presentBottomSheet = PassthroughSubject<Int,Never>() //날짜, 지역, 금액 클릭시 바텀시트
         let selectPlayCurrentPage = PassthroughSubject<Int, Never>()
