@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MainHeaderPlayModel: Identifiable {
+struct MainHeaderPlayModel: Identifiable, Hashable {
     var id: String = UUID().uuidString
     let mainTitle: String
     let subTitle: String

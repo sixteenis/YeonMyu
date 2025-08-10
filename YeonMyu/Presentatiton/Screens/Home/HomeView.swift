@@ -82,7 +82,7 @@ extension HomeView {
         .onChange(of: state.selectedUserInfo) { oldValue, newValue in // 사용자 정보 뷰로 이동
             guard let newValue else { return }
             intent.userInfoTapped(info: nil)
-            coordinator.push(.search)
+            coordinator.selectedTab = .storage
         }
         .onChange(of: goSearchView) { oldValue, newValue in // 검색 뷰 이동
             coordinator.push(.search)
@@ -124,7 +124,7 @@ private extension HomeView {
             ZStack {
                 LazyVStack(pinnedViews: [.sectionHeaders]) {
                     VStack {
-                        topBannerView(state.headerPosts)
+                        topBannerView()
                             .frame(height: 500)
                             .onScrollVisibilityChange(threshold: 0.999999) { isVisible in
                                 isToolbarHidden = isVisible
@@ -210,42 +210,51 @@ private extension HomeView {
 // MARK: - 상단 페이지 뷰 부분
 private extension HomeView {
     //상단 공연 정보 컬렉션 뷰
-    func topBannerView(_ posts: [MainHeaderPlayModel]) -> some View {
+    func topBannerView() -> some View {
         ZStack(alignment: .bottomLeading) {
             TabView(selection: $currentPage) {
                 // 가짜 마지막 페이지 (posts.count - 1)
-                if let firstPost = posts.first {
-                    bannerView(firstPost)
-                        .tag(0)
-                }
+//                if let firstPost = posts.first {
+//                    bannerView(firstPost)
+//                        .tag(0)
+//                }
                 
                 // 실제 페이지들
-                ForEach(posts.indices, id: \.self) { index in
-                    bannerView(posts[index])
-                        .tag(index + 1)
+                ForEach(0..<state.headerPosts.count, id: \.self) { index in
+                    bannerView(state.headerPosts[index])
+                        .tag(index)
                     
                 }
                 
-                // 가짜 첫 페이지 (index 0)
-                if let lastPost = posts.last {
-                    bannerView(lastPost)
-                        .tag(posts.count + 1)
-                }
+//                // 가짜 첫 페이지 (index 0)
+//                if let lastPost = posts.last {
+//                    bannerView(lastPost)
+//                        .tag(posts.count + 1)
+//                }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .onChange(of: currentPage) { oldValue, newValue in
-                // 첫 번째 페이지와 마지막 페이지 사이에서 끊어짐 현상 방지
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    if newValue == 0 {
-                        currentPage = posts.count // 마지막 페이지로 순간 이동
-                    } else if newValue == posts.count + 1 {
-                        currentPage = 1 // 첫 페이지로 순간 이동
-                    }
-                }
+            .onAppear {
+                if state.headerPosts.isEmpty { return }
+                intent.insertHeaderData(state.headerPosts[state.headerPosts.count - 1])
+                currentPage = 1
             }
+            .onChange(of: currentPage) { _, newValue in
+                  getInfiniteScrollIndex(newValue: newValue) // 무한 스크롤 구현
+
+            } //: onChange
+//            .onChange(of: currentPage) { oldValue, newValue in
+//                // 첫 번째 페이지와 마지막 페이지 사이에서 끊어짐 현상 방지
+////                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//                    if newValue == 0 {
+//                        currentPage = posts.count // 마지막 페이지로 순간 이동
+//                    } else if newValue == posts.count + 1 {
+//                        currentPage = 1 // 첫 페이지로 순간 이동
+//                    }
+////                }
+//            }
             // 커스텀 페이지 점 표시
             HStack {
-                ForEach(posts.indices, id: \.self) { index in
+                ForEach(state.headerPosts.indices, id: \.self) { index in
                     Circle()
                         .fill((index + 1) == currentPage ? Color.white.opacity(0.8) : Color.white.opacity(0.3))
                         .frame(width: 10, height: 10)
@@ -256,6 +265,20 @@ private extension HomeView {
             .padding(.bottom, 33)
         }
     }
+    func getInfiniteScrollIndex(newValue: Int) {
+        if newValue == 0 {
+              // 처음으로 갔을 때 끝쪽으로 이동
+              DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                  currentPage = state.headerPosts.count - 2
+              }
+        } else if newValue == state.headerPosts.count - 1 {
+              // 마지막으로 갔을 때 첫쪽으로 이동
+              DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                  currentPage = 1
+              }
+            }
+    }
+    
     //상단 공연 정보 뷰
     func bannerView(_ post: MainHeaderPlayModel) -> some View {
         ZStack {

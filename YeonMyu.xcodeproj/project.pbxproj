@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0605D8882E48AB4600BBF5E7 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */; };
+		0605D88A2E48BB3F00BBF5E7 /* TicketScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */; };
 		0631B1752D81CDB600287825 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631B1742D81CDB600287825 /* APIKey.swift */; };
 		0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0631B1762D81CDDD00287825 /* GoogleService-Info.plist */; };
 		063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */; };
@@ -22,6 +24,8 @@
 		063F5D812D918391004F4C17 /* MyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D802D918391004F4C17 /* MyView.swift */; };
 		063F5D842D98FEC5004F4C17 /* PlayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D832D98FEC5004F4C17 /* PlayDetailView.swift */; };
 		0655F8CA2E07E32E00A1AAF4 /* StorageVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F8C92E07E32E00A1AAF4 /* StorageVM.swift */; };
+		0655F9132E25383200A1AAF4 /* InfinitePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F9122E25383200A1AAF4 /* InfinitePageView.swift */; };
+		0655F9152E25392300A1AAF4 /* ADBannerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0655F9142E25392300A1AAF4 /* ADBannerVM.swift */; };
 		0666EAE82DABFB1100A7E6DD /* placeCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666EAE72DABFB1100A7E6DD /* placeCheckView.swift */; };
 		066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C872D7F12ED00C44567 /* FirebaseAnalytics */; };
 		066C1C8A2D7F12ED00C44567 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1C892D7F12ED00C44567 /* FirebaseAuth */; };
@@ -41,6 +45,10 @@
 		066C1CAF2D7F167F00C44567 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1CAE2D7F167F00C44567 /* Kingfisher */; };
 		066F3D482DB52F7D00EA77FB /* SearchVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066F3D472DB52F7D00EA77FB /* SearchVM.swift */; };
 		066F3D4A2DB53B9B00EA77FB /* DateSelectBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066F3D492DB53B9B00EA77FB /* DateSelectBottomSheetView.swift */; };
+		06A607B12E48A0220066EC36 /* TicketScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A607B02E48A0220066EC36 /* TicketScannerView.swift */; };
+		06A607B32E48A08A0066EC36 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A607B22E48A0890066EC36 /* CameraService.swift */; };
+		06A607B52E48A0A70066EC36 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A607B42E48A0A70066EC36 /* CameraView.swift */; };
+		06A607B72E48A0C30066EC36 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A607B62E48A0C30066EC36 /* CameraPreviewView.swift */; };
 		06AFEED22DAB88C600D1BE28 /* TicketPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AFEED12DAB88C600D1BE28 /* TicketPageView.swift */; };
 		06CD38232D7DD0EB00959852 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CD381E2D7DD0EB00959852 /* Preview Assets.xcassets */; };
 		06CD38242D7DD0EB00959852 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CD38202D7DD0EB00959852 /* Assets.xcassets */; };
@@ -152,6 +160,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScanResult.swift; sourceTree = "<group>"; };
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		0631B1762D81CDDD00287825 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		063F5D3B2D885209004F4C17 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -169,11 +178,17 @@
 		063F5D802D918391004F4C17 /* MyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyView.swift; sourceTree = "<group>"; };
 		063F5D832D98FEC5004F4C17 /* PlayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayDetailView.swift; sourceTree = "<group>"; };
 		0655F8C92E07E32E00A1AAF4 /* StorageVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageVM.swift; sourceTree = "<group>"; };
+		0655F9122E25383200A1AAF4 /* InfinitePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfinitePageView.swift; sourceTree = "<group>"; };
+		0655F9142E25392300A1AAF4 /* ADBannerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBannerVM.swift; sourceTree = "<group>"; };
 		0666EAE72DABFB1100A7E6DD /* placeCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeCheckView.swift; sourceTree = "<group>"; };
 		066C1CAA2D7F156400C44567 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		066F3D472DB52F7D00EA77FB /* SearchVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVM.swift; sourceTree = "<group>"; };
 		066F3D492DB53B9B00EA77FB /* DateSelectBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectBottomSheetView.swift; sourceTree = "<group>"; };
+		06A607B02E48A0220066EC36 /* TicketScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScannerView.swift; sourceTree = "<group>"; };
+		06A607B22E48A0890066EC36 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		06A607B42E48A0A70066EC36 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		06A607B62E48A0C30066EC36 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		06AFEED12DAB88C600D1BE28 /* TicketPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketPageView.swift; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06CD381E2D7DD0EB00959852 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -280,6 +295,7 @@
 				066C1C952D7F13C000C44567 /* KakaoSDKAuth in Frameworks */,
 				066C1C902D7F12ED00C44567 /* FirebaseDatabase in Frameworks */,
 				066C1CA72D7F153400C44567 /* GoogleSignIn in Frameworks */,
+				0605D8882E48AB4600BBF5E7 /* ChatGPTSwift in Frameworks */,
 				066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */,
 				066C1C8E2D7F12ED00C44567 /* FirebaseCrashlytics in Frameworks */,
 				066C1C8C2D7F12ED00C44567 /* FirebaseCore in Frameworks */,
@@ -333,6 +349,18 @@
 				0666EAE72DABFB1100A7E6DD /* placeCheckView.swift */,
 			);
 			path = PlayDetail;
+			sourceTree = "<group>";
+		};
+		06A607AF2E489F170066EC36 /* TicketScanner */ = {
+			isa = PBXGroup;
+			children = (
+				06A607B02E48A0220066EC36 /* TicketScannerView.swift */,
+				06A607B22E48A0890066EC36 /* CameraService.swift */,
+				06A607B42E48A0A70066EC36 /* CameraView.swift */,
+				06A607B62E48A0C30066EC36 /* CameraPreviewView.swift */,
+				0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */,
+			);
+			path = TicketScanner;
 			sourceTree = "<group>";
 		};
 		06CD371E2D7DD04E00959852 = {
@@ -563,6 +591,7 @@
 			isa = PBXGroup;
 			children = (
 				06E507F22D7F10CD00F5E7DE /* CustomSegmentedView.swift */,
+				0655F9122E25383200A1AAF4 /* InfinitePageView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -575,6 +604,7 @@
 				06E507F42D7F10CD00F5E7DE /* HomeView.swift */,
 				06E507F52D7F10CD00F5E7DE /* HomeIntent.swift */,
 				06E507F62D7F10CD00F5E7DE /* HomeState.swift */,
+				0655F9142E25392300A1AAF4 /* ADBannerVM.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -582,6 +612,7 @@
 		06E507F82D7F10CD00F5E7DE /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				06A607AF2E489F170066EC36 /* TicketScanner */,
 				06E507E92D7F10CD00F5E7DE /* Login */,
 				06E507ED2D7F10CD00F5E7DE /* DetailPerf */,
 				06E507F72D7F10CD00F5E7DE /* Home */,
@@ -813,6 +844,7 @@
 				066C1CA62D7F153400C44567 /* GoogleSignIn */,
 				066C1CA82D7F153400C44567 /* GoogleSignInSwift */,
 				066C1CAE2D7F167F00C44567 /* Kingfisher */,
+				0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */,
 			);
 			productName = YeonMyu;
 			productReference = 06CD37272D7DD04E00959852 /* YeonMyu.app */;
@@ -850,6 +882,7 @@
 				066C1CA02D7F144C00C44567 /* XCRemoteSwiftPackageReference "Cosmos" */,
 				066C1CA52D7F153400C44567 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				066C1CAD2D7F167F00C44567 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				0605D8862E48AB4600BBF5E7 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 06CD37282D7DD04E00959852 /* Products */;
@@ -882,6 +915,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06A607B32E48A08A0066EC36 /* CameraService.swift in Sources */,
 				06E508072D7F10CD00F5E7DE /* MainHeaderPlayModel.swift in Sources */,
 				06E508082D7F10CD00F5E7DE /* HomeView.swift in Sources */,
 				06AFEED22DAB88C600D1BE28 /* TicketPageView.swift in Sources */,
@@ -898,12 +932,15 @@
 				06E5080F2D7F10CD00F5E7DE /* Color+.swift in Sources */,
 				06E508102D7F10CD00F5E7DE /* LoginView.swift in Sources */,
 				06E508112D7F10CD00F5E7DE /* UserInfoModel.swift in Sources */,
+				0605D88A2E48BB3F00BBF5E7 /* TicketScanResult.swift in Sources */,
 				06F4A8682DCBD9CC008B1D29 /* ItsukiSlider.swift in Sources */,
+				06A607B12E48A0220066EC36 /* TicketScannerView.swift in Sources */,
 				06E508122D7F10CD00F5E7DE /* PerformanceError.swift in Sources */,
 				06E508132D7F10CD00F5E7DE /* TabBarView.swift in Sources */,
 				06E508142D7F10CD00F5E7DE /* Notification.swift in Sources */,
 				06E508152D7F10CD00F5E7DE /* SimplePostModel.swift in Sources */,
 				06E508162D7F10CD00F5E7DE /* FacilityDTO.swift in Sources */,
+				06A607B72E48A0C30066EC36 /* CameraPreviewView.swift in Sources */,
 				063F5D812D918391004F4C17 /* MyView.swift in Sources */,
 				06E508172D7F10CD00F5E7DE /* DetailView.swift in Sources */,
 				06E508182D7F10CD00F5E7DE /* RandomSimplePlayModel.swift in Sources */,
@@ -938,6 +975,7 @@
 				06F4A86C2DD06BB8008B1D29 /* SearchResultVM.swift in Sources */,
 				06E5087A2D7F10D900F5E7DE /* SettingView.swift in Sources */,
 				06E5087B2D7F10D900F5E7DE /* MainVM.swift in Sources */,
+				0655F9132E25383200A1AAF4 /* InfinitePageView.swift in Sources */,
 				06E5087C2D7F10D900F5E7DE /* ReviewView.swift in Sources */,
 				06E5087D2D7F10D900F5E7DE /* SelectGenreView.swift in Sources */,
 				06E5087E2D7F10D900F5E7DE /* GenreType.swift in Sources */,
@@ -950,6 +988,7 @@
 				06E508832D7F10D900F5E7DE /* ViewModeltype.swift in Sources */,
 				06E5081B2D7F10CD00F5E7DE /* UserDefault.swift in Sources */,
 				06E5081C2D7F10CD00F5E7DE /* DetailPerformanceDTO.swift in Sources */,
+				0655F9152E25392300A1AAF4 /* ADBannerVM.swift in Sources */,
 				06F4A8662DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift in Sources */,
 				06E5081D2D7F10CD00F5E7DE /* CitySelectBottomSheetView.swift in Sources */,
 				06E5081E2D7F10CD00F5E7DE /* BoxOfficeDTO.swift in Sources */,
@@ -962,6 +1001,7 @@
 				06E508242D7F10CD00F5E7DE /* HomeState.swift in Sources */,
 				06E508252D7F10CD00F5E7DE /* CustomVerticalPlayView.swift in Sources */,
 				06E508262D7F10CD00F5E7DE /* PrimaryText.swift in Sources */,
+				06A607B52E48A0A70066EC36 /* CameraView.swift in Sources */,
 				06E508272D7F10CD00F5E7DE /* TicketList.swift in Sources */,
 				06E508282D7F10CD00F5E7DE /* asText.swift in Sources */,
 				06F4A80E2DB67F81008B1D29 /* FlowLayout.swift in Sources */,
@@ -1217,6 +1257,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0605D8862E48AB4600BBF5E7 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alfianlosari/ChatGPTSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.0;
+			};
+		};
 		066C1C862D7F12ED00C44567 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1276,6 +1324,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0605D8862E48AB4600BBF5E7 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
+			productName = ChatGPTSwift;
+		};
 		066C1C872D7F12ED00C44567 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 066C1C862D7F12ED00C44567 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

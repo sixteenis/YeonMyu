@@ -9,7 +9,7 @@ import Foundation
 
 protocol HomeStateProtocol {
     var contentState: ContentState { get } // 뷰 상태
-    var headerPosts: [MainHeaderPlayModel] { get } //상단 랜덤 포스터
+    var headerPosts: [MainHeaderPlayModel] { get set } //상단 랜덤 포스터
     var userInfo: UserInfoModel { get } //유저 연극 기록 정보
     var playCategorys: [PrfCate] { get } //공연 종류들
     var areaTopPrf: [SimplePostModel] { get } // 지역
@@ -34,6 +34,7 @@ protocol HomeStateActionProtocol: AnyObject {
     func getUserAreaInfoPosts(_ posts: [SimplePostModel])
     
     func getPostId(_ id: String?)
+    func insertHeaderData(_ data: MainHeaderPlayModel)
 }
 
 @Observable
@@ -83,6 +84,10 @@ extension HomeState: HomeStateActionProtocol {
     }
     func getPostId(_ id: String?) {
         self.selectedPost = id
+    }
+    func insertHeaderData(_ data: MainHeaderPlayModel) {
+        self.headerPosts.insert(data, at: 0)
+        self.headerPosts.append(data)
     }
     
 }

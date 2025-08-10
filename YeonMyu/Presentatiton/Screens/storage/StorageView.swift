@@ -16,12 +16,15 @@ struct StorageView: View {
     }
     var body: some View {
         VStack(spacing: 0) {
+            Text("보관함")
+                .font(.headline)
+                .hCenter()
             ZStack(alignment: .bottom) {
                 inforView()
                     .frame(height: 120)
                     .padding(.horizontal, 22)
-                    .padding(.vertical, 6)
-                    .padding(.bottom, 48)
+                    .padding(.vertical, 12)
+                    .padding(.top, 6)
                     .background(Color.asBackground)
                 // TODO: 경계 그림자 주기 ㅠㅠ...
                 // 하단 경계 + 그림자

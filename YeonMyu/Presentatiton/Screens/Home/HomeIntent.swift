@@ -14,6 +14,7 @@ protocol HomeIntentProtocol {
     func userInfoTapped(info: UserInfo?) //유저 공연 정보 기록 클릭 시
     func playCategoryTapped(_ index: Int, city: CityCode, prfCate: PrfCate) //공연 종류 선택 시
     func areaTapped(area: CityCode, prfCate: PrfCate) //지역 선택 시
+    func insertHeaderData(_ data: MainHeaderPlayModel) //
 }
 
 final class HomeIntent {
@@ -92,6 +93,9 @@ extension HomeIntent: HomeIntentProtocol {
         
     }
     
+    func insertHeaderData(_ data: MainHeaderPlayModel) {
+        state?.insertHeaderData(data)
+    }
    
 }
 
