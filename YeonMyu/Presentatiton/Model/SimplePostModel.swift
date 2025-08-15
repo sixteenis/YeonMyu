@@ -19,8 +19,8 @@ struct SimplePostModel: Identifiable {
     let location: String
     
     func getPostString() -> String {
-        if self.postType == "뮤지컬" { return "뮤"}
-        if self.postType == "연극" { return "연"}
+        if self.postType == "뮤지컬" { return "뮤지컬"}
+        if self.postType == "연극" { return "연극"}
         return ""
     }
     func isPlayCheck() -> Bool {

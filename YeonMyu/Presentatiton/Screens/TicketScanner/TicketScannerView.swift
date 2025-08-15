@@ -46,6 +46,7 @@ struct TicketScannerView : View
                                         ocrStr += topCandidate.string + "\n"
                                     }
                                 }
+                                // MARK: - 공연 티켓 인증에서 openai 호출 및 공연 api 호출 부분
                                 Task {
                                     do {
                                         let scanModel = try await sendGPTAI(texts: ocrStr)

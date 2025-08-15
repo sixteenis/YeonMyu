@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0605D8882E48AB4600BBF5E7 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */; };
 		0605D88A2E48BB3F00BBF5E7 /* TicketScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */; };
+		061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */; };
 		0631B1752D81CDB600287825 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631B1742D81CDB600287825 /* APIKey.swift */; };
 		0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0631B1762D81CDDD00287825 /* GoogleService-Info.plist */; };
 		063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */; };
@@ -161,6 +162,7 @@
 
 /* Begin PBXFileReference section */
 		0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScanResult.swift; sourceTree = "<group>"; };
+		061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTagView.swift; sourceTree = "<group>"; };
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		0631B1762D81CDDD00287825 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		063F5D3B2D885209004F4C17 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 				06E507D62D7F10CD00F5E7DE /* CustomVerticalPlayView.swift */,
 				06E507D72D7F10CD00F5E7DE /* asText.swift */,
 				06E507D82D7F10CD00F5E7DE /* CustomPostImage.swift */,
+				061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */,
 				06F4A80D2DB67F81008B1D29 /* FlowLayout.swift */,
 			);
 			path = CustomView;
@@ -997,6 +1000,7 @@
 				063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */,
 				06E508212D7F10CD00F5E7DE /* ForegroundWrapper.swift in Sources */,
 				06E508222D7F10CD00F5E7DE /* CustomTextEditorStyle.swift in Sources */,
+				061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */,
 				06E508232D7F10CD00F5E7DE /* UserDefaultManager.swift in Sources */,
 				06E508242D7F10CD00F5E7DE /* HomeState.swift in Sources */,
 				06E508252D7F10CD00F5E7DE /* CustomVerticalPlayView.swift in Sources */,

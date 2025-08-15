@@ -11,8 +11,14 @@ struct CustomHorizontalPlayView: View {
     let post: SimplePostModel
     var body: some View {
         VStack(spacing: 0) {
-            CustomPostImage(url: post.postURL)
-            
+            ZStack {
+                CustomPostImage(url: post.postURL)
+                PerformanceTagView(tagTT: post.getPostString())
+                    .vTop()
+                    .hLeading()
+                    .padding(6)
+                
+            }
             genreView()
                 .frame(height: 17)
                 .hLeading()
@@ -26,16 +32,16 @@ struct CustomHorizontalPlayView: View {
 private extension CustomHorizontalPlayView {
     func genreView() -> some View {
         HStack(spacing: 2) {
-            asText(post.getPostString())
-                .font(.font10)
-                .foregroundStyle(Color.asMainPurple)
-                .padding(.horizontal, 5) // 좌우 여백 추가
-                .padding(.vertical, 2)   // 상하 여백 추가
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.clear)
-                        .stroke(Color.asMainPurple, lineWidth: 1)
-                )
+            //            asText(post.getPostString())
+            //                .font(.font10)
+            //                .foregroundStyle(Color.asMainPurple)
+            //                .padding(.horizontal, 5) // 좌우 여백 추가
+            //                .padding(.vertical, 2)   // 상하 여백 추가
+            //                .background(
+            //                    RoundedRectangle(cornerRadius: 15)
+            //                        .fill(Color.clear)
+            //                        .stroke(Color.asMainPurple, lineWidth: 1)
+            //                )
             
             asText(post.postTitle)
                 .lineLimit(1)

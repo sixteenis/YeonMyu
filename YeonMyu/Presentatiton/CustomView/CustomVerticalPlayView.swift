@@ -11,8 +11,9 @@ struct CustomVerticalPlayView: View {
     var post: SimplePostModel
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            CustomPostImage(url: post.postURL)
-                .frame(width: 60)
+            postView()
+                .frame(width: 92)
+            
             VStack(alignment: .leading, spacing: 0) {
                 genreView()
                     .padding(.bottom, 4)
@@ -20,23 +21,33 @@ struct CustomVerticalPlayView: View {
                 infoView(image: .calendarIcon, text: post.fullDate == nil ? post.startDate+"~"+post.endDate: post.fullDate! )
                 infoView(image: .markerIcon, text: post.location)
             }
-        }.frame(height: 80)
+        }.frame(height: 123)
     }
 }
 
 private extension CustomVerticalPlayView {
+    func postView() -> some View {
+        ZStack {
+            CustomPostImage(url: post.postURL)
+            
+            PerformanceTagView(tagTT: post.getPostString())
+                .hLeading()
+                .vTop()
+                .padding(6)
+        }
+    }
     func genreView() -> some View {
         HStack(spacing: 2) {
-            asText(post.getPostString())
-                .font(.font10)
-                .foregroundStyle(Color.asMainPurple)
-                .padding(.horizontal, 5) // 좌우 여백 추가
-                .padding(.vertical, 2)   // 상하 여백 추가
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.clear)
-                        .stroke(Color.asMainPurple, lineWidth: 1)
-                )
+            //            asText(post.getPostString())
+            //                .font(.font10)
+            //                .foregroundStyle(Color.asMainPurple)
+            //                .padding(.horizontal, 5) // 좌우 여백 추가
+            //                .padding(.vertical, 2)   // 상하 여백 추가
+            //                .background(
+            //                    RoundedRectangle(cornerRadius: 15)
+            //                        .fill(Color.clear)
+            //                        .stroke(Color.asMainPurple, lineWidth: 1)
+            //                )
             
             asText(post.postTitle)
                 .lineLimit(1)
