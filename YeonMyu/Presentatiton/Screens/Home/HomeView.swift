@@ -7,13 +7,15 @@
 
 import SwiftUI
 import SwiftUIPullToRefresh
+import ACarousel
 
 struct HomeView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
     @StateObject var container: Container<HomeIntentProtocol, HomeStateProtocol>
     private var intent: HomeIntentProtocol { container.intent }
     private var state: HomeStateProtocol { container.state }
-    @State private var currentPage: Int = 1
+    
+    @State private var currentIndex: Int = 0 //상단 페이지 값
     
     //@StateObject private var vm = HomeVM()
     @State private var isToolbarHidden = true // 탭바 숨김 유무
@@ -58,7 +60,6 @@ extension HomeView {
                 InitView()
                     .ignoresSafeArea(.all)
                     .toolbar(.hidden, for: .tabBar)
-
             case .loading:
                 LoadingView()
             case .error:
@@ -109,11 +110,11 @@ private extension HomeView {
             }
         }
         
-//        .sheet(isPresented: $isAreSelectedPresented) {
-//            CitySelectBottomSheetView(selectedCity: state.selectedCity, compltionCity: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}))
-//                .presentationDragIndicator(.visible)
-//                .presentationDetents([.fraction(0.45)]) //바텀시트 크기
-//        }
+        //        .sheet(isPresented: $isAreSelectedPresented) {
+        //            CitySelectBottomSheetView(selectedCity: state.selectedCity, compltionCity: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}))
+        //                .presentationDragIndicator(.visible)
+        //                .presentationDetents([.fraction(0.45)]) //바텀시트 크기
+        //        }
     }
     func mainContent() -> some View {
         RefreshableScrollView(onRefresh: { done in
@@ -124,11 +125,16 @@ private extension HomeView {
             ZStack {
                 LazyVStack(pinnedViews: [.sectionHeaders]) {
                     VStack {
-                        topBannerView()
-                            .frame(height: 500)
-                            .onScrollVisibilityChange(threshold: 0.999999) { isVisible in
-                                isToolbarHidden = isVisible
-                            }
+                        
+                        if state.headerPosts.isEmpty { EmptyView()}
+                        else {
+                            topCarouselView()
+                                .frame(height: 500)
+                                .onScrollVisibilityChange(threshold: 0.999999) { isVisible in
+                                    isToolbarHidden = isVisible
+                                }
+                        }
+                        
                         searchView()
                             .frame(height: 50)
                             .padding(24)
@@ -209,120 +215,72 @@ private extension HomeView {
 }
 // MARK: - 상단 페이지 뷰 부분
 private extension HomeView {
-    //상단 공연 정보 컬렉션 뷰
-    func topBannerView() -> some View {
-        ZStack(alignment: .bottomLeading) {
-            TabView(selection: $currentPage) {
-                // 가짜 마지막 페이지 (posts.count - 1)
-//                if let firstPost = posts.first {
-//                    bannerView(firstPost)
-//                        .tag(0)
-//                }
-                
-                // 실제 페이지들
-                ForEach(0..<state.headerPosts.count, id: \.self) { index in
-                    bannerView(state.headerPosts[index])
-                        .tag(index)
+    func topCarouselView() -> some View {
+        ZStack {
+            ACarousel(state.headerPosts,
+                      index: $currentIndex,
+                      spacing: 0,
+                      headspace: 0,
+                      sidesScaling: 1.0,
+                      isWrap: true,
+                      autoScroll: .active(5)) { item in
+                ZStack {
+                    CustomPostImage(url: item.postURL)
+                    LinearGradient(
+                        gradient: Gradient(stops: [
+                            .init(color: .asBlack.opacity(0.6), location: 0.2),  // 0% → 검정(0.6)
+                            .init(color: .asBlack.opacity(0.2), location: 0.47),  // 70% → 검정(0.2)
+                            .init(color: .asPurple300, location: 1.0)         // 100% → 보라색
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
                     
+                    Rectangle()
+                        .foregroundStyle(Color.asBlack.opacity(0.25))
+                    
+                    VStack(alignment: .leading) {
+                        asText(item.mainTitle)
+                            .foregroundStyle(Color.asWhite)
+                            .font(.boldFont28)
+                            .multilineTextAlignment(.leading) // 줄바꿈시 정렬이 적용안되는 이슈 해결용!
+                            .padding(.bottom, 4)
+                            .shadow(color: Color.asBlack.opacity(0.25), radius: 4, x: 0, y: 0)
+                        
+                        asText(item.subTitle)
+                            .foregroundStyle(Color.asPurple500)
+                            .font(.font16)
+                            .shadow(color: Color.asBlack.opacity(0.25), radius: 4, x: 0, y: 0)
+                    } //:VSTACK
+                    .vBottom()
+                    .hLeading()
+                    .padding(.bottom, 65)
+                    .padding(.leading, 24)
+                }.onTapGesture {
+                    print(item.postID)
+                    intent.postTapped(id: item.postID)
                 }
-                
-//                // 가짜 첫 페이지 (index 0)
-//                if let lastPost = posts.last {
-//                    bannerView(lastPost)
-//                        .tag(posts.count + 1)
-//                }
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .onAppear {
-                if state.headerPosts.isEmpty { return }
-                intent.insertHeaderData(state.headerPosts[state.headerPosts.count - 1])
-                currentPage = 1
-            }
-            .onChange(of: currentPage) { _, newValue in
-                  getInfiniteScrollIndex(newValue: newValue) // 무한 스크롤 구현
-
-            } //: onChange
-//            .onChange(of: currentPage) { oldValue, newValue in
-//                // 첫 번째 페이지와 마지막 페이지 사이에서 끊어짐 현상 방지
-////                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                    if newValue == 0 {
-//                        currentPage = posts.count // 마지막 페이지로 순간 이동
-//                    } else if newValue == posts.count + 1 {
-//                        currentPage = 1 // 첫 페이지로 순간 이동
-//                    }
-////                }
-//            }
-            // 커스텀 페이지 점 표시
             HStack {
                 ForEach(state.headerPosts.indices, id: \.self) { index in
-                    Circle()
-                        .fill((index + 1) == currentPage ? Color.white.opacity(0.8) : Color.white.opacity(0.3))
-                        .frame(width: 10, height: 10)
+                    Capsule()
+                        .fill(index == currentIndex ? Color.white.opacity(0.6) : Color.white.opacity(0.25))
+                        .frame(width: index == currentIndex ? 18 : 8,
+                               height: 8)
                         .shadow(color: .asBlack.opacity(0.25), radius: 1.35)
+                        .animation(.easeInOut(duration: 0.25), value: currentIndex) // currentIndex 변할 때만 애니메이션
                 }
             }
-            .padding(.horizontal, 28)
-            .padding(.bottom, 33)
-        }
-    }
-    func getInfiniteScrollIndex(newValue: Int) {
-        if newValue == 0 {
-              // 처음으로 갔을 때 끝쪽으로 이동
-              DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                  currentPage = state.headerPosts.count - 2
-              }
-        } else if newValue == state.headerPosts.count - 1 {
-              // 마지막으로 갔을 때 첫쪽으로 이동
-              DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                  currentPage = 1
-              }
-            }
-    }
-    
-    //상단 공연 정보 뷰
-    func bannerView(_ post: MainHeaderPlayModel) -> some View {
-        ZStack {
-            ZStack {
-                CustomPostImage(url: post.postURL)
-                //.tag(index) // 각 페이지를 고유 태그로 설정
-                LinearGradient(
-                    gradient: Gradient(stops: [
-                        .init(color: .asBlack.opacity(0.6), location: 0.2),  // 0% → 검정(0.6)
-                        .init(color: .asBlack.opacity(0.2), location: 0.47),  // 70% → 검정(0.2)
-                        .init(color: .asPurple300, location: 1.0)         // 100% → 보라색
-                    ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                
-                Rectangle()
-                    .foregroundStyle(Color.asBlack.opacity(0.25))
-            }
-            VStack(alignment: .leading) {
-                asText(post.mainTitle)
-                    .foregroundStyle(Color.asWhite)
-                    .font(.boldFont28)
-                    .multilineTextAlignment(.leading) // 줄바꿈시 정렬이 적용안되는 이슈 해결용!
-                    .padding(.bottom, 4)
-                    .shadow(color: Color.asBlack.opacity(0.25), radius: 4, x: 0, y: 0)
-                
-                asText(post.subTitle)
-                    .foregroundStyle(Color.asPurple500)
-                    .font(.font16)
-                    .shadow(color: Color.asBlack.opacity(0.25), radius: 4, x: 0, y: 0)
-            } //:VSTACK
             .vBottom()
             .hLeading()
-            .padding(.bottom, 65)
-            .padding(.leading, 24)
+            .padding(.horizontal, 28)
+            .padding(.bottom, 33)
             
         }
-        .wrapToButton { //포스터 클릭 시
-            print(post.postID)
-            intent.postTapped(id: post.postID)
-        }
     }
+    
 }
+
 
 // MARK: - 검색 뷰 부분
 private extension HomeView {

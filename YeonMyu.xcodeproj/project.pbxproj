@@ -10,6 +10,7 @@
 		0605D8882E48AB4600BBF5E7 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */; };
 		0605D88A2E48BB3F00BBF5E7 /* TicketScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */; };
 		061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */; };
+		061A16712E4F820000AF13D3 /* ACarousel in Frameworks */ = {isa = PBXBuildFile; productRef = 061A16702E4F820000AF13D3 /* ACarousel */; };
 		0631B1752D81CDB600287825 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631B1742D81CDB600287825 /* APIKey.swift */; };
 		0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0631B1762D81CDDD00287825 /* GoogleService-Info.plist */; };
 		063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */; };
@@ -308,6 +309,7 @@
 				066C1C922D7F12ED00C44567 /* FirebaseFirestore in Frameworks */,
 				066C1C9C2D7F141B00C44567 /* RealmSwift in Frameworks */,
 				066C1C9F2D7F143000C44567 /* SwiftUIPullToRefresh in Frameworks */,
+				061A16712E4F820000AF13D3 /* ACarousel in Frameworks */,
 				066C1C992D7F13C000C44567 /* KakaoSDKUser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -848,6 +850,7 @@
 				066C1CA82D7F153400C44567 /* GoogleSignInSwift */,
 				066C1CAE2D7F167F00C44567 /* Kingfisher */,
 				0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */,
+				061A16702E4F820000AF13D3 /* ACarousel */,
 			);
 			productName = YeonMyu;
 			productReference = 06CD37272D7DD04E00959852 /* YeonMyu.app */;
@@ -886,6 +889,7 @@
 				066C1CA52D7F153400C44567 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				066C1CAD2D7F167F00C44567 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				0605D8862E48AB4600BBF5E7 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
+				061A166F2E4F820000AF13D3 /* XCRemoteSwiftPackageReference "ACarousel" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 06CD37282D7DD04E00959852 /* Products */;
@@ -1269,6 +1273,14 @@
 				minimumVersion = 2.5.0;
 			};
 		};
+		061A166F2E4F820000AF13D3 /* XCRemoteSwiftPackageReference "ACarousel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JWAutumn/ACarousel.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 		066C1C862D7F12ED00C44567 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1332,6 +1344,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0605D8862E48AB4600BBF5E7 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
 			productName = ChatGPTSwift;
+		};
+		061A16702E4F820000AF13D3 /* ACarousel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 061A166F2E4F820000AF13D3 /* XCRemoteSwiftPackageReference "ACarousel" */;
+			productName = ACarousel;
 		};
 		066C1C872D7F12ED00C44567 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
