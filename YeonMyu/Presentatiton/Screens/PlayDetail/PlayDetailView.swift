@@ -290,10 +290,6 @@ private extension PlayDetailView {
                 VStack(spacing: 0) {
                     ForEach(postInfo.DetailPosts, id: \.self) { imageUrl in
                         KFImage(URL(string: imageUrl))
-                            .placeholder {
-                                Image.postPlaceholder
-                                    .resizable()
-                            }
                             .retry(maxCount: 3, interval: .seconds(5))
                             .onSuccess { _ in
                                 currentPage = 0 //계속 티켓쪽으로 가서 임시로 공연정보로 가게 이동
@@ -307,10 +303,6 @@ private extension PlayDetailView {
                 // 전체보기 이전: 첫 번째 이미지의 앞부분 300만 보여줌
                 if let firstImageUrl = postInfo.DetailPosts.first {
                     KFImage(URL(string: firstImageUrl))
-                        .placeholder {
-                            Image.postPlaceholder
-                                .resizable()
-                        }
                         .retry(maxCount: 3, interval: .seconds(5))
                         .resizable()
                         .aspectRatio(contentMode: .fill)

@@ -24,9 +24,6 @@ struct CustomPostImage: View {
             let processor = DownsamplingImageProcessor(size: adjustedSize) // 리사이징 크기 적용
 
             KFImage(URL(string: url))
-                .placeholder {
-                    Image.postPlaceholder.resizable()
-                }
                 .retry(maxCount: 3, interval: .seconds(5))
                 .loadDiskFileSynchronously()
                 .fade(duration: 0.25)

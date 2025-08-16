@@ -11,6 +11,7 @@
 		0605D88A2E48BB3F00BBF5E7 /* TicketScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */; };
 		061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */; };
 		061A16712E4F820000AF13D3 /* ACarousel in Frameworks */ = {isa = PBXBuildFile; productRef = 061A16702E4F820000AF13D3 /* ACarousel */; };
+		061A16732E50490500AF13D3 /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A16722E50490500AF13D3 /* GradientBackground.swift */; };
 		0631B1752D81CDB600287825 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631B1742D81CDB600287825 /* APIKey.swift */; };
 		0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0631B1762D81CDDD00287825 /* GoogleService-Info.plist */; };
 		063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */; };
@@ -164,6 +165,7 @@
 /* Begin PBXFileReference section */
 		0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScanResult.swift; sourceTree = "<group>"; };
 		061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTagView.swift; sourceTree = "<group>"; };
+		061A16722E50490500AF13D3 /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		0631B1762D81CDDD00287825 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		063F5D3B2D885209004F4C17 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 				06E507CE2D7F10CD00F5E7DE /* ButtonWrapper.swift */,
 				06E507CF2D7F10CD00F5E7DE /* ForegroundWrapper.swift */,
 				06E507D02D7F10CD00F5E7DE /* NavigationWrapper.swift */,
+				061A16722E50490500AF13D3 /* GradientBackground.swift */,
 			);
 			path = Wrapper;
 			sourceTree = "<group>";
@@ -967,6 +970,7 @@
 				063F5D7F2D91838C004F4C17 /* StorageView.swift in Sources */,
 				06E508702D7F10D900F5E7DE /* PerformanceStateType.swift in Sources */,
 				06F4A86A2DD06985008B1D29 /* Date+.swift in Sources */,
+				061A16732E50490500AF13D3 /* GradientBackground.swift in Sources */,
 				06E508712D7F10D900F5E7DE /* CustomSegmentedControl.swift in Sources */,
 				06E508722D7F10D900F5E7DE /* HeaderType.swift in Sources */,
 				06E508732D7F10D900F5E7DE /* TicketState.swift in Sources */,

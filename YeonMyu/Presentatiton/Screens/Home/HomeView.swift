@@ -130,9 +130,6 @@ private extension HomeView {
                         else {
                             topCarouselView()
                                 .frame(height: 500)
-                                .onScrollVisibilityChange(threshold: 0.999999) { isVisible in
-                                    isToolbarHidden = isVisible
-                                }
                         }
                         
                         searchView()
@@ -228,14 +225,13 @@ private extension HomeView {
                     CustomPostImage(url: item.postURL)
                     LinearGradient(
                         gradient: Gradient(stops: [
-                            .init(color: .asBlack.opacity(0.6), location: 0.2),  // 0% → 검정(0.6)
-                            .init(color: .asBlack.opacity(0.2), location: 0.47),  // 70% → 검정(0.2)
-                            .init(color: .asPurple300, location: 1.0)         // 100% → 보라색
+                            .init(color: .asBlack.opacity(0.6), location: 0.2),
+                            .init(color: .asBlack.opacity(0.2), location: 0.47),
+                            .init(color: .asPurple300, location: 1.0)
                         ]),
                         startPoint: .top,
                         endPoint: .bottom
                     )
-                    
                     Rectangle()
                         .foregroundStyle(Color.asBlack.opacity(0.25))
                     
@@ -243,7 +239,7 @@ private extension HomeView {
                         asText(item.mainTitle)
                             .foregroundStyle(Color.asWhite)
                             .font(.boldFont28)
-                            .multilineTextAlignment(.leading) // 줄바꿈시 정렬이 적용안되는 이슈 해결용!
+                            .multilineTextAlignment(.leading)
                             .padding(.bottom, 4)
                             .shadow(color: Color.asBlack.opacity(0.25), radius: 4, x: 0, y: 0)
                         
@@ -251,42 +247,61 @@ private extension HomeView {
                             .foregroundStyle(Color.asPurple500)
                             .font(.font16)
                             .shadow(color: Color.asBlack.opacity(0.25), radius: 4, x: 0, y: 0)
-                    } //:VSTACK
+                    }
                     .vBottom()
                     .hLeading()
                     .padding(.bottom, 65)
                     .padding(.leading, 24)
-                }.onTapGesture {
+                }
+                .onTapGesture {
                     print(item.postID)
                     intent.postTapped(id: item.postID)
                 }
             }
+            .frame(height: 500)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        // 가로 드래그만 처리, 세로 드래그는 상위 ScrollView로 전달
+                        if abs(value.translation.width) > abs(value.translation.height) {
+                            // 가로 드래그: ACarousel 동작 유지
+                        }
+                    }
+            )
+            .allowsHitTesting(true) // 사용자 인터랙션 허용
+            
             HStack {
                 ForEach(state.headerPosts.indices, id: \.self) { index in
                     Capsule()
                         .fill(index == currentIndex ? Color.white.opacity(0.6) : Color.white.opacity(0.25))
-                        .frame(width: index == currentIndex ? 18 : 8,
-                               height: 8)
+                        .frame(width: index == currentIndex ? 18 : 8, height: 8)
                         .shadow(color: .asBlack.opacity(0.25), radius: 1.35)
-                        .animation(.easeInOut(duration: 0.25), value: currentIndex) // currentIndex 변할 때만 애니메이션
+                        .animation(.easeInOut(duration: 0.25), value: currentIndex)
                 }
             }
             .vBottom()
             .hLeading()
             .padding(.horizontal, 28)
             .padding(.bottom, 33)
-            
+        }
+        .onScrollVisibilityChange(threshold: 0.999999) { isVisible in
+            isToolbarHidden = isVisible
         }
     }
-    
 }
-
 
 // MARK: - 검색 뷰 부분
 private extension HomeView {
     func searchView() -> some View {
         RoundedRectangle(cornerRadius: 30)
-            .stroke(Color.asMainSecondaryPurple, lineWidth: 1.5)
+            .stroke(
+                LinearGradient(
+                    colors: [Color(hex: "D7A6FF"), Color(hex: "6CA2FF")],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                lineWidth: 1.5
+            )
             .fill(Color.clear)
             .overlay(
                 HStack(spacing: 0) {

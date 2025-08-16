@@ -113,7 +113,11 @@ private extension SearchView {
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.clear)
-                .strokeBorder(Color.asPurple300, lineWidth: 1.5) // stroke 대신 strokeBorder 사용
+                .strokeBorder(LinearGradient(
+                    colors: [Color(hex: "D7A6FF"), Color(hex: "6CA2FF")],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ), lineWidth: 1.5) // stroke 대신 strokeBorder 사용
         )
     }
     // 최근 검색어 부분
