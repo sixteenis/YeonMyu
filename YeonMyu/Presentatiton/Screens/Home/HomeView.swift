@@ -294,14 +294,7 @@ private extension HomeView {
 private extension HomeView {
     func searchView() -> some View {
         RoundedRectangle(cornerRadius: 30)
-            .stroke(
-                LinearGradient(
-                    colors: [Color(hex: "D7A6FF"), Color(hex: "6CA2FF")],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ),
-                lineWidth: 1.5
-            )
+            .stroke(Color.purpleBlueGradient, lineWidth: 1.5)
             .fill(Color.clear)
             .overlay(
                 HStack(spacing: 0) {

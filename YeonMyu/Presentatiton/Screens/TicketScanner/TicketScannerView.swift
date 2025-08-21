@@ -80,6 +80,8 @@ struct TicketScannerView : View
                     print(err.localizedDescription)
                 }
             }
+//            ScannerLineView()
+//                .vCenter()
             VStack{
                 Spacer()
                 Button(action: {

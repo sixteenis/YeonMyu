@@ -12,12 +12,12 @@ struct ContentView: View {
     @State private var capturedImage : UIImage? = nil
     @State private var isCustomCameraViewPresented = false
     var body: some View {
-//        ZStack {
-//            TicketScannerView(capturedImage: $capturedImage)
-//            if capturedImage != nil {
-//                Image(uiImage: capturedImage!).resizable().scaledToFill().ignoresSafeArea()
-//            }
-//        }
+        ZStack {
+            TicketScannerView(capturedImage: $capturedImage)
+            if capturedImage != nil {
+                Image(uiImage: capturedImage!).resizable().scaledToFill().ignoresSafeArea()
+            }
+        }
 //        ZStack{
 //            if capturedImage != nil {
 //                Image(uiImage: capturedImage!).resizable().scaledToFill().ignoresSafeArea()
@@ -31,7 +31,7 @@ struct ContentView: View {
 //            }
 //        }
         
-        CoordinatorView()
+//        CoordinatorView()
     }
 }
 

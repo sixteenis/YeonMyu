@@ -55,6 +55,15 @@ extension Color {
     
     static let errRedColor = Color.dynamic(light: "FC6363", dark: "2E1F66")
     static let checkGreenColor = Color.dynamic(light: "6AC579", dark: "2E1F66")
+    
+    static var purpleBlueGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "D7A6FF"), Color(hex: "8EA3FF")],
+            startPoint: .topLeading,   // 왼쪽 위
+            endPoint: .bottomTrailing  // 오른쪽 아래
+        )
+    }
+    
 }
 
 extension Color {

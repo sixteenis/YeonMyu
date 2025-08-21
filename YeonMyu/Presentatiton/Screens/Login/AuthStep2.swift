@@ -137,7 +137,9 @@ private extension AuthStep2 {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .frame(height: 50)
-                    .foregroundStyle(isOk ? Color.asPurple300 : Color.asGray400)
+                    .foregroundStyle(isOk ? AnyShapeStyle(Color.purpleBlueGradient)
+                                     : AnyShapeStyle(Color.asGray400)
+                                     )
                 
                 asText("시작하기")
                     .font(.boldFont18)

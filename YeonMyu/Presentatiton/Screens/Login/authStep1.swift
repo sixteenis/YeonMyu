@@ -59,7 +59,8 @@ struct AuthStep1: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
                         .frame(height: 50)
-                        .foregroundStyle(selecedArea == nil ? Color.asGray400 : Color.asPurple300)
+                        .foregroundStyle(selecedArea == nil ? AnyShapeStyle(Color.asGray400)
+                                         : AnyShapeStyle(Color.purpleBlueGradient))
                     
                     asText("다음")
                         .font(.boldFont18)
