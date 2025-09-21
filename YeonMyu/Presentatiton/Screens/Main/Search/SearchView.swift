@@ -162,6 +162,7 @@ private extension SearchView {
             Text("티켓 판매량 TOP 10")
                 .font(.boldFont20)
                 .hLeading()
+                .padding(.bottom, 20)
             ForEach(Array(vm.output.top10List.enumerated()), id: \.1.id) { index, item in
                 HStack {
                     Text("\(index + 1)")

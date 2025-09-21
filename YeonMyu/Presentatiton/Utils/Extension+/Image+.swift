@@ -26,11 +26,12 @@ extension Image {
     static let markerIcon = Image("지도")
     
     static let asHeart = Image("찜한공연")
+    static let asWriteBtn = Image("편집")
     static let asperformance = Image("관람한 공연")
     static let asCircleTicket = Image("예매한 티켓")
     
     static let asSlider = Image("슬라이드")
-    
+    static let asStar = Image("Star")
     
     //로고
     static let logo = Image("logo")

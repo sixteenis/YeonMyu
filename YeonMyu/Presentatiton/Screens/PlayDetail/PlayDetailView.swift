@@ -33,6 +33,28 @@ extension PlayDetailView {
     var body: some View {
         contentView()
             .navigationTitle(postInfo.name)
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    HStack(spacing: 10) {
+                        Button {
+                            print("작성 버튼 클릭")
+                        } label: {
+                            Image.asWriteBtn
+                                .resizable()
+                                .frame(width: 28, height: 28)
+                        }
+
+                        Button {
+                            print("좋아요 버튼 클릭")
+                        } label: {
+                            Image.asHeart
+                                .resizable()
+                                .frame(width: 28, height: 28)
+                                .foregroundStyle(.red)
+                        }
+                    }
+                }
+            }
             .task {
                 do {
                     let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: postID).transformDetailModel()
@@ -179,7 +201,7 @@ private extension PlayDetailView {
                 }
                 
                 CustomPostImage(url: postInfo.posterURL)
-                    .frame(width: screenWidth / 2.0, height: screenWidth / 1.5)
+                    .frame(width: screenWidth * 0.625, height: screenWidth * 0.835)
             } //: ZStack
             Text(postInfo.state.title) // asText 대신 Text로 변경 (asText가 정의되지 않았으므로)
                 .font(.boldFont16)

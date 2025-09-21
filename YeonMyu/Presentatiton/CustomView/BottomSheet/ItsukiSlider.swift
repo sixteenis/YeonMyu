@@ -31,8 +31,33 @@ struct ItsukiSlider<S1: ShapeStyle, S2: ShapeStyle, T1: View, T2: View>: View {
 
         GeometryReader { geometry in
             let frame = geometry.frame(in: .local)
-            RoundedRectangle(cornerRadius: barStyle.cornerRadius)
-                .fill(fillBackground)
+            
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: barStyle.cornerRadius)
+                    .fill(fillBackground)
+
+                GeometryReader { geo in
+                    let frame = geo.size.width
+                    if let step = step {
+                        let stepCount = Int((bounds.upperBound - bounds.lowerBound) / step)
+                        ForEach(0...stepCount, id: \.self) { i in
+                            let ratio = Double(i) / Double(stepCount)
+                            let x = frame * ratio
+                            
+                            Circle()
+                                .fill(i != 0 ? Color.asGray300.opacity(0.7) : Color.clear)
+                                .frame(width: 6, height: 6)
+                                .position(x: i != stepCount ? x : x - 15, y: geo.size.height / 2)
+                            
+                            Image.asStar
+                                .foregroundStyle(i <= Int(value.upperBound) - 1 ? Color.yellow : Color.gray.opacity(0.4)) // 선택 여부에 따라 색 변경
+                                .position(x: i != stepCount ? x : x - 15,
+                                          y: geo.size.height / 2 - 50) // 슬라이더 위쪽에 위치
+                            
+                        }
+                    }
+                }
+            }
             
             ThumbView(value: $value, in: bounds, step: step, mode: mode, maxWidth: frame.width, cornerRadius: barStyle.cornerRadius, fill: fillTrack, firstThumb: {
                 if let firstThumb = firstThumb { firstThumb }
@@ -206,7 +231,7 @@ fileprivate struct ThumbView<S: ShapeStyle, T1: View, T2: View>: View {
                     .shadow(color: secondThumbTap ? Color.asPurple300.opacity(0.5) : Color.black.opacity(0.3), radius: 4, x: 2, y: 2)
                     .background(
                         Circle()
-                            .frame(width: self.firstThumbWidth * 2, height: self.firstThumbWidth * 2)
+                            .frame(width: self.secondThumbWidth * 2, height: self.secondThumbWidth * 2) // firstThumbWidth를 secondThumbWidth로 변경
                             .foregroundStyle(secondThumbTap ? Color.asPurple300.opacity(0.3) : Color.clear)
                             
                     )
@@ -214,7 +239,7 @@ fileprivate struct ThumbView<S: ShapeStyle, T1: View, T2: View>: View {
                         DragGesture(coordinateSpace: .global)
                             .onChanged { action in
                                 isDragging = true
-                                secondThumbTap = true
+                                secondThumbTap = true // secondThumbTap 상태 업데이트
                                 let newWidth = previousWidth + action.translation.width
                                 let percentage = max(min(newWidth / maxWidth, 1), 0)
                                 let valueDifference = percentageToValue(percentage)
@@ -222,7 +247,7 @@ fileprivate struct ThumbView<S: ShapeStyle, T1: View, T2: View>: View {
                             }
                             .onEnded {_ in
                                 isDragging = false
-                                secondThumbTap = false
+                                secondThumbTap = false // secondThumbTap 상태 초기화
                                 previousWidth = width
                             }
                     )
