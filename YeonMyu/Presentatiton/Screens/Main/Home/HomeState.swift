@@ -10,6 +10,7 @@ import Foundation
 protocol HomeStateProtocol {
     var contentState: ContentState { get } // 뷰 상태
     var headerPosts: [MainHeaderPlayModel] { get set } //상단 랜덤 포스터
+    var headerPostsTmp: [MainHeaderPlayModel] { get set } //상단 랜덤 포스터
     var userInfo: UserInfoModel { get } //유저 연극 기록 정보
     var playCategorys: [PrfCate] { get } //공연 종류들
     var areaTopPrf: [SimplePostModel] { get } // 지역
@@ -40,7 +41,7 @@ protocol HomeStateActionProtocol: AnyObject {
 @Observable
 final class HomeState: HomeStateProtocol, ObservableObject {
     var headerPosts: [MainHeaderPlayModel] = []
-    var headerPostCnt: Int = 0
+    var headerPostsTmp: [MainHeaderPlayModel] = []
     var userInfo: UserInfoModel = UserInfoModel(likes: "", recodePlayCnt: "", schedulePlayCnt: "")
     var playCategorys = PrfCate.allCases
     
@@ -63,6 +64,9 @@ extension HomeState: HomeStateActionProtocol {
     }
     func getHeaderPosts(_ posts: [MainHeaderPlayModel]) {
         self.headerPosts = posts
+        for _ in 0..<10 {
+            self.headerPostsTmp.append(contentsOf: posts)
+        }
     }
     func getRandomPrfs(_ data: RandomSimplePlayModel?) {
         guard let data else { return }

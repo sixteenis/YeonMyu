@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftUIPullToRefresh
-import ACarousel
 
 struct HomeView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
@@ -93,6 +92,10 @@ extension HomeView {
             coordinator.presentSheet(.citySelect(binding: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}), onDismiss: {
                 isAreSelectedPresented = false
             }))
+        }
+        .onChange(of: state.headerPostsTmp) { _ , _ in
+            // 야매 무한 페이지 캐러셀를 위해 필요...
+            currentIndex = state.headerPostsTmp.count / 2
         }
         
     }
@@ -214,67 +217,63 @@ private extension HomeView {
 private extension HomeView {
     func topCarouselView() -> some View {
         ZStack {
-            ACarousel(state.headerPosts,
-                      index: $currentIndex,
-                      spacing: 0,
-                      headspace: 0,
-                      sidesScaling: 1.0,
-                      isWrap: true,
-                      autoScroll: .active(5)) { item in
-                ZStack {
-                    CustomPostImage(url: item.postURL)
-                    LinearGradient(
-                        gradient: Gradient(stops: [
-                            .init(color: .asBlack.opacity(0.6), location: 0.2),
-                            .init(color: .asBlack.opacity(0.2), location: 0.47),
-                            .init(color: .asPurple300, location: 1.0)
-                        ]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    Rectangle()
-                        .foregroundStyle(Color.asBlack.opacity(0.25))
+            // TabView로 캐러셀 구현
+            TabView(selection: $currentIndex) {
+                ForEach(state.headerPostsTmp.indices, id: \.self) { index in
+                    let item = state.headerPostsTmp[index]
                     
-                    VStack(alignment: .leading) {
-                        asText(item.mainTitle)
-                            .foregroundStyle(Color.asWhite)
-                            .font(.boldFont28)
-                            .multilineTextAlignment(.leading)
-                            .padding(.bottom, 4)
-                            .shadow(color: Color.asBlack.opacity(0.25), radius: 4, x: 0, y: 0)
+                    ZStack {
+                        CustomPostImage(url: item.postURL)
                         
-                        asText(item.subTitle)
-                            .foregroundStyle(Color.asPurple500)
-                            .font(.font16)
-                            .shadow(color: Color.asBlack.opacity(0.25), radius: 4, x: 0, y: 0)
+                        LinearGradient(
+                            gradient: Gradient(stops: [
+                                .init(color: .asBlack.opacity(0.6), location: 0.2),
+                                .init(color: .asBlack.opacity(0.2), location: 0.47),
+                                .init(color: .asPurple300, location: 1.0)
+                            ]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        
+                        Rectangle()
+                            .foregroundStyle(Color.asBlack.opacity(0.25))
+                        
+                        VStack(alignment: .leading) {
+                            asText(item.mainTitle)
+                                .foregroundStyle(Color.asWhite)
+                                .font(.boldFont28)
+                                .multilineTextAlignment(.leading)
+                                .padding(.bottom, 4)
+                                .shadow(color: Color.asBlack.opacity(0.25), radius: 4)
+                            
+                            asText(item.subTitle)
+                                .foregroundStyle(Color.asPurple500)
+                                .font(.font16)
+                                .shadow(color: Color.asBlack.opacity(0.25), radius: 4)
+                        }
+                        .vBottom()
+                        .hLeading()
+                        .padding(.bottom, 65)
+                        .padding(.leading, 24)
                     }
-                    .vBottom()
-                    .hLeading()
-                    .padding(.bottom, 65)
-                    .padding(.leading, 24)
-                }
-                .onTapGesture {
-                    print(item.postID)
-                    intent.postTapped(id: item.postID)
+                    .frame(width: UIScreen.main.bounds.width, height: 500)
+                    .tag(index)
+                    .onTapGesture {
+                        print(item.postID)
+                        intent.postTapped(id: item.postID)
+                    }
                 }
             }
+            .tabViewStyle(.page(indexDisplayMode: .never)) // 기본 인디케이터 숨김
             .frame(height: 500)
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        // 가로 드래그만 처리, 세로 드래그는 상위 ScrollView로 전달
-                        if abs(value.translation.width) > abs(value.translation.height) {
-                            // 가로 드래그: ACarousel 동작 유지
-                        }
-                    }
-            )
-            .allowsHitTesting(true) // 사용자 인터랙션 허용
+            .animation(.easeInOut(duration: 0.25), value: currentIndex)
             
+            // 커스텀 인디케이터
             HStack {
                 ForEach(state.headerPosts.indices, id: \.self) { index in
                     Capsule()
-                        .fill(index == currentIndex ? Color.white.opacity(0.6) : Color.white.opacity(0.25))
-                        .frame(width: index == currentIndex ? 18 : 8, height: 8)
+                        .fill(index == currentIndex % state.headerPosts.count ? Color.white.opacity(0.6) : Color.white.opacity(0.25))
+                        .frame(width: index == currentIndex % state.headerPosts.count ? 18 : 8, height: 8)
                         .shadow(color: .asBlack.opacity(0.25), radius: 1.35)
                         .animation(.easeInOut(duration: 0.25), value: currentIndex)
                 }

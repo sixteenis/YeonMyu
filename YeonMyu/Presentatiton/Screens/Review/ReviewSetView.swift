@@ -210,19 +210,21 @@ private extension ReviewSetView {
                 .hLeading()
             
             ZStack(alignment: .topLeading) {
-                if seatTT.isEmpty {
-                    Text("관람한 후기를 알려주세요")
-                        .foregroundColor(.black)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                }
-
+                
                 TextEditor(text: $seatTT)
                     .scrollContentBackground(.hidden)
                     .frame(height: 230)
                     .padding(12)
                     .background(Color.asGray500)
                     .cornerRadius(10)
+                
+                if seatTT.isEmpty {
+                    Text("후기는 최대 1,000글자까지 작성 가능합니다.")
+                        .foregroundColor(.asGray300)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                }
+                
             }
         }
     }
