@@ -10,8 +10,8 @@ import MapKit
 import Kingfisher
 
 struct PlayDetailView: View {
+    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
     let segments: [String] = ["공연정보", "티켓예매", "위치/시설"]
-    
     @Namespace private var name
     @State private var currentPage = 0
     @State private var selectPage = 0
@@ -38,6 +38,7 @@ extension PlayDetailView {
                     HStack(spacing: 10) {
                         Button {
                             print("작성 버튼 클릭")
+                            coordinator.push(.reviewSetView)
                         } label: {
                             Image.asWriteBtn
                                 .resizable()
@@ -47,12 +48,13 @@ extension PlayDetailView {
                         Button {
                             print("좋아요 버튼 클릭")
                         } label: {
-                            Image.asHeart
+                            Image.asLikeHeart
                                 .resizable()
                                 .frame(width: 28, height: 28)
                                 .foregroundStyle(.red)
                         }
                     }
+                    .buttonStyle(.plain)
                 }
             }
             .task {

@@ -16,7 +16,7 @@ import GoogleSignIn
 import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
-import SwiftUICore
+import SwiftUI
 
 final class LoginVM: NSObject, ViewModeltype {
     

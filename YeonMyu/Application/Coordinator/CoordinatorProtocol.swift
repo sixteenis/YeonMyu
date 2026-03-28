@@ -42,6 +42,9 @@ enum Screen: Identifiable, Hashable {
     case playDetail(id: String) //공연 상세 뷰
     case searchResult(search: String, date: Date, city: CityCode)
     
+    //리뷰
+    case reviewSetView
+    
 }
 
 // 탭 뷰

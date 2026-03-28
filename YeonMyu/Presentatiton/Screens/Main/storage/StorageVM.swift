@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 import RealmSwift
-import SwiftUICore
+import SwiftUI
 enum StorageType {
     case likes
     case watched

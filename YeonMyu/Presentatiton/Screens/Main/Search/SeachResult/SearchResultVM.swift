@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import SwiftUICore
+import SwiftUI
 enum SearchSortEnum: CaseIterable {
     case nomal
     case date

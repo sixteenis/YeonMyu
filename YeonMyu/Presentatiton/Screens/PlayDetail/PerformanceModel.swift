@@ -21,6 +21,9 @@ struct SimplePerformance {
     let title: String
     let place: String
     let postURL: String
+    static func getEmptyModel() -> SimplePerformance {
+        return SimplePerformance(playId: "", playDate: "", title: "", place: "", postURL: "")
+    }
 }
 struct DetailPerformance {
     var placeId: String //장소id

@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 import RealmSwift
-import SwiftUICore
+import SwiftUI
 
 final class SearchVM: ViewModeltype {
     var cancellables: Set<AnyCancellable>

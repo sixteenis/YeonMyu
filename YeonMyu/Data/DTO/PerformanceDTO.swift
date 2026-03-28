@@ -122,10 +122,15 @@ class XMLPerformanceParser: NSObject, XMLParserDelegate {
     }
     
     // 파싱 시작 메서드
-    func parse(data: Data) -> [PerformanceDTO]{
+    func parse(data: Data) -> [PerformanceDTO] {
+        if let xmlString = String(data: data, encoding: .utf8) {
+            print("📦 XML 데이터:\n\(xmlString)")
+        } else {
+            print("❗️데이터를 문자열로 변환 실패")
+        }
+        
         let parser = XMLParser(data: data)
         parser.delegate = self
         parser.parse()
         return performances
-    }
-}
+    }}

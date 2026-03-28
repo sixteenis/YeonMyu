@@ -8,13 +8,43 @@
 import SwiftUI
 
 struct ReviewSetView: View {
-    @State private var value: Double = 1
+    @StateObject private var vm = ReviewSetVM()
+    
+    @State private var rating: Double = 1 //별점
     @State private var isReset = false
+    
+    private let performanceHighlights = ["음악", "연기", "스토리", "무대"]
+    @State private var selectedPerformanceHighlights: [String] = []
+
+    
+    private let performanceFeelings = ["감동", "재미", "몰입", "공감", "에너지"]
+    @State private var selectedPerformanceFeelings: [String] = []
+    
+    private let performanceEnvironments = ["음향", "조명", "좌석", "시야", "진행", "분위기"]
+    @State private var selectedPerformanceEnvironments: [String] = []
+    
+    
+    @State private var settingTT = ""
+    @State private var reviewTT = ""
     let range: ClosedRange<Double> = 1...5
     var body: some View {
         content()
             .navigationTitle("후기 작성")
     }
+    
+    init(
+        PreformanceData: SimplePerformance = SimplePerformance.getEmptyModel(),
+        rating: Int = 1,
+        highlights: [String] = [],
+        feelings: [String] = [],
+        environments: [String] = []
+    ) {
+        _rating = State(initialValue: Double(rating))
+        _selectedPerformanceHighlights = State(initialValue: highlights)
+        _selectedPerformanceFeelings = State(initialValue: feelings)
+        _selectedPerformanceEnvironments = State(initialValue: environments)
+    }
+    
 }
 
 private extension ReviewSetView {
@@ -23,10 +53,10 @@ private extension ReviewSetView {
             LazyVStack {
                 postInfoView()
                     .padding(.vertical, 10)
-                reSearchBtnView()
-                    .wrapToButton {
-                        print("재검색 클릭")
-                    }
+//                reSearchBtnView()
+//                    .wrapToButton {
+//                        print("재검색 클릭")
+//                    }
                 Rectangle()
                     .fill(Color.asGray600)
                     .frame(height: 6)
@@ -58,9 +88,17 @@ private extension ReviewSetView {
 private extension ReviewSetView {
     func postInfoView() -> some View {
         HStack {
-            Image.exPost
-                .resizable()
-                .frame(width: 92, height: 123)
+            ZStack {
+                Image.exPost
+                    .resizable()
+                
+                PerformanceTagView(tagTT: "뮤지컬")
+                    .hLeading()
+                    .vTop()
+                    .padding(6)
+            }.frame(width: 92, height: 123)
+            
+            Spacer().frame(width: 20)
             
             VStack(alignment: .leading, spacing: 0) {
                 asText("창작국악 어쩌구")
@@ -96,7 +134,8 @@ private extension ReviewSetView {
             .overlay {
                 HStack {
                     Image.search
-                        .frame(width: 22, height: 22)
+                        .resizable()
+                        .frame(width: 30, height: 30)
                         .foregroundStyle(Color.asPurple300)
                     Text("공연 재검색")
                         .font(.boldFont16)
@@ -116,7 +155,7 @@ private extension ReviewSetView {
                 .padding(.top, 24)
                 .hLeading()
             
-            ItsukiSlider(value: $value, in: range, step: 1, barStyle: (18, 10), fillBackground: Color.asGray400, fillTrack: Color.asPurple200) {
+            ItsukiSlider(value: $rating, in: range, step: 1, barStyle: (18, 10), fillBackground: Color.asGray400, fillTrack: Color.asPurple200) {
                 Circle()
                     .foregroundStyle(.white)
                     .frame(width: 28, height: 28)
@@ -135,8 +174,13 @@ private extension ReviewSetView {
                 .hLeading()
             
             LazyVGrid(columns: columbs, spacing: 6) {
-                ForEach(0...10, id: \.self) { index in
-                    selectedBox(index.formatted())
+                ForEach(performanceHighlights, id: \.self) { item in
+                    selectedBox(
+                        item,
+                        isSelected: selectedPerformanceHighlights.contains(item)
+                    ) {
+                        toggleSelection(item, in: &selectedPerformanceHighlights)
+                    }
                 }
             }
             
@@ -154,8 +198,13 @@ private extension ReviewSetView {
                 .hLeading()
             
             LazyVGrid(columns: columbs, spacing: 6) {
-                ForEach(0...10, id: \.self) { index in
-                    selectedBox(index.formatted())
+                ForEach(performanceFeelings, id: \.self) { item in
+                    selectedBox(
+                        item,
+                        isSelected: selectedPerformanceFeelings.contains(item)
+                    ) {
+                        toggleSelection(item, in: &selectedPerformanceFeelings)
+                    }
                 }
             }
             
@@ -172,8 +221,13 @@ private extension ReviewSetView {
                 .hLeading()
             
             LazyVGrid(columns: columbs, spacing: 6) {
-                ForEach(0...10, id: \.self) { index in
-                    selectedBox(index.formatted())
+                ForEach(performanceEnvironments, id: \.self) { item in
+                    selectedBox(
+                        item,
+                        isSelected: selectedPerformanceEnvironments.contains(item)
+                    ) {
+                        toggleSelection(item, in: &selectedPerformanceEnvironments)
+                    }
                 }
             }
             
@@ -181,7 +235,6 @@ private extension ReviewSetView {
     }
     
     func performanceSeatView() -> some View {
-        @State var seatTT = ""
         return VStack {
             
             asText("관람한 좌석")
@@ -190,7 +243,7 @@ private extension ReviewSetView {
                 .padding(.top, 24)
                 .hLeading()
             
-            TextField("관람한 좌석을 알려주세요", text: $seatTT)
+            TextField("관람한 좌석을 알려주세요", text: $settingTT)
                 .padding(12) // 안쪽 여백
                 .background(Color.asGray500) // 원하는 배경색
                 .cornerRadius(10) // 둥근 테두리
@@ -200,7 +253,6 @@ private extension ReviewSetView {
     }
     
     func performanceReViewView() -> some View {
-        @State var seatTT = ""
         return VStack {
             
             asText("후기 입력")
@@ -211,14 +263,14 @@ private extension ReviewSetView {
             
             ZStack(alignment: .topLeading) {
                 
-                TextEditor(text: $seatTT)
+                TextEditor(text: $reviewTT)
                     .scrollContentBackground(.hidden)
                     .frame(height: 230)
                     .padding(12)
                     .background(Color.asGray500)
                     .cornerRadius(10)
                 
-                if seatTT.isEmpty {
+                if reviewTT.isEmpty {
                     Text("후기는 최대 1,000글자까지 작성 가능합니다.")
                         .foregroundColor(.asGray300)
                         .padding(.horizontal, 16)
@@ -232,16 +284,29 @@ private extension ReviewSetView {
     
     
     
-    func selectedBox(_ title: String) -> some View {
-        RoundedRectangle(cornerRadius: 10)
-            .fill(Color.asPurple500)
-            .stroke(Color.asMainPurpleBorderLine, lineWidth: 1)
-            .frame(height: 43)
-            .overlay {
-                asText(title)
-                    .font(.boldFont16)
-                    .foregroundStyle(Color.asPurple300)
-            }
+    func selectedBox(_ title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(isSelected ? Color.asPurple500 : Color.asGray500)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.asMainPurpleBorderLine, lineWidth: isSelected ? 1 : 0)
+                )
+                .frame(height: 43)
+                .overlay {
+                    asText(title)
+                        .font(.boldFont16)
+                        .foregroundStyle(isSelected ? Color.asPurple300 : Color.asGray300)
+                }
+        }
+        .buttonStyle(.plain)
+    }
+    func toggleSelection(_ item: String, in array: inout [String]) {
+        if let index = array.firstIndex(of: item) {
+            array.remove(at: index)
+        } else {
+            array.append(item)
+        }
     }
     func svaeBtnView() -> some View {
         RoundedRectangle(cornerRadius: 10)

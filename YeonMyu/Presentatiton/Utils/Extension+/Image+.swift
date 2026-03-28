@@ -73,6 +73,10 @@ extension Image {
     static let exPost = Image("testImage")
     static let exTicket = Image("exTicket")
     
+    static let asLikeHeart = Image("아이콘_찜")
+    static let asLikeHeartFill = Image("아이콘_찜_fill")
+    
+    
 }
 
 extension UIImage {

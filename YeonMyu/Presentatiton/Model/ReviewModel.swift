@@ -7,10 +7,12 @@
 
 import Foundation
 
-struct ReviewModel: Identifiable {
-    let id = UUID()
-    let playID: String
-    let playInfo: SimplePostModel
-    let likeLate: Int
+struct ReviewModel {
+    var playInfo: SimplePostModel?
+    var likeLate: Double
+    var feelingTypes: [String]
+    var emotionTypes: [String]
+    var environmentTypes: [String]
+    var setting: String
     
 }
