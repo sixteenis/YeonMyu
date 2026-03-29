@@ -26,7 +26,7 @@ struct PlayDetailView: View {
     
     //지도
     @State private var region = MKCoordinateRegion()
-    
+    @State private var likesId: [String] = []
 }
 
 extension PlayDetailView {
@@ -47,11 +47,24 @@ extension PlayDetailView {
 
                         Button {
                             print("좋아요 버튼 클릭")
+                            Task {
+                                let isCurrentlyLiked = likesId.contains(where: { $0 == postID })
+
+                                try await UserManager.shared.updateLike(LikesPerformanceModel(mt20id: postID, postType: postInfo.genrenm), isLike: !isCurrentlyLiked)
+                                likesId = UserManager.shared.getUserData().likesPerformance.map {$0.mt20id}
+                            }
                         } label: {
-                            Image.asLikeHeart
-                                .resizable()
-                                .frame(width: 28, height: 28)
-                                .foregroundStyle(.red)
+                            if (likesId.contains(where: {$0 == postID})) {
+                                Image.asLikeHeartFill
+                                    .resizable()
+                                    .frame(width: 28, height: 28)
+                                    .foregroundStyle(.red)
+                            } else {
+                                Image.asLikeHeart
+                                    .resizable()
+                                    .frame(width: 28, height: 28)
+                                    .foregroundStyle(.red)
+                            }
                         }
                     }
                     .buttonStyle(.plain)
@@ -68,6 +81,7 @@ extension PlayDetailView {
                     region.center = CLLocationCoordinate2D(latitude: placeData.latitude, longitude: placeData.longitude)
                     region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
                     contentState = .content
+                    likesId = UserManager.shared.getUserData().likesPerformance.map {$0.mt20id}
                     
                 } catch {
                     contentState = .error

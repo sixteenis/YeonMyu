@@ -12,7 +12,6 @@
 		061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */; };
 		061A16752E574FBA00AF13D3 /* ScannerLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A16742E574FBA00AF13D3 /* ScannerLineView.swift */; };
 		062626252E7588D8009B879B /* ReviewSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626242E7588D8009B879B /* ReviewSetView.swift */; };
-		062626272E86D79C009B879B /* ReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626262E86D79C009B879B /* ReviewModel.swift */; };
 		0631B1752D81CDB600287825 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631B1742D81CDB600287825 /* APIKey.swift */; };
 		0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0631B1762D81CDDD00287825 /* GoogleService-Info.plist */; };
 		063F5D3D2D885E1A004F4C17 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */; };
@@ -168,7 +167,6 @@
 		061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTagView.swift; sourceTree = "<group>"; };
 		061A16742E574FBA00AF13D3 /* ScannerLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerLineView.swift; sourceTree = "<group>"; };
 		062626242E7588D8009B879B /* ReviewSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSetView.swift; sourceTree = "<group>"; };
-		062626262E86D79C009B879B /* ReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModel.swift; sourceTree = "<group>"; };
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		0631B1762D81CDDD00287825 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		063F5D3B2D885209004F4C17 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -370,6 +368,14 @@
 			path = PlayDetail;
 			sourceTree = "<group>";
 		};
+		0686D5FD2F7910DA00ED153D /* FirebaseStore */ = {
+			isa = PBXGroup;
+			children = (
+				063F5D672D8C3DE1004F4C17 /* FirestoreManager.swift */,
+			);
+			path = FirebaseStore;
+			sourceTree = "<group>";
+		};
 		069415AC2E71A5DB00F4672E /* Review */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +493,7 @@
 		06E507CB2D7F10CD00F5E7DE /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				0686D5FD2F7910DA00ED153D /* FirebaseStore */,
 				06E507BB2D7F10CD00F5E7DE /* Notification */,
 				06E507BE2D7F10CD00F5E7DE /* User */,
 				06E507C12D7F10CD00F5E7DE /* Realm */,
@@ -494,7 +501,6 @@
 				06E507C82D7F10CD00F5E7DE /* DTO */,
 				06E507CA2D7F10CD00F5E7DE /* NetworkManager.swift */,
 				063F5D3C2D885E1A004F4C17 /* AuthenticationManager.swift */,
-				063F5D672D8C3DE1004F4C17 /* FirestoreManager.swift */,
 				0631B1742D81CDB600287825 /* APIKey.swift */,
 			);
 			path = Data;
@@ -574,7 +580,6 @@
 				06E507E42D7F10CD00F5E7DE /* PlaySate.swift */,
 				06E507E52D7F10CD00F5E7DE /* SimplePostModel.swift */,
 				06E507E62D7F10CD00F5E7DE /* PrfCate.swift */,
-				062626262E86D79C009B879B /* ReviewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1051,7 +1056,6 @@
 				06E508392D7F10CD00F5E7DE /* LoadingView.swift in Sources */,
 				06E507B92D7F10C700F5E7DE /* SplashView.swift in Sources */,
 				06CD38252D7DD0EB00959852 /* YeonMyuApp.swift in Sources */,
-				062626272E86D79C009B879B /* ReviewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

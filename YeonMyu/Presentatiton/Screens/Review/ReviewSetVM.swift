@@ -16,7 +16,6 @@ final class ReviewSetVM: ViewModeltype {
         
     }
     struct Output {
-        var reviewModel = ReviewModel(likeLate: 0, feelingTypes: [], emotionTypes: [], environmentTypes: [], setting: "")
     }
     init() {
         transform()
