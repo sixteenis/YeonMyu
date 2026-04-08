@@ -68,7 +68,7 @@ final class MainCoordinator: CoordinatorProtocol {
         case .my: MyView() //마이 뷰
         case .playDetail(let id) : PlayDetailView(postID: id)
         case .searchResult(let search, let date, let city): SearchResultView(searchText: search, date: date, city: city)
-        case .reviewSetView: ReviewSetView()
+        case .reviewSetView(let id): ReviewSetView(postID: id)
         default: EmptyView()
             
         }
