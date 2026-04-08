@@ -10,6 +10,7 @@ import SwiftUIPullToRefresh
 
 struct HomeView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    @Environment(UserUseCase.self) private var userUseCase
     @StateObject var container: Container<HomeIntentProtocol, HomeStateProtocol>
     private var intent: HomeIntentProtocol { container.intent }
     private var state: HomeStateProtocol { container.state }
@@ -72,6 +73,7 @@ extension HomeView {
             //            .toolbar(state.contentState == .initView ? .hidden : .automatic, for: .tabBar, .bottomBar)
         } //:VSTACK
         .onAppear {
+            intent.configureUserInfo(name: userUseCase.userInfo.name, city: userUseCase.userInfo.getCityCode())
             if state.contentState != .content { intent.onAppear(city: state.selectedCity, prfCate: state.selectedPrfCate) }
         }
         .onChange(of: state.selectedPost) { oldValue, newValue in // 공연 상세뷰로 이동

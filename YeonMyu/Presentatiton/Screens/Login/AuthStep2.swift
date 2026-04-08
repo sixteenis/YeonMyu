@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AuthStep2: View {
     @EnvironmentObject var appCoordinator: MainCoordinator
+    @Environment(UserUseCase.self) private var userUseCase
     var uid: String
     var area: String
     @State private var name: String = ""
@@ -125,9 +126,9 @@ private extension AuthStep2 {
         Button {
             Task {
                 do {
-                    let result = try await UserManager.shared.createUser(uid: uid, name: name, area: area)
+                    let result = try await userUseCase.createUser(uid: uid, name: name, area: area)
                     guard let user = result else { return }
-                    UserManager.shared.saveUserData(user)
+                    userUseCase.saveUserData(user)
                     self.isCeate = true
                 } catch {
                     print("계정 생성 오류 발생!!!")

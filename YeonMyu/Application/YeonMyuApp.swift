@@ -27,6 +27,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct YeonMyuApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var appCoordinator: MainCoordinator = MainCoordinator()
+    @State private var userUseCase = UserUseCase()
     init() {
         let appearance = UINavigationBarAppearance()
         
@@ -54,6 +55,7 @@ struct YeonMyuApp: App {
             ContentView()
                 .tint(.asPurple300)
                 .environmentObject(appCoordinator)
+                .environment(userUseCase)
                 .onOpenURL { url in //구글 로그인
                     GIDSignIn.sharedInstance.handle(url)
                 }

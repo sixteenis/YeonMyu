@@ -12,6 +12,7 @@ import AuthenticationServices
 struct LoginView: View {
     @StateObject private var vm = LoginVM()
     @EnvironmentObject var appCoordinator: MainCoordinator
+    @Environment(UserUseCase.self) private var userUseCase
     
     var body: some View {
         NavigationView {
@@ -26,6 +27,7 @@ struct LoginView: View {
                 
             }
         }
+        .task { vm.configure(userUseCase: userUseCase) }
         .onChange(of: vm.output.goJoinView) { oldValue, newValue in
             appCoordinator.push(.authStep1(uid: vm.output.uid))
         }

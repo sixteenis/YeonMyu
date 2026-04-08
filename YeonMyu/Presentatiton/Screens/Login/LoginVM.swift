@@ -25,6 +25,11 @@ final class LoginVM: NSObject, ViewModeltype {
     @Published var output = Output()
     private var currentNonce: String?
     private var uid: String = ""
+    private var userUseCase: UserUseCase?
+    
+    func configure(userUseCase: UserUseCase) {
+        self.userUseCase = userUseCase
+    }
     
     
     override init() {
@@ -105,7 +110,8 @@ final class LoginVM: NSObject, ViewModeltype {
 private extension LoginVM {
     func loginStart(uid: String) {
         Task {
-            let state = await UserManager.shared.checkSignInState(uid: uid)
+            guard let userUseCase else { return }
+            let state = await userUseCase.checkSignInState(uid: uid)
             await MainActor.run {
                 self.output.uid = uid
                 if state == .signIn { self.output.goMianView = true }

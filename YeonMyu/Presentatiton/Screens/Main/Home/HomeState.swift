@@ -25,6 +25,7 @@ protocol HomeStateProtocol {
 }
 
 protocol HomeStateActionProtocol: AnyObject {
+    func setUserName(_ name: String)
     func getContentState(_ state: ContentState)
     func getHeaderPosts(_ posts: [MainHeaderPlayModel])
     func getRandomPrfs(_ data: RandomSimplePlayModel?)
@@ -53,12 +54,15 @@ final class HomeState: HomeStateProtocol, ObservableObject {
     
     var selectedPost: String?
     var selectedUserInfo: UserInfo?
-    var userName = UserManager.shared.getUserData().name
-    var selectedCity: CityCode = UserManager.shared.getUserData().getCityCode()
+    var userName = ""
+    var selectedCity: CityCode = .seoul
     var selectedPrfCate: PrfCate = .all
 }
 
 extension HomeState: HomeStateActionProtocol {
+    func setUserName(_ name: String) {
+        self.userName = name
+    }
     func getContentState(_ state: ContentState) {
         self.contentState = state
     }

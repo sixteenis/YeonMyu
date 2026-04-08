@@ -8,85 +8,69 @@
 import SwiftUI
 
 struct ReviewSetView: View {
-    @StateObject private var vm = ReviewSetVM()
-    
-    @State private var rating: Double = 1 //별점
-    @State private var isReset = false
-    
-    private let performanceHighlights = ["음악", "연기", "스토리", "무대"]
-    @State private var selectedPerformanceHighlights: [String] = []
-
-    
-    private let performanceFeelings = ["감동", "재미", "몰입", "공감", "에너지"]
-    @State private var selectedPerformanceFeelings: [String] = []
-    
-    private let performanceEnvironments = ["음향", "조명", "좌석", "시야", "진행", "분위기"]
-    @State private var selectedPerformanceEnvironments: [String] = []
-    
-    
-    @State private var settingTT = ""
-    @State private var reviewTT = ""
-    let range: ClosedRange<Double> = 1...5
-    var body: some View {
-        content()
-            .navigationTitle("후기 작성")
-    }
+    @Environment(UserUseCase.self) private var userUseCase
+    @StateObject private var vm: ReviewSetVM
     
     init(
-        PreformanceData: SimplePerformance = SimplePerformance.getEmptyModel(),
+        postID: String,
         rating: Int = 1,
         highlights: [String] = [],
         feelings: [String] = [],
         environments: [String] = []
     ) {
-        _rating = State(initialValue: Double(rating))
-        _selectedPerformanceHighlights = State(initialValue: highlights)
-        _selectedPerformanceFeelings = State(initialValue: feelings)
-        _selectedPerformanceEnvironments = State(initialValue: environments)
+        _vm = StateObject(wrappedValue: ReviewSetVM(
+            postID: postID,
+            rating: rating,
+            highlights: highlights,
+            feelings: feelings,
+            environments: environments
+        ))
     }
     
-}
-
-private extension ReviewSetView {
-    func content() -> some View {
+    var body: some View {
         ScrollView {
             LazyVStack {
-                postInfoView()
+                postInfoSection
                     .padding(.vertical, 10)
-//                reSearchBtnView()
-//                    .wrapToButton {
-//                        print("재검색 클릭")
-//                    }
-                Rectangle()
-                    .fill(Color.asGray600)
-                    .frame(height: 6)
-                    .padding(.horizontal, -24)
                 
-                reviewRatingView()
+                sectionDivider
                 
-                performanceHighlightsView()
-                performanceFeelingsView()
-                performanceEnvironmentView()
-                performanceSeatView()
+                ratingSection
                 
-                Rectangle()
-                    .fill(Color.asGray600)
-                    .frame(height: 6)
-                    .padding(.horizontal, -24)
+                tagSelectionSection(
+                    title: "좋았던 공연요소",
+                    items: vm.performanceHighlights,
+                    selection: $vm.selectedHighlights
+                )
+                tagSelectionSection(
+                    title: "느꼈던 감정/분위기",
+                    items: vm.performanceFeelings,
+                    selection: $vm.selectedFeelings
+                )
+                tagSelectionSection(
+                    title: "만족한 관람환경",
+                    items: vm.performanceEnvironments,
+                    selection: $vm.selectedEnvironments
+                )
                 
-                performanceReViewView()
+                seatInputSection
+                
+                sectionDivider
+                
+                reviewInputSection
                     .padding(.bottom, 24)
-                svaeBtnView()
                 
+                saveButton
             }
             .padding(.horizontal, 16)
         }
-        
+        .navigationTitle("후기 작성")
     }
 }
-// MARK: - 후기 상단 공연 정보 부분
+
+// MARK: - 공연 정보 섹션
 private extension ReviewSetView {
-    func postInfoView() -> some View {
+    var postInfoSection: some View {
         HStack {
             ZStack {
                 Image.exPost
@@ -96,7 +80,8 @@ private extension ReviewSetView {
                     .hLeading()
                     .vTop()
                     .padding(6)
-            }.frame(width: 92, height: 123)
+            }
+            .frame(width: 92, height: 123)
             
             Spacer().frame(width: 20)
             
@@ -106,14 +91,15 @@ private extension ReviewSetView {
                     .padding(.bottom, 15)
                     .padding(.top, 5)
                 
-                infoView(image: .calendarIcon, text: "2025년 7월 30일 (토)")
-                infoView(image: .markerIcon, text: "국립극장 해오름극장")
+                infoRow(image: .calendarIcon, text: "2025년 7월 30일 (토)")
+                infoRow(image: .markerIcon, text: "국립극장 해오름극장")
             }
             .vTop()
         }
         .frame(height: 130)
     }
-    func infoView(image: Image, text: String) -> some View {
+    
+    func infoRow(image: Image, text: String) -> some View {
         HStack(spacing: 2) {
             image
                 .resizable()
@@ -127,27 +113,11 @@ private extension ReviewSetView {
         }
         .hLeading()
     }
-    func reSearchBtnView() -> some View {
-        RoundedRectangle(cornerRadius: 10)
-            .fill(Color.asPurple500)
-            .frame(height: 52)
-            .overlay {
-                HStack {
-                    Image.search
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundStyle(Color.asPurple300)
-                    Text("공연 재검색")
-                        .font(.boldFont16)
-                        .foregroundStyle(Color.asPurple300)
-                }
-            }
-        
-    }
 }
 
+// MARK: - 별점 섹션
 private extension ReviewSetView {
-    func reviewRatingView() -> some View {
+    var ratingSection: some View {
         VStack {
             asText("별점 선택")
                 .font(.boldFont20)
@@ -155,7 +125,14 @@ private extension ReviewSetView {
                 .padding(.top, 24)
                 .hLeading()
             
-            ItsukiSlider(value: $rating, in: range, step: 1, barStyle: (18, 10), fillBackground: Color.asGray400, fillTrack: Color.asPurple200) {
+            ItsukiSlider(
+                value: $vm.rating,
+                in: vm.ratingRange,
+                step: 1,
+                barStyle: (18, 10),
+                fillBackground: Color.asGray400,
+                fillTrack: Color.asPurple200
+            ) {
                 Circle()
                     .foregroundStyle(.white)
                     .frame(width: 28, height: 28)
@@ -163,128 +140,41 @@ private extension ReviewSetView {
             .padding(.leading, 15)
         }
     }
-    func performanceHighlightsView() -> some View {
-        let columbs:[GridItem] =  [GridItem(.adaptive(minimum: 75))]
+}
+
+// MARK: - 태그 선택 섹션 (재사용 컴포넌트)
+private extension ReviewSetView {
+    func tagSelectionSection(
+        title: String,
+        items: [String],
+        selection: Binding<Set<String>>
+    ) -> some View {
+        let columns = [GridItem(.adaptive(minimum: 75))]
         return VStack {
-            
-            asText("좋았던 공연요소")
+            asText(title)
                 .font(.boldFont20)
                 .padding(.bottom, 12)
                 .padding(.top, 24)
                 .hLeading()
             
-            LazyVGrid(columns: columbs, spacing: 6) {
-                ForEach(performanceHighlights, id: \.self) { item in
-                    selectedBox(
+            LazyVGrid(columns: columns, spacing: 6) {
+                ForEach(items, id: \.self) { item in
+                    tagChip(
                         item,
-                        isSelected: selectedPerformanceHighlights.contains(item)
+                        isSelected: selection.wrappedValue.contains(item)
                     ) {
-                        toggleSelection(item, in: &selectedPerformanceHighlights)
+                        vm.toggleItem(item, in: &selection.wrappedValue)
                     }
                 }
             }
-            
         }
     }
     
-    func performanceFeelingsView() -> some View {
-        let columbs:[GridItem] =  [GridItem(.adaptive(minimum: 75))]
-        return VStack {
-            
-            asText("느꼈던 감정/분위기")
-                .font(.boldFont20)
-                .padding(.bottom, 12)
-                .padding(.top, 24)
-                .hLeading()
-            
-            LazyVGrid(columns: columbs, spacing: 6) {
-                ForEach(performanceFeelings, id: \.self) { item in
-                    selectedBox(
-                        item,
-                        isSelected: selectedPerformanceFeelings.contains(item)
-                    ) {
-                        toggleSelection(item, in: &selectedPerformanceFeelings)
-                    }
-                }
-            }
-            
-        }
-    }
-    func performanceEnvironmentView() -> some View {
-        let columbs:[GridItem] =  [GridItem(.adaptive(minimum: 75))]
-        return VStack {
-            
-            asText("만족한 관람환경")
-                .font(.boldFont20)
-                .padding(.bottom, 12)
-                .padding(.top, 24)
-                .hLeading()
-            
-            LazyVGrid(columns: columbs, spacing: 6) {
-                ForEach(performanceEnvironments, id: \.self) { item in
-                    selectedBox(
-                        item,
-                        isSelected: selectedPerformanceEnvironments.contains(item)
-                    ) {
-                        toggleSelection(item, in: &selectedPerformanceEnvironments)
-                    }
-                }
-            }
-            
-        }
-    }
-    
-    func performanceSeatView() -> some View {
-        return VStack {
-            
-            asText("관람한 좌석")
-                .font(.boldFont20)
-                .padding(.bottom, 12)
-                .padding(.top, 24)
-                .hLeading()
-            
-            TextField("관람한 좌석을 알려주세요", text: $settingTT)
-                .padding(12) // 안쪽 여백
-                .background(Color.asGray500) // 원하는 배경색
-                .cornerRadius(10) // 둥근 테두리
-                .frame(height: 67)
-            
-        }
-    }
-    
-    func performanceReViewView() -> some View {
-        return VStack {
-            
-            asText("후기 입력")
-                .font(.boldFont20)
-                .padding(.bottom, 12)
-                .padding(.top, 24)
-                .hLeading()
-            
-            ZStack(alignment: .topLeading) {
-                
-                TextEditor(text: $reviewTT)
-                    .scrollContentBackground(.hidden)
-                    .frame(height: 230)
-                    .padding(12)
-                    .background(Color.asGray500)
-                    .cornerRadius(10)
-                
-                if reviewTT.isEmpty {
-                    Text("후기는 최대 1,000글자까지 작성 가능합니다.")
-                        .foregroundColor(.asGray300)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                }
-                
-            }
-        }
-    }
-    
-    
-    
-    
-    func selectedBox(_ title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+    func tagChip(
+        _ title: String,
+        isSelected: Bool,
+        action: @escaping () -> Void
+    ) -> some View {
         Button(action: action) {
             RoundedRectangle(cornerRadius: 10)
                 .fill(isSelected ? Color.asPurple500 : Color.asGray500)
@@ -301,26 +191,81 @@ private extension ReviewSetView {
         }
         .buttonStyle(.plain)
     }
-    func toggleSelection(_ item: String, in array: inout [String]) {
-        if let index = array.firstIndex(of: item) {
-            array.remove(at: index)
-        } else {
-            array.append(item)
+}
+
+// MARK: - 좌석 & 후기 입력 섹션
+private extension ReviewSetView {
+    var seatInputSection: some View {
+        VStack {
+            asText("관람한 좌석")
+                .font(.boldFont20)
+                .padding(.bottom, 12)
+                .padding(.top, 24)
+                .hLeading()
+            
+            TextField("관람한 좌석을 알려주세요", text: $vm.seatText)
+                .padding(12)
+                .background(Color.asGray500)
+                .cornerRadius(10)
+                .frame(height: 67)
         }
     }
-    func svaeBtnView() -> some View {
-        RoundedRectangle(cornerRadius: 10)
-            .fill(Color.asPurple300)
-            .frame(height: 52)
-            .overlay {
-                    Text("후기 등록하기")
-                        .font(.boldFont16)
-                        .foregroundStyle(Color.asWhite)
+    
+    var reviewInputSection: some View {
+        VStack {
+            asText("후기 입력")
+                .font(.boldFont20)
+                .padding(.bottom, 12)
+                .padding(.top, 24)
+                .hLeading()
+            
+            ZStack(alignment: .topLeading) {
+                TextEditor(text: $vm.reviewText)
+                    .scrollContentBackground(.hidden)
+                    .frame(height: 230)
+                    .padding(12)
+                    .background(Color.asGray500)
+                    .cornerRadius(10)
+                
+                if vm.reviewText.isEmpty {
+                    Text("후기는 최대 1,000글자까지 작성 가능합니다.")
+                        .foregroundColor(.asGray300)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                }
             }
-        
+        }
     }
 }
 
-#Preview {
-    ReviewSetView()
+// MARK: - 공통 UI
+private extension ReviewSetView {
+    var sectionDivider: some View {
+        Rectangle()
+            .fill(Color.asGray600)
+            .frame(height: 6)
+            .padding(.horizontal, -24)
+    }
+    
+    var saveButton: some View {
+        Button {
+            Task { await vm.saveReview(useCase: userUseCase) }
+        } label: {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.asPurple300)
+                .frame(height: 52)
+                .overlay {
+                    if vm.isSaving {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Text("후기 등록하기")
+                            .font(.boldFont16)
+                            .foregroundStyle(Color.asWhite)
+                    }
+                }
+        }
+        .buttonStyle(.plain)
+        .disabled(vm.isSaving)
+    }
 }

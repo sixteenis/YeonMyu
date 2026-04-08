@@ -43,7 +43,7 @@ enum Screen: Identifiable, Hashable {
     case searchResult(search: String, date: Date, city: CityCode)
     
     //리뷰
-    case reviewSetView
+    case reviewSetView(placeId: String)
     
 }
 
