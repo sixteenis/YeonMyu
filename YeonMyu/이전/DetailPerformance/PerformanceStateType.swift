@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum PerformanceStateType {
+enum PerformanceStateType: Hashable {
     case open
     case close
     case notYet

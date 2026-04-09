@@ -18,7 +18,7 @@ struct PlayDetailView: View {
     @State private var position = ScrollPosition(edge: .top)
     @State private var isStopCurrentPage = false
     @State private var allInfo = false
-    @State private var isScrolling = false
+    @State private var isScrolling = false // 뷰 맨 상단에 스크롤영역이 있는지 판별
     
     @State private var contentState: ContentState = .loading
     @State private var postInfo = DetailPerformance()
@@ -39,7 +39,7 @@ extension PlayDetailView {
                 .padding(.trailing, 20)
                 .padding(.bottom, 20)
         }
-        .navigationTitle(postInfo.name)
+        .navigationTitle(isScrolling ? postInfo.name : "")
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
@@ -529,7 +529,7 @@ private extension PlayDetailView {
 private extension PlayDetailView {
     var reviewFloatingButton: some View {
         Button {
-            coordinator.push(.reviewSetView(placeId: postInfo.placeId))
+            coordinator.push(.reviewSetView(postInfo: postInfo))
         } label: {
             HStack(spacing: 6) {
                 Image.asWriteBtn
