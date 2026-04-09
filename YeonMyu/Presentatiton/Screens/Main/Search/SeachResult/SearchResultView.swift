@@ -87,7 +87,8 @@ private extension SearchResultView {
     }
     func searchView() -> some View {
         RoundedRectangle(cornerRadius: 30)
-            .fill(Color.asGray500)
+            .fill(Color.asWhite)
+            .stroke(Color.purpleBlueGradient, lineWidth: 1)
             .frame(width: 265,height: 40) // 외부 프레임 재지정
             .overlay(
                 HStack(spacing: 0) {
