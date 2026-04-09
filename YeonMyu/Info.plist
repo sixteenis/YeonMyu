@@ -33,6 +33,12 @@
 	<string>YES</string>
 	<key>GIDClientID</key>
 	<string>$(GOOGLE_KEY)</string>
+	<key>KAKAO_KEY</key>
+	<string>$(KAKAO_KEY)</string>
+	<key>GOOGLE_KEY</key>
+	<string>$(GOOGLE_KEY)</string>
+	<key>OPEN_AI_KEY</key>
+	<string>$(OPEN_AI_KEY)</string>
 	<key>KOPIS_KEY</key>
 	<string>$(KOPIS_KEY)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
