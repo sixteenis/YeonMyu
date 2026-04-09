@@ -87,11 +87,10 @@ final class SearchResultVM: ViewModeltype {
                     set: { self.output.selectedPrice = $0 }
                 )
                 // Pass the bindings to presentSheet
-                coordinator?.presentSheet(.totalSelect(
+                coordinator?.presentSheet(.dateAndPriceSelect(
                     selected: page,
                     date: dateBinding,
-                    city: cityBinding,
-                    price: priceBinding
+                    city: cityBinding
                 ))
             }.store(in: &cancellables)
         

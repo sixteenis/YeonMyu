@@ -122,17 +122,17 @@ private extension SearchResultView {
                     vm.input.presentBottomSheet.send(1)
                 }
             
-            if TicketPriceEnum.getType(vm.output.selectedPrice) != nil{
-                optionView(TicketPriceEnum.getType(vm.output.selectedPrice)! != .all ? TicketPriceEnum.getType(vm.output.selectedPrice)!.rawValue : "가격", isCheck: TicketPriceEnum.getType(vm.output.selectedPrice)! != .all)
-                    .wrapToButton {
-                        vm.input.presentBottomSheet.send(2)
-                    }
-            } else {
-                optionView("\(vm.output.selectedPrice.lowerBound / 10_000)만원~\(vm.output.selectedPrice.upperBound / 10_000)만원", isCheck: true)
-                    .wrapToButton {
-                        vm.input.presentBottomSheet.send(2)
-                    }
-            }
+//            if TicketPriceEnum.getType(vm.output.selectedPrice) != nil{
+//                optionView(TicketPriceEnum.getType(vm.output.selectedPrice)! != .all ? TicketPriceEnum.getType(vm.output.selectedPrice)!.rawValue : "가격", isCheck: TicketPriceEnum.getType(vm.output.selectedPrice)! != .all)
+//                    .wrapToButton {
+//                        vm.input.presentBottomSheet.send(2)
+//                    }
+//            } else {
+//                optionView("\(vm.output.selectedPrice.lowerBound / 10_000)만원~\(vm.output.selectedPrice.upperBound / 10_000)만원", isCheck: true)
+//                    .wrapToButton {
+//                        vm.input.presentBottomSheet.send(2)
+//                    }
+//            }
             
         }
     }
