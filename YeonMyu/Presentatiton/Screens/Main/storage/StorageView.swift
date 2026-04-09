@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+// MARK: - 보관함 화면 현재 미사용!
 struct StorageView: View {
     @StateObject private var vm: StorageVM
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
