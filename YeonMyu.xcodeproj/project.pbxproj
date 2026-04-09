@@ -12,8 +12,6 @@
 		061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */; };
 		061A16752E574FBA00AF13D3 /* ScannerLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A16742E574FBA00AF13D3 /* ScannerLineView.swift */; };
 		062626252E7588D8009B879B /* ReviewSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626242E7588D8009B879B /* ReviewSetView.swift */; };
-		0631B1752D81CDB600287825 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631B1742D81CDB600287825 /* APIKey.swift */; };
-		0631B1772D81CDDD00287825 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0631B1762D81CDDD00287825 /* GoogleService-Info.plist */; };
 		063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */; };
 		063F5D712D9035D0004F4C17 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6E2D9035D0004F4C17 /* CoordinatorProtocol.swift */; };
 		063F5D722D9035D0004F4C17 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6D2D9035D0004F4C17 /* MainCoordinator.swift */; };
@@ -62,6 +60,8 @@
 		06DEB9BF2F8678F400E03CD1 /* PerformanceDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DEB9BE2F8678F400E03CD1 /* PerformanceDataSource.swift */; };
 		06DEB9C12F86790D00E03CD1 /* UserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DEB9C02F86790D00E03CD1 /* UserUseCase.swift */; };
 		06DEB9C32F8680A000E03CD1 /* PerformanceUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DEB9C22F8680A000E03CD1 /* PerformanceUseCase.swift */; };
+		06DEB9C52F87C34000E03CD1 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0631B1742D81CDB600287825 /* APIKey.swift */; };
+		06DEB9C62F87C39A00E03CD1 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 93D7E0C62F874374004EE103 /* Config.xcconfig */; };
 		06E507B92D7F10C700F5E7DE /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507B62D7F10C700F5E7DE /* SplashView.swift */; };
 		06E508072D7F10CD00F5E7DE /* MainHeaderPlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507EE2D7F10CD00F5E7DE /* MainHeaderPlayModel.swift */; };
 		06E508082D7F10CD00F5E7DE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507F42D7F10CD00F5E7DE /* HomeView.swift */; };
@@ -152,7 +152,6 @@
 		06F4A86A2DD06985008B1D29 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8692DD06985008B1D29 /* Date+.swift */; };
 		06F4A86C2DD06BB8008B1D29 /* SearchResultVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */; };
 		93D7E0C52F87435D004EE103 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93D7E0C42F87435D004EE103 /* GoogleService-Info.plist */; };
-		93D7E0CC2F87461E004EE103 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D7E0CB2F87461E004EE103 /* APIKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -175,8 +174,6 @@
 		061A16742E574FBA00AF13D3 /* ScannerLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerLineView.swift; sourceTree = "<group>"; };
 		062626242E7588D8009B879B /* ReviewSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSetView.swift; sourceTree = "<group>"; };
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
-		0631B1762D81CDDD00287825 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		063F5D3B2D885209004F4C17 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YeonMyu.entitlements; sourceTree = "<group>"; };
 		063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		063F5D6D2D9035D0004F4C17 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -304,7 +301,6 @@
 		06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultVM.swift; sourceTree = "<group>"; };
 		93D7E0C42F87435D004EE103 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93D7E0C62F874374004EE103 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		93D7E0CB2F87461E004EE103 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -981,6 +977,7 @@
 				06E5083B2D7F10CD00F5E7DE /* Pretendard-Regular.otf in Resources */,
 				06E5083C2D7F10CD00F5E7DE /* SANGJU Dajungdagam.otf in Resources */,
 				06CD38242D7DD0EB00959852 /* Assets.xcassets in Resources */,
+				06DEB9C62F87C39A00E03CD1 /* Config.xcconfig in Resources */,
 				93D7E0C52F87435D004EE103 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1053,7 +1050,7 @@
 				06E508772D7F10D900F5E7DE /* TicketMakeVM.swift in Sources */,
 				0666EAE82DABFB1100A7E6DD /* placeCheckView.swift in Sources */,
 				06E508782D7F10D900F5E7DE /* UpadteTicketModel.swift in Sources */,
-				93D7E0CC2F87461E004EE103 /* APIKey.swift in Sources */,
+				06DEB9C52F87C34000E03CD1 /* APIKey.swift in Sources */,
 				06E508792D7F10D900F5E7DE /* PerformancePicker.swift in Sources */,
 				063F5D792D903EBD004F4C17 /* AuthStep2.swift in Sources */,
 				06F4A86C2DD06BB8008B1D29 /* SearchResultVM.swift in Sources */,
@@ -1121,6 +1118,7 @@
 /* Begin XCBuildConfiguration section */
 		06CD37332D7DD04F00959852 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93D7E0C62F874374004EE103 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1184,6 +1182,7 @@
 		};
 		06CD37342D7DD04F00959852 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93D7E0C62F874374004EE103 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1240,6 +1239,7 @@
 		};
 		06CD37362D7DD04F00959852 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93D7E0C62F874374004EE103 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1280,6 +1280,7 @@
 		};
 		06CD37372D7DD04F00959852 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93D7E0C62F874374004EE103 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
