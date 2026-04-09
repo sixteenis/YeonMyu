@@ -24,17 +24,17 @@ final class ReviewSetVM: ObservableObject {
     @Published var reviewText = ""
     @Published var isSaving = false
     
-    private let postID: String
+    let postInfo: DetailPerformance
     
     // MARK: - Init
     init(
-        postID: String,
+        postInfo: DetailPerformance,
         rating: Int = 1,
         highlights: [String] = [],
         feelings: [String] = [],
         environments: [String] = []
     ) {
-        self.postID = postID
+        self.postInfo = postInfo
         self.rating = Double(rating)
         self.selectedHighlights = Set(highlights)
         self.selectedFeelings = Set(feelings)
@@ -56,15 +56,19 @@ final class ReviewSetVM: ObservableObject {
         
         let review = ReviewModel(
             reviewid: UUID().uuidString,
-            mt20id: postID,
-            postType: "연극",
+            mt20id: postInfo.mt20id,
+            postTitle: postInfo.name,
+            postType: postInfo.genrenm,
             rating: Int(rating),
             selectedPerformanceHighlights: Array(selectedHighlights),
             selectedPerformanceFeelings: Array(selectedFeelings),
             selectedPerformanceEnvironments: Array(selectedEnvironments),
             setting: seatText,
             review: reviewText,
-            createdAt: Date()
+            createdAt: Date(),
+            userID: useCase.userInfo.uid,
+            userName: useCase.userInfo.name,
+            userProfileID: useCase.userInfo.profileID
         )
         
         do {

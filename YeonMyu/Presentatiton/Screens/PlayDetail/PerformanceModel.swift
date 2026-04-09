@@ -25,7 +25,8 @@ struct SimplePerformance {
         return SimplePerformance(playId: "", playDate: "", title: "", place: "", postURL: "")
     }
 }
-struct DetailPerformance {
+struct DetailPerformance: Hashable {
+    var mt20id: String //공연id
     var placeId: String //장소id
     var name: String //이름
     var playDate: String //날짜
@@ -67,7 +68,8 @@ struct DetailPerformance {
     }
     var genrenm: String //공연 종류
     
-    init(placeId: String, name: String, playDate: String, place: String, actors: String, actorArray: [String], teams: String, runtime: String, limitAge: String, ticketPrice: String, posterURL: String, state: PerformanceStateType, DetailPosts: [String], relates: [RelatedLink], guidance: String, genrenm: String) {
+    init(mt20id: String, placeId: String, name: String, playDate: String, place: String, actors: String, actorArray: [String], teams: String, runtime: String, limitAge: String, ticketPrice: String, posterURL: String, state: PerformanceStateType, DetailPosts: [String], relates: [RelatedLink], guidance: String, genrenm: String) {
+        self.mt20id = mt20id
         self.placeId = placeId
         self.name = name
         self.playDate = playDate
@@ -86,6 +88,7 @@ struct DetailPerformance {
         self.genrenm = genrenm
     }
     init() {
+        self.mt20id = ""
         self.placeId = ""
         self.name = ""
         self.playDate = ""

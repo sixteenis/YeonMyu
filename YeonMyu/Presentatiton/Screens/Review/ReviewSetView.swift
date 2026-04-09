@@ -12,14 +12,14 @@ struct ReviewSetView: View {
     @StateObject private var vm: ReviewSetVM
     
     init(
-        postID: String,
+        postInfo: DetailPerformance,
         rating: Int = 1,
         highlights: [String] = [],
         feelings: [String] = [],
         environments: [String] = []
     ) {
         _vm = StateObject(wrappedValue: ReviewSetVM(
-            postID: postID,
+            postInfo: postInfo,
             rating: rating,
             highlights: highlights,
             feelings: feelings,
@@ -73,10 +73,10 @@ private extension ReviewSetView {
     var postInfoSection: some View {
         HStack {
             ZStack {
-                Image.exPost
-                    .resizable()
+                CustomPostImage(url: vm.postInfo.posterURL)
+                    .frame(width: 92, height: 123)
                 
-                PerformanceTagView(tagTT: "뮤지컬")
+                PerformanceTagView(tagTT: vm.postInfo.genrenm)
                     .hLeading()
                     .vTop()
                     .padding(6)
@@ -86,13 +86,14 @@ private extension ReviewSetView {
             Spacer().frame(width: 20)
             
             VStack(alignment: .leading, spacing: 0) {
-                asText("창작국악 어쩌구")
+                asText(vm.postInfo.name)
                     .font(.boldFont14)
+                    .lineLimit(2)
                     .padding(.bottom, 15)
                     .padding(.top, 5)
                 
-                infoRow(image: .calendarIcon, text: "2025년 7월 30일 (토)")
-                infoRow(image: .markerIcon, text: "국립극장 해오름극장")
+                infoRow(image: .calendarIcon, text: vm.postInfo.playDate)
+                infoRow(image: .markerIcon, text: vm.postInfo.place)
             }
             .vTop()
         }
