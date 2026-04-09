@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum ReviewSaveState {
+    case idle
+    case success
+    case failure
+}
+
 @MainActor
 final class ReviewSetVM: ObservableObject {
     // MARK: - Constants
@@ -23,7 +29,10 @@ final class ReviewSetVM: ObservableObject {
     @Published var seatText = ""
     @Published var reviewText = ""
     @Published var isSaving = false
-    
+    @Published var saveState: ReviewSaveState = .idle
+    @Published var showValidationAlert = false
+    @Published var validationMessage = ""
+
     let postInfo: DetailPerformance
     
     // MARK: - Init
@@ -49,11 +58,27 @@ final class ReviewSetVM: ObservableObject {
             selection.insert(item)
         }
     }
-    
+    // 후기 검증
+    func validate() -> Bool {
+        if reviewText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            validationMessage = "후기를 입력해주세요."
+            showValidationAlert = true
+            return false
+        }
+        if seatText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            validationMessage = "관람한 좌석을 입력해주세요."
+            showValidationAlert = true
+            return false
+        }
+        return true
+    }
+
     func saveReview(useCase: UserUseCase) async {
+        guard validate() else { return }
+
         isSaving = true
-        defer { isSaving = false }
-        
+        saveState = .idle
+
         let review = ReviewModel(
             reviewid: UUID().uuidString,
             mt20id: postInfo.mt20id,
@@ -70,11 +95,15 @@ final class ReviewSetVM: ObservableObject {
             userName: useCase.userInfo.name,
             userProfileID: useCase.userInfo.profileID
         )
-        
+
         do {
             try await useCase.writeReview(review)
+            saveState = .success
         } catch {
             print("후기 저장 실패: \(error)")
+            saveState = .failure
         }
+
+        isSaving = false
     }
 }

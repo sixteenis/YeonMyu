@@ -187,12 +187,12 @@ private extension HomeView {
                     .vBottom()
                     .padding([.top, .bottom], 12)
                     .padding(.leading)
-                
-                alert(isOpacity ? Color.asWhite : Color.asGray200)
-                    .hTrailing()
-                    .vBottom()
-                    .padding(.bottom, 12)
-                    .padding(.trailing)
+                // 알림 기능 없어서 숨김처리
+//                alert(isOpacity ? Color.asWhite : Color.asGray200)
+//                    .hTrailing()
+//                    .vBottom()
+//                    .padding(.bottom, 12)
+//                    .padding(.trailing)
             }
     }
     func alert(_ color: Color) -> some View {

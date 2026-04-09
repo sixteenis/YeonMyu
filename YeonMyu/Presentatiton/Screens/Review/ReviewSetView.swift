@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReviewSetView: View {
     @Environment(UserUseCase.self) private var userUseCase
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var vm: ReviewSetVM
     
     init(
@@ -28,6 +29,43 @@ struct ReviewSetView: View {
     }
     
     var body: some View {
+        content()
+            .navigationTitle("후기 작성")
+            .overlay {
+                if vm.isSaving {
+                    LoadingView()
+                        .ignoresSafeArea()
+                }
+            }
+            // 검증 실패 알림
+            .alert("입력 확인", isPresented: $vm.showValidationAlert) {
+                Button("확인", role: .cancel) {}
+            } message: {
+                Text(vm.validationMessage)
+            }
+            // 작성 완료 팝업
+            .alert("작성 완료", isPresented: Binding(
+                get: { vm.saveState == .success },
+                set: { if !$0 { vm.saveState = .idle } }
+            )) {
+                Button("확인") { dismiss() }
+            } message: {
+                Text("후기가 성공적으로 등록되었습니다.")
+            }
+            // 실패 팝업
+            .alert("저장 실패", isPresented: Binding(
+                get: { vm.saveState == .failure },
+                set: { if !$0 { vm.saveState = .idle } }
+            )) {
+                Button("확인", role: .cancel) {}
+            } message: {
+                Text("후기 등록에 실패했습니다.\n다시 시도해주세요.")
+            }
+    }
+}
+
+private extension ReviewSetView {
+    func content() -> some View {
         ScrollView {
             LazyVStack {
                 postInfoSection
@@ -64,10 +102,8 @@ struct ReviewSetView: View {
             }
             .padding(.horizontal, 16)
         }
-        .navigationTitle("후기 작성")
     }
 }
-
 // MARK: - 공연 정보 섹션
 private extension ReviewSetView {
     var postInfoSection: some View {

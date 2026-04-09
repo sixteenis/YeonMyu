@@ -9,7 +9,14 @@ import SwiftUI
 
 struct MyView: View {
     var body: some View {
-        Text("마이")
+        ZStack {
+            Color.purpleBlueGradient
+                .ignoresSafeArea(edges: .top)
+            VStack {
+                Text("마이")
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
     }
 }
 
