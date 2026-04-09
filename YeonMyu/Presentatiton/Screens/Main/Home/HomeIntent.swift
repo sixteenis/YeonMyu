@@ -8,6 +8,7 @@
 import Foundation
 
 protocol HomeIntentProtocol {
+    func configureUserInfo(name: String, city: CityCode) // 유저 초기 정보 설정
     func onAppear(city: CityCode, prfCate: PrfCate) //처음 뷰 뜰 때
     func refreshAll() //새로고침 시
     func postTapped(id: String?) // 포스터 클릭 시
@@ -25,6 +26,10 @@ final class HomeIntent {
 }
 
 extension HomeIntent: HomeIntentProtocol {
+    func configureUserInfo(name: String, city: CityCode) {
+        state?.setUserName(name)
+        state?.getCity(city)
+    }
     //처음 뷰 뜰 때
     func onAppear(city: CityCode, prfCate: PrfCate) {
         Task {

@@ -26,6 +26,7 @@ struct PlayDetailView: View {
     
     //지도
     @State private var region = MKCoordinateRegion()
+    @Environment(UserUseCase.self) private var userUseCase
     @State private var likesId: [String] = []
 }
 
@@ -38,7 +39,7 @@ extension PlayDetailView {
                     HStack(spacing: 10) {
                         Button {
                             print("작성 버튼 클릭")
-                            coordinator.push(.reviewSetView)
+                            coordinator.push(.reviewSetView(placeId: postInfo.placeId))
                         } label: {
                             Image.asWriteBtn
                                 .resizable()
@@ -50,8 +51,8 @@ extension PlayDetailView {
                             Task {
                                 let isCurrentlyLiked = likesId.contains(where: { $0 == postID })
 
-                                try await UserManager.shared.updateLike(LikesPerformanceModel(mt20id: postID, postType: postInfo.genrenm), isLike: !isCurrentlyLiked)
-                                likesId = UserManager.shared.getUserData().likesPerformance.map {$0.mt20id}
+                                try await userUseCase.updateLike(LikesPerformanceModel(mt20id: postID, postType: postInfo.genrenm), isLike: !isCurrentlyLiked)
+                                likesId = userUseCase.getUserData().likesPerformance.map { $0.mt20id }
                             }
                         } label: {
                             if (likesId.contains(where: {$0 == postID})) {
@@ -71,6 +72,7 @@ extension PlayDetailView {
                 }
             }
             .task {
+                likesId = userUseCase.getUserData().likesPerformance.map { $0.mt20id }
                 do {
                     let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: postID).transformDetailModel()
                     let placeData = try await NetworkManager.shared.requestFacility(facilityId: postData.placeId).transformPlaceModel()
@@ -81,7 +83,6 @@ extension PlayDetailView {
                     region.center = CLLocationCoordinate2D(latitude: placeData.latitude, longitude: placeData.longitude)
                     region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
                     contentState = .content
-                    likesId = UserManager.shared.getUserData().likesPerformance.map {$0.mt20id}
                     
                 } catch {
                     contentState = .error

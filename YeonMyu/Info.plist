@@ -33,6 +33,8 @@
 	<string>YES</string>
 	<key>GIDClientID</key>
 	<string>$(GOOGLE_KEY)</string>
+	<key>KOPIS_KEY</key>
+	<string>$(KOPIS_KEY)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSAppTransportSecurity</key>
