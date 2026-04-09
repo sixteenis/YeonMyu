@@ -28,6 +28,7 @@ extension UserDataSource {
             ReviewModel(
                 reviewid: item["reviewid"] as? String ?? "",
                 mt20id: item["mt20id"] as? String ?? "",
+                postTitle: item["postTitle"] as? String ?? "",
                 postType: item["postType"] as? String ?? "",
                 rating: item["rating"] as? Int ?? 0,
                 selectedPerformanceHighlights: item["selectedPerformanceHighlights"] as? [String] ?? [],
@@ -35,7 +36,11 @@ extension UserDataSource {
                 selectedPerformanceEnvironments: item["selectedPerformanceEnvironments"] as? [String] ?? [],
                 setting: item["setting"] as? String ?? "",
                 review: item["review"] as? String ?? "",
-                createdAt: (item["createdAt"] as? Timestamp)?.dateValue() ?? Date()
+                createdAt: (item["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
+                userID: item["userID"] as? String ?? "",
+                userName: item["userName"] as? String ?? "",
+                userProfileID: item["userProfileID"] as? Int ?? 0,
+                
             )
         }
 

@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>티켓인증을 위해 카메라 권한을 허용해 주세요.</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Pretendard-Regular.otf</string>
-		<string>Pretendard-Bold.otf</string>
-		<string>SANGJU Dajungdagam.otf</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -33,20 +25,24 @@
 	<string>YES</string>
 	<key>GIDClientID</key>
 	<string>$(GOOGLE_KEY)</string>
-	<key>KAKAO_KEY</key>
-	<string>$(KAKAO_KEY)</string>
 	<key>GOOGLE_KEY</key>
 	<string>$(GOOGLE_KEY)</string>
-	<key>OPEN_AI_KEY</key>
-	<string>$(OPEN_AI_KEY)</string>
+	<key>KAKAO_KEY</key>
+	<string>$(KAKAO_KEY)</string>
 	<key>KOPIS_KEY</key>
 	<string>$(KOPIS_KEY)</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>OPEN_AI_KEY</key>
+	<string>$(OPEN_AI_KEY)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Pretendard-Regular.otf</string>
+		<string>Pretendard-Bold.otf</string>
+		<string>SANGJU Dajungdagam.otf</string>
+	</array>
 </dict>
 </plist>

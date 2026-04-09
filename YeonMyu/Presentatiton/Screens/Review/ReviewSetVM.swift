@@ -57,6 +57,7 @@ final class ReviewSetVM: ObservableObject {
         let review = ReviewModel(
             reviewid: UUID().uuidString,
             mt20id: postInfo.mt20id,
+            postTitle: postInfo.name,
             postType: postInfo.genrenm,
             rating: Int(rating),
             selectedPerformanceHighlights: Array(selectedHighlights),
@@ -64,7 +65,10 @@ final class ReviewSetVM: ObservableObject {
             selectedPerformanceEnvironments: Array(selectedEnvironments),
             setting: seatText,
             review: reviewText,
-            createdAt: Date()
+            createdAt: Date(),
+            userID: useCase.userInfo.uid,
+            userName: useCase.userInfo.name,
+            userProfileID: useCase.userInfo.profileID
         )
         
         do {

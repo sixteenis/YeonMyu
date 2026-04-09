@@ -11,6 +11,7 @@ import FirebaseFirestore
 struct ReviewModel {
     let reviewid: String //리뷰 고유 ID
     let mt20id: String // 공연 고유 ID
+    let postTitle: String // 공연 이름
     let postType: String // 공연 종류
     let rating: Int // 평점
     let selectedPerformanceHighlights: [String]
@@ -20,10 +21,15 @@ struct ReviewModel {
     let review: String // 후기
     let createdAt: Date // 생성일
     
+    let userID: String //작성자 유저 고유 ID
+    let userName: String //작성자 유저 이름
+    let userProfileID: Int //유저 프로필
+    
     func toDictionary() -> [String: Any] {
         return [
             "reviewid": reviewid,
             "mt20id": mt20id,
+            "postTitle": postTitle,
             "postType": postType,
             "rating": rating,
             "selectedPerformanceHighlights": selectedPerformanceHighlights,
@@ -31,7 +37,11 @@ struct ReviewModel {
             "selectedPerformanceEnvironments": selectedPerformanceEnvironments,
             "setting": setting,
             "review": review,
-            "createdAt": Timestamp()
+            "createdAt": Timestamp(),
+            "userID": userID,
+            "userName": userName,
+            "userProfileID": userProfileID,
+            
         ]
     }
 }
