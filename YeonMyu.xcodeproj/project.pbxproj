@@ -1247,6 +1247,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YeonMyu/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "내안의연뮤";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "티켓인증을 위해 카메라 권한을 허용해 주세요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1285,6 +1287,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YeonMyu/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "내안의연뮤";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "티켓인증을 위해 카메라 권한을 허용해 주세요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
