@@ -18,6 +18,7 @@ struct PlayDetailView: View {
     @State private var position = ScrollPosition(edge: .top)
     @State private var isStopCurrentPage = false
     @State private var allInfo = false
+    @State private var isScrolling = false // 뷰 맨 상단에 스크롤영역이 있는지 판별
     
     @State private var contentState: ContentState = .loading
     @State private var postInfo = DetailPerformance()
@@ -32,62 +33,56 @@ struct PlayDetailView: View {
 
 extension PlayDetailView {
     var body: some View {
-        contentView()
-            .navigationTitle(postInfo.name)
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    HStack(spacing: 10) {
-                        Button {
-                            print("작성 버튼 클릭")
-                            coordinator.push(.reviewSetView(placeId: postInfo.placeId))
-                        } label: {
-                            Image.asWriteBtn
-                                .resizable()
-                                .frame(width: 28, height: 28)
-                        }
-
-                        Button {
-                            print("좋아요 버튼 클릭")
-                            Task {
-                                let isCurrentlyLiked = likesId.contains(where: { $0 == postID })
-
-                                try await userUseCase.updateLike(LikesPerformanceModel(mt20id: postID, postType: postInfo.genrenm), isLike: !isCurrentlyLiked)
-                                likesId = userUseCase.getUserData().likesPerformance.map { $0.mt20id }
-                            }
-                        } label: {
-                            if (likesId.contains(where: {$0 == postID})) {
-                                Image.asLikeHeartFill
-                                    .resizable()
-                                    .frame(width: 28, height: 28)
-                                    .foregroundStyle(.red)
-                            } else {
-                                Image.asLikeHeart
-                                    .resizable()
-                                    .frame(width: 28, height: 28)
-                                    .foregroundStyle(.red)
-                            }
-                        }
+        ZStack(alignment: .bottomTrailing) {
+            contentView()
+            reviewFloatingButton
+                .padding(.trailing, 20)
+                .padding(.bottom, 20)
+        }
+        .navigationTitle(isScrolling ? postInfo.name : "")
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button {
+                    print("좋아요 버튼 클릭")
+                    Task {
+                        let isCurrentlyLiked = likesId.contains(where: { $0 == postID })
+                        
+                        try await userUseCase.updateLike(LikesPerformanceModel(mt20id: postID, postType: postInfo.genrenm), isLike: !isCurrentlyLiked)
+                        likesId = userUseCase.getUserData().likesPerformance.map { $0.mt20id }
                     }
-                    .buttonStyle(.plain)
+                } label: {
+                    if (likesId.contains(where: {$0 == postID})) {
+                        Image.asLikeHeartFill
+                            .resizable()
+                            .frame(width: 28, height: 28)
+                            .foregroundStyle(.red)
+                    } else {
+                        Image.asLikeHeart
+                            .resizable()
+                            .frame(width: 28, height: 28)
+                            .foregroundStyle(.red)
+                    }
                 }
+                .buttonStyle(.plain)
             }
-            .task {
-                likesId = userUseCase.getUserData().likesPerformance.map { $0.mt20id }
-                do {
-                    let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: postID).transformDetailModel()
-                    let placeData = try await NetworkManager.shared.requestFacility(facilityId: postData.placeId).transformPlaceModel()
-                    print(postData.placeId)
-                    print("-------")
-                    postInfo = postData
-                    placeInfo = placeData
-                    region.center = CLLocationCoordinate2D(latitude: placeData.latitude, longitude: placeData.longitude)
-                    region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-                    contentState = .content
-                    
-                } catch {
-                    contentState = .error
-                }
+        }
+        .task {
+            likesId = userUseCase.getUserData().likesPerformance.map { $0.mt20id }
+            do {
+                let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: postID).transformDetailModel()
+                let placeData = try await NetworkManager.shared.requestFacility(facilityId: postData.placeId).transformPlaceModel()
+                print(postData.placeId)
+                print("-------")
+                postInfo = postData
+                placeInfo = placeData
+                region.center = CLLocationCoordinate2D(latitude: placeData.latitude, longitude: placeData.longitude)
+                region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+                contentState = .content
+                
+            } catch {
+                contentState = .error
             }
+        }
     }
 }
 // MARK: - 메인 뷰
@@ -198,6 +193,13 @@ private extension PlayDetailView {
             } completion: {
                 print("스크롤 완료!!!")
                 isStopCurrentPage = false
+            }
+        }
+        .onScrollGeometryChange(for: CGFloat.self) { geo in
+            geo.contentOffset.y
+        } action: { _, newOffset in
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                isScrolling = newOffset > 10
             }
         }
     }
@@ -520,6 +522,41 @@ private extension PlayDetailView {
                 }
             }
         }
+    }
+}
+
+// MARK: - 플로팅 리뷰 버튼
+private extension PlayDetailView {
+    var reviewFloatingButton: some View {
+        Button {
+            coordinator.push(.reviewSetView(postInfo: postInfo))
+        } label: {
+            HStack(spacing: 6) {
+                Image.asWriteBtn
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundStyle(Color.asWhite)
+                    .frame(width: 24, height: 24)
+                
+                if !isScrolling {
+                    Text("후기작성")
+                        .font(.boldFont16)
+                        .foregroundStyle(Color.asWhite)
+                        .fixedSize()
+                        .transition(.asymmetric(
+                            insertion: .opacity.combined(with: .scale(scale: 0.8, anchor: .leading)),
+                            removal: .opacity.combined(with: .scale(scale: 0.0, anchor: .leading))
+                        ))
+                }
+            }
+            .padding(.horizontal, isScrolling ? 14 : 18)
+            .padding(.vertical, 14)
+            .background(Color.purpleBlueGradient)
+            .clipShape(Capsule())
+            .shadow(color: .black.opacity(0.25), radius: 8, x: 0, y: 4)
+        }
+        .buttonStyle(.plain)
+        .animation(.spring(response: 0.4, dampingFraction: 0.75), value: isScrolling)
     }
 }
 
