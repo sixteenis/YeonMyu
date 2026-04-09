@@ -34,6 +34,7 @@ struct TotalSelectBottomSheetView: View {
     @Binding var compltionPrice: ClosedRange<Int>
     
     @State private var selecetedDate: Date
+    @State private var hasUserSelectedDate: Bool
     @State private var selectedCity: CityCode
     @State private var selectTicketEnum: TicketPriceEnum?
     @State private var selectPrice: ClosedRange<Int>?
@@ -50,9 +51,12 @@ struct TotalSelectBottomSheetView: View {
     private let priceList = TicketPriceEnum.allCases
     
     private let allCity = CityCode.allCases
+    // MARK: - 가격의 경우 공연을 제공하는 API에서 활용하기 부적합하여 미사용
     init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>, compltionPrice: Binding<ClosedRange<Int>>) {
         self.selectPage = selected
-        if compltionDate.wrappedValue == Date.noSelect() {
+        let hasDate = compltionDate.wrappedValue != Date.noSelect()
+        self._hasUserSelectedDate = State(initialValue: hasDate)
+        if !hasDate {
             self._selecetedDate = State(initialValue: Date())
         } else {
             self._selecetedDate = State(initialValue: compltionDate.wrappedValue)
@@ -72,7 +76,9 @@ struct TotalSelectBottomSheetView: View {
     }
     init(selected: Int ,compltionDate: Binding<Date>, compltionCity: Binding<CityCode>) {
         self.selectPage = selected
-        if compltionDate.wrappedValue == Date.noSelect() {
+        let hasDate = compltionDate.wrappedValue != Date.noSelect()
+        self._hasUserSelectedDate = State(initialValue: hasDate)
+        if !hasDate {
             self._selecetedDate = State(initialValue: Date())
         } else {
             self._selecetedDate = State(initialValue: compltionDate.wrappedValue)
@@ -123,7 +129,7 @@ struct TotalSelectBottomSheetView: View {
             Button {
                 print(self.isReset)
                 print("??")
-                if isReset {
+                if isReset || !hasUserSelectedDate {
                     compltionDate = .noSelect()
                 } else {
                     compltionDate = selecetedDate
@@ -154,9 +160,8 @@ struct TotalSelectBottomSheetView: View {
         .padding(.horizontal, 22)
         .vBottom()
         .onChange(of: selecetedDate) { oldValue, newValue in
-            print(newValue)
-            print(self.isReset)
             self.isReset = false
+            self.hasUserSelectedDate = true
         }
         
     }
