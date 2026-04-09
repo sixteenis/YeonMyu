@@ -54,6 +54,12 @@ struct ItsukiSlider<S1: ShapeStyle, S2: ShapeStyle, T1: View, T2: View>: View {
                                 .position(x: i != stepCount ? x : x - 15,
                                           y: geo.size.height / 2 - 50) // 슬라이더 위쪽에 위치
                             
+                            
+                            Image.asStar
+                                .foregroundStyle(i <= Int(value.upperBound) - 1 ? Color.yellow : Color.gray.opacity(0.4)) // 선택 여부에 따라 색 변경
+                                .position(x: i != stepCount ? x : x - 15,
+                                          y: geo.size.height / 2 - 50) // 슬라이더 위쪽에 위치
+                            
                         }
                     }
                 }

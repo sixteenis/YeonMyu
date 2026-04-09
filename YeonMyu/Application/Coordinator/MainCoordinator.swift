@@ -93,6 +93,7 @@ final class MainCoordinator: CoordinatorProtocol {
                 .presentationDetents([.fraction(sheet.detentSize)])
                 .onDisappear {
                 }
+        // MARK: - 가격 설정 바텀시트는 미사용 -> 추후 사용 시 별점 평가부분과 UI 분리 작업 필요!
         case .totalSelect(let selected, let date, let city, let price):
             TotalSelectBottomSheetView(selected: selected, compltionDate: date, compltionCity: city, compltionPrice: price)
                 .presentationDragIndicator(.visible)
