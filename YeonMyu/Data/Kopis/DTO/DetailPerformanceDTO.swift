@@ -40,7 +40,7 @@ struct DetailPerformanceDTO {
         let actorsStr = checkIsEmptey(self.prfcast)
         let teamsStr = checkIsEmptey(prfcrew)
         
-        return DetailPerformance(placeId: mt10id, name: prfnm, playDate: date, place: fcltynm, actors: actorsStr, actorArray: actorsList, teams: teamsStr, runtime: prfruntime, limitAge: prfage, ticketPrice: pcseguidance, posterURL: poster, state: state, DetailPosts: styurls, relates: relates, guidance: dtguidance, genrenm: genrenm)
+        return DetailPerformance(mt20id: mt20id, placeId: mt10id, name: prfnm, playDate: date, place: fcltynm, actors: actorsStr, actorArray: actorsList, teams: teamsStr, runtime: prfruntime, limitAge: prfage, ticketPrice: pcseguidance, posterURL: poster, state: state, DetailPosts: styurls, relates: relates, guidance: dtguidance, genrenm: genrenm)
     }
 }
 private extension DetailPerformanceDTO {
@@ -76,7 +76,7 @@ private extension DetailPerformanceDTO {
     }
 }
 // 관련 링크 정보를 담는 구조체
-struct RelatedLink: Identifiable {
+struct RelatedLink: Identifiable, Hashable {
     var id = UUID().uuidString
     var relatename: String
     var relateurl: String
