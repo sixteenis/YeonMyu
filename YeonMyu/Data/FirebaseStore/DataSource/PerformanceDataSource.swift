@@ -18,6 +18,48 @@ extension PerformanceDataSource {
             "reviews": FieldValue.arrayUnion([review.toDictionary()])
         ], merge: true)
     }
+    //공연별 리뷰 정보 가져오기
+    func fetchReviews(mt20id: String) async throws -> [ReviewModel] {
+        let document = try await db.collection("performanceReview").document(mt20id).getDocument()
+        guard let data = document.data(),
+              let reviews = data["reviews"] as? [[String: Any]] else { return [] }
+
+        return reviews.compactMap { dict -> ReviewModel? in
+            guard
+                let reviewid = dict["reviewid"] as? String,
+                let mt20id = dict["mt20id"] as? String,
+                let postTitle = dict["postTitle"] as? String,
+                let postType = dict["postType"] as? String,
+                let rating = dict["rating"] as? Int,
+                let highlights = dict["selectedPerformanceHighlights"] as? [String],
+                let feelings = dict["selectedPerformanceFeelings"] as? [String],
+                let environments = dict["selectedPerformanceEnvironments"] as? [String],
+                let setting = dict["setting"] as? String,
+                let review = dict["review"] as? String,
+                let createdAt = (dict["createdAt"] as? Timestamp)?.dateValue(),
+                let userID = dict["userID"] as? String,
+                let userName = dict["userName"] as? String,
+                let userProfileID = dict["userProfileID"] as? Int
+            else { return nil }
+
+            return ReviewModel(
+                reviewid: reviewid,
+                mt20id: mt20id,
+                postTitle: postTitle,
+                postType: postType,
+                rating: rating,
+                selectedPerformanceHighlights: highlights,
+                selectedPerformanceFeelings: feelings,
+                selectedPerformanceEnvironments: environments,
+                setting: setting,
+                review: review,
+                createdAt: createdAt,
+                userID: userID,
+                userName: userName,
+                userProfileID: userProfileID
+            )
+        }
+    }
 
     func removeReview(mt20id: String, reviewid: String) async throws {
         let performanceRef = db.collection("performanceReview").document(mt20id)

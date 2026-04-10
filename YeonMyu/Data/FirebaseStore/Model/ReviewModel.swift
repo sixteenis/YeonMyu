@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 struct ReviewModel {
+    let id = UUID().uuidString
     let reviewid: String //리뷰 고유 ID
     let mt20id: String // 공연 고유 ID
     let postTitle: String // 공연 이름

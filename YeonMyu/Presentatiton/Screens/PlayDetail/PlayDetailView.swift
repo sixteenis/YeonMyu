@@ -11,7 +11,8 @@ import Kingfisher
 
 struct PlayDetailView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
-    let segments: [String] = ["공연정보", "티켓예매", "위치/시설"]
+    @Environment(UserUseCase.self) private var userUseCase
+    let segments: [String] = ["상세정보 ", "티켓예매", "관람후기"]
     @Namespace private var name
     @State private var currentPage = 0
     @State private var selectPage = 0
@@ -23,12 +24,12 @@ struct PlayDetailView: View {
     @State private var contentState: ContentState = .loading
     @State private var postInfo = DetailPerformance()
     @State private var placeInfo = PlaceModel()
+    @State private var playReviews = [ReviewModel]()
     var postID: String
-    
     //지도
     @State private var region = MKCoordinateRegion()
-    @Environment(UserUseCase.self) private var userUseCase
-    @State private var likesId: [String] = []
+    
+    private let perfUseCase = PerformanceUseCase()
 }
 
 extension PlayDetailView {
@@ -45,13 +46,12 @@ extension PlayDetailView {
                 Button {
                     print("좋아요 버튼 클릭")
                     Task {
-                        let isCurrentlyLiked = likesId.contains(where: { $0 == postID })
+                        let isCurrentlyLiked = userUseCase.userInfo.likesPerformance.contains(where: { $0.mt20id == postID })
                         
                         try await userUseCase.updateLike(LikesPerformanceModel(mt20id: postID, postType: postInfo.genrenm), isLike: !isCurrentlyLiked)
-                        likesId = userUseCase.getUserData().likesPerformance.map { $0.mt20id }
                     }
                 } label: {
-                    if (likesId.contains(where: {$0 == postID})) {
+                    if (userUseCase.userInfo.likesPerformance.contains(where: {$0.mt20id == postID})) {
                         Image.asLikeHeartFill
                             .resizable()
                             .frame(width: 28, height: 28)
@@ -67,14 +67,15 @@ extension PlayDetailView {
             }
         }
         .task {
-            likesId = userUseCase.getUserData().likesPerformance.map { $0.mt20id }
             do {
                 let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: postID).transformDetailModel()
                 let placeData = try await NetworkManager.shared.requestFacility(facilityId: postData.placeId).transformPlaceModel()
+                let reviewData = try await perfUseCase.getReviewData(postID)
                 print(postData.placeId)
                 print("-------")
                 postInfo = postData
                 placeInfo = placeData
+                playReviews = reviewData
                 region.center = CLLocationCoordinate2D(latitude: placeData.latitude, longitude: placeData.longitude)
                 region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
                 contentState = .content
@@ -98,6 +99,12 @@ private extension PlayDetailView {
                     playInfo()
                         .padding(.horizontal, 24)
                         .id(1)
+                    Rectangle()
+                        .foregroundStyle(Color.asBorderGray)
+                        .frame(height: 14)
+                    placeInfoView()
+                        .padding(.horizontal, 24)
+                    
                     inforPost()
                         .id(2)
                     Rectangle()
@@ -121,7 +128,7 @@ private extension PlayDetailView {
                         .foregroundStyle(Color.asBorderGray)
                         .frame(height: 14)
                         .id(7)
-                    placeInfoView()
+                    reviewSection()
                         .padding(.horizontal, 24)
                         .id(8)
                     Rectangle()
@@ -520,6 +527,16 @@ private extension PlayDetailView {
                     asText(i.name)
                         .font(.font15)
                 }
+            }
+        }
+    }
+}
+// MARK: - 관람후기
+private extension PlayDetailView {
+    func reviewSection() -> some View {
+        VStack {
+            ForEach(playReviews, id: \.id) { review in
+                Text(review.review)
             }
         }
     }
