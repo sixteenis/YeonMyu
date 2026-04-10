@@ -151,6 +151,8 @@
 		06F4A8682DCBD9CC008B1D29 /* ItsukiSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8672DCBD9CC008B1D29 /* ItsukiSlider.swift */; };
 		06F4A86A2DD06985008B1D29 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8692DD06985008B1D29 /* Date+.swift */; };
 		06F4A86C2DD06BB8008B1D29 /* SearchResultVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */; };
+		939EC79B2F88965900E22955 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939EC79A2F88965900E22955 /* ProfileImageView.swift */; };
+		939EC79E2F88BEB100E22955 /* Snap in Frameworks */ = {isa = PBXBuildFile; productRef = 939EC79D2F88BEB100E22955 /* Snap */; };
 		93D7E0C52F87435D004EE103 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93D7E0C42F87435D004EE103 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -299,6 +301,7 @@
 		06F4A8672DCBD9CC008B1D29 /* ItsukiSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItsukiSlider.swift; sourceTree = "<group>"; };
 		06F4A8692DD06985008B1D29 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultVM.swift; sourceTree = "<group>"; };
+		939EC79A2F88965900E22955 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		93D7E0C42F87435D004EE103 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93D7E0C62F874374004EE103 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -308,6 +311,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939EC79E2F88BEB100E22955 /* Snap in Frameworks */,
 				066C1C972D7F13C000C44567 /* KakaoSDKCommon in Frameworks */,
 				066C1C952D7F13C000C44567 /* KakaoSDKAuth in Frameworks */,
 				066C1C902D7F12ED00C44567 /* FirebaseDatabase in Frameworks */,
@@ -363,6 +367,7 @@
 		063F5D7D2D918346004F4C17 /* My */ = {
 			isa = PBXGroup;
 			children = (
+				939EC7992F88964900E22955 /* View */,
 				063F5D802D918391004F4C17 /* MyView.swift */,
 			);
 			path = My;
@@ -884,6 +889,14 @@
 			path = SeachResult;
 			sourceTree = "<group>";
 		};
+		939EC7992F88964900E22955 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				939EC79A2F88965900E22955 /* ProfileImageView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -918,6 +931,7 @@
 				066C1CA82D7F153400C44567 /* GoogleSignInSwift */,
 				066C1CAE2D7F167F00C44567 /* Kingfisher */,
 				0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */,
+				939EC79D2F88BEB100E22955 /* Snap */,
 			);
 			productName = YeonMyu;
 			productReference = 06CD37272D7DD04E00959852 /* YeonMyu.app */;
@@ -956,6 +970,7 @@
 				066C1CA52D7F153400C44567 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				066C1CAD2D7F167F00C44567 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				0605D8862E48AB4600BBF5E7 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
+				939EC79C2F88BEB100E22955 /* XCRemoteSwiftPackageReference "Snap" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 06CD37282D7DD04E00959852 /* Products */;
@@ -1075,6 +1090,7 @@
 				06E5081F2D7F10CD00F5E7DE /* SearchView.swift in Sources */,
 				06E508202D7F10CD00F5E7DE /* PerformanceDTO.swift in Sources */,
 				063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */,
+				939EC79B2F88965900E22955 /* ProfileImageView.swift in Sources */,
 				062626252E7588D8009B879B /* ReviewSetView.swift in Sources */,
 				06E508212D7F10CD00F5E7DE /* ForegroundWrapper.swift in Sources */,
 				06E508222D7F10CD00F5E7DE /* CustomTextEditorStyle.swift in Sources */,
@@ -1407,6 +1423,14 @@
 				minimumVersion = 8.3.0;
 			};
 		};
+		939EC79C2F88BEB100E22955 /* XCRemoteSwiftPackageReference "Snap" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nerdsupremacist/Snap.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1489,6 +1513,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 066C1CAD2D7F167F00C44567 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		939EC79D2F88BEB100E22955 /* Snap */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 939EC79C2F88BEB100E22955 /* XCRemoteSwiftPackageReference "Snap" */;
+			productName = Snap;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
