@@ -197,7 +197,6 @@ private extension TotalSelectBottomSheetView {
             }
             .frame(height: 40)
         }
-        .background(Color.asWhite)
     }
     //날짜 선택
     func dateSelectView() -> some View {
