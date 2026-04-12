@@ -79,6 +79,19 @@ extension Image {
     static let asGradientColor = Image("배경")
     static let asNavGradientColor = Image("상단배경")
     
+    static let asProfile1 = Image("profile1")
+    static let asProfile2 = Image("profile2")
+    static let asProfile3 = Image("profile3")
+    static let asProfile4 = Image("profile4")
+    static let asProfile5 = Image("profile5")
+    static let asProfile6 = Image("profile6")
+    static let asProfile7 = Image("profile7")
+    static let asProfile8 = Image("profile8")
+    static let asProfile9 = Image("profile9")
+    static let asProfile10 = Image("profile10")
+    static let asProfile11 = Image("profile11")
+    static let asProfile12 = Image("profile12")
+    
     
 }
 
