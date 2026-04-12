@@ -64,6 +64,14 @@ extension Color {
         )
     }
     
+    static var navPurpleBlueGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "E0A3FF"), Color(hex: "CBA4FF")],
+            startPoint: .topLeading,   // 왼쪽 위
+            endPoint: .bottomTrailing  // 오른쪽 아래
+        )
+    }
+    
 }
 
 extension Color {
