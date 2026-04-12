@@ -201,6 +201,7 @@
 		06A607B42E48A0A70066EC36 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		06A607B62E48A0C30066EC36 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		06AFEED12DAB88C600D1BE28 /* TicketPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketPageView.swift; sourceTree = "<group>"; };
+		06B866992F8BEB6200EC226B /* YeonMyuDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YeonMyuDebug.entitlements; sourceTree = "<group>"; };
 		06CD37272D7DD04E00959852 /* YeonMyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeonMyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06CD381E2D7DD0EB00959852 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		06CD38202D7DD0EB00959852 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -446,6 +447,7 @@
 		06CD38222D7DD0EB00959852 /* YeonMyu */ = {
 			isa = PBXGroup;
 			children = (
+				06B866992F8BEB6200EC226B /* YeonMyuDebug.entitlements */,
 				063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */,
 				06E508662D7F10D900F5E7DE /* 이전 */,
 				06E507B72D7F10C700F5E7DE /* Application */,
@@ -1263,9 +1265,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = YeonMyu/YeonMyu.entitlements;
+				CODE_SIGN_ENTITLEMENTS = YeonMyu/YeonMyuDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.5.1;
 				DEVELOPMENT_ASSET_PATHS = "\"YeonMyu/Preview Content\"";
 				DEVELOPMENT_TEAM = G9LS4YQCM2;
 				ENABLE_PREVIEWS = YES;
@@ -1306,7 +1308,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = YeonMyu/YeonMyu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.5.1;
 				DEVELOPMENT_ASSET_PATHS = "\"YeonMyu/Preview Content\"";
 				DEVELOPMENT_TEAM = G9LS4YQCM2;
 				ENABLE_PREVIEWS = YES;
