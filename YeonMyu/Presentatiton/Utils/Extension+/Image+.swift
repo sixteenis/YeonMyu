@@ -76,6 +76,9 @@ extension Image {
     static let asLikeHeart = Image("아이콘_찜")
     static let asLikeHeartFill = Image("아이콘_찜_fill")
     
+    static let asGradientColor = Image("배경")
+    static let asNavGradientColor = Image("상단배경")
+    
     
 }
 
