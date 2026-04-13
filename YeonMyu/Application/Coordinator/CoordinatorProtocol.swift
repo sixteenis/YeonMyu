@@ -45,6 +45,7 @@ enum Screen: Identifiable, Hashable {
     //리뷰
     case reviewSetView(postInfo: DetailPerformance)
     
+    case profileSetting
 }
 
 // 탭 뷰
