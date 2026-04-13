@@ -25,8 +25,6 @@ extension UserUseCase {
         do {
             let result = try await fetchUserInfo(uid: UserDefaultManager.shared.uid)
             guard let result else { return .newJoin }
-            UserDefaultManager.shared.name = result.name
-            UserDefaultManager.shared.area = result.area
             return .signIn
         } catch {
             return .error
@@ -38,8 +36,6 @@ extension UserUseCase {
             let result = try await fetchUserInfo(uid: uid)
             guard let result else { return .newJoin }
             UserDefaultManager.shared.uid = uid
-            UserDefaultManager.shared.name = result.name
-            UserDefaultManager.shared.area = result.area
             return .signIn
         } catch {
             return .newJoin
@@ -62,16 +58,11 @@ extension UserUseCase {
         if let result { userInfo = result }
         return result
     }
-
-    func saveUserData(_ user: UserModel) {
+    
+    //유저 정보 수정
+    func updateUserData(_ user: UserModel) {
         UserDefaultManager.shared.uid = user.uid
-        UserDefaultManager.shared.name = user.name
-        UserDefaultManager.shared.area = user.area
         userInfo = user
-    }
-
-    func getUserData() -> UserModel {
-        return userInfo
     }
 }
 
