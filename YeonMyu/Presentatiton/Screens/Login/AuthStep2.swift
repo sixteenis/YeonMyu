@@ -128,7 +128,7 @@ private extension AuthStep2 {
                 do {
                     let result = try await userUseCase.createUser(uid: uid, name: name, area: area)
                     guard let user = result else { return }
-                    userUseCase.updateUserData(user)
+                    try await userUseCase.updateUserData(user)
                     self.isCeate = true
                 } catch {
                     print("계정 생성 오류 발생!!!")
