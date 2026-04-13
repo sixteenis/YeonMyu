@@ -15,6 +15,7 @@ final class SearchVM: ViewModeltype {
     var input = Input()
     @Published var output = Output()
     private let realm: Realm
+    private let performanceUseCase = PerformanceUseCase()
     var coordinator: MainCoordinator?
         
     init() {
@@ -24,8 +25,7 @@ final class SearchVM: ViewModeltype {
             // 초기 RecentSearch 객체 확인/생성
             ensureRecentSearchObject()
             Task {
-                let top10 = try await self.getTop10List()
-                
+                let top10 = try await performanceUseCase.fetchRanking()
                 await MainActor.run {
                     self.output.top10List = top10
                 }
@@ -150,19 +150,5 @@ private extension SearchVM {
             }
         }
         updateSearchHistories()
-    }
-}
-// MARK: - 네트워크 부분
-private extension SearchVM {
-    //실시간 top10
-    func getTop10List() async throws -> [SimplePostModel] {
-        let date = String.getDateRelativeToToday(daysOffset: -30)
-        let ddate = String.getDateRelativeToToday(daysOffset: 0)
-        
-        let data = try await NetworkManager.shared.requestBoxOffice(startDate: date, endDate: ddate, cateCode: "", area: nil)
-        
-        let result = data.map { $0.transformSimplePostModel()}
-        
-        return Array(result.filter{ $0.isPlayCheck() }.prefix(10))
     }
 }
