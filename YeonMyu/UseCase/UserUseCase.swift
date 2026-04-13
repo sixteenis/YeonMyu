@@ -60,9 +60,10 @@ extension UserUseCase {
     }
     
     //유저 정보 수정
-    func updateUserData(_ user: UserModel) {
+    func updateUserData(_ user: UserModel) async throws {
         UserDefaultManager.shared.uid = user.uid
         userInfo = user
+        try await userDS.updateUser(uid: user.uid, name: user.name, introduction: user.introduction, area: user.area, profileID: user.profileID)
     }
 }
 
