@@ -9,7 +9,6 @@ import SwiftUI
 
 extension Image {
     //탭 이미지
-    
     static let search = Image("검색")
     static let home = Image("홈")
     static let storage = Image("보관함")
@@ -92,7 +91,7 @@ extension Image {
     static let asProfile11 = Image("profile11")
     static let asProfile12 = Image("profile12")
     
-    
+    static let asSetting = Image("설정")
 }
 
 extension UIImage {

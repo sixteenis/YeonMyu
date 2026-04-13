@@ -24,70 +24,91 @@ struct MyView: View {
     @State private var stickyOffset: CGFloat = 0
     
     var body: some View {
-        VStack(spacing: 0) {
-            Image.asGradientColor
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
-                .frame(height: navHeight, alignment: .top)
-                .clipped()
-            
-            ZStack(alignment: .top) {
-                GeometryReader { geo in
-                    // 너비 기준으로 스케일 후 navHeight만큼 위로 올려서 첫 이미지와 이어지게 함
-                    Image.asGradientColor
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geo.size.width)
-                        .offset(y: -navHeight)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .clipped()
-                // 보라색 프로필 배경 (ProfileNavigationBar 높이만큼 상단 여백)
-                VStack(alignment: .leading, spacing: 0) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        ProfileHeaderView()
-                            .padding(.horizontal, 20)
-                        BioCardView()
-                            .padding(.top, 8)
-                            .padding(.horizontal, 20)
-                    }
-                    .background(
-                        GeometryReader { geo in
-                            Color.clear
-                                .onAppear { profileContentHeight = geo.size.height + 20 }
-                                .onChange(of: geo.size.height) { _, newValue in
-                                    profileContentHeight = newValue + 20
-                                }
-                        }
-                    )
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        ZStack {
+            VStack(spacing: 0) {
+                Image.asGradientColor
+                    .resizable()
+                    .scaledToFill()
+                    .clipped()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: navHeight, alignment: .top)
                 
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        Color.clear.frame(height: initialOffsetY)
-                        LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-                            Section {
-                                sheetListContent
-                            } header: {
-                                sheetTabHeader
-                                    .background(
-                                        GeometryReader { geometry in
-                                            Color.clear
-                                                .onChange(of: geometry.frame(in: .global).minY) { _, newValue in
-                                                    stickyOffset = newValue
-                                                }
-                                        }
-                                    )
-                            }
+                
+                ZStack(alignment: .top) {
+                    GeometryReader { geo in
+                        // 너비 기준으로 스케일 후 navHeight만큼 위로 올려서 첫 이미지와 이어지게 함
+                        Image.asGradientColor
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geo.size.width)
+                            .offset(y: -navHeight)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .clipped()
+                    // 보라색 프로필 배경 (ProfileNavigationBar 높이만큼 상단 여백)
+                    VStack(alignment: .leading, spacing: 0) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            ProfileHeaderView()
+                                .padding(.horizontal, 20)
+                            BioCardView()
+                                .padding(.top, 8)
+                                .padding(.horizontal, 20)
                         }
-                    } //:VSTACK
-                } //:SCROLL
-            } //:ZSTACK
-        } //:VSTACK
-        .ignoresSafeArea(edges: .top)
+                        .background(
+                            GeometryReader { geo in
+                                Color.clear
+                                    .onAppear { profileContentHeight = geo.size.height + 20 }
+                                    .onChange(of: geo.size.height) { _, newValue in
+                                        profileContentHeight = newValue + 20
+                                    }
+                            }
+                        )
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            Color.clear.frame(height: initialOffsetY)
+                            LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
+                                Section {
+                                    sheetListContent
+                                        .frame(minHeight: UIScreen.main.bounds.height - navHeight + 12, alignment: .top)
+                                        .background(Color.asGray600)
+                                } header: {
+                                    sheetTabHeader
+                                        .background(
+                                            GeometryReader { geometry in
+                                                Color.clear
+                                                    .onChange(of: geometry.frame(in: .global).minY) { _, newValue in
+                                                        stickyOffset = newValue
+                                                    }
+                                            }
+                                        )
+                                }
+                            }
+                        } //:VSTACK
+                    } //:SCROLL
+                    .onAppear { UIScrollView.appearance().bounces = false }
+                } //:ZSTACK
+            } //:VSTACK
+            .ignoresSafeArea(edges: .vertical)
+            Button {
+                print("설정페이지 이동")
+                coordinator.push(.profileSetting)
+            } label: {
+                Image.asSetting
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 28, height: 28)
+                    .padding(.trailing, 24)
+                    .padding(.top, 16)
+                    .foregroundStyle(Color.asWhite)
+            }
+            .vTop()
+            .hTrailing()
+        }
+        
 
 }
 
@@ -154,11 +175,11 @@ struct MyView: View {
     // MARK: - 시트 리스트 컨텐츠 (스크롤)
     private var sheetListContent: some View {
         LazyVStack(alignment: .leading, spacing: 0) {
-            ForEach(0..<100, id: \.self) { _ in
+            ForEach(0..<5, id: \.self) { _ in
                 PerformanceRowPlaceholder()
                     .padding(.horizontal, 24)
             }
-        }.background(Color.asGray600)
+        }
     }
 }
 
