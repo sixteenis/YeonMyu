@@ -12,12 +12,6 @@ final class UserDefaultManager {
     @UserDefault(key: "uid", defaultValue: "", storage: .standard)
     var uid: String
     
-    @UserDefault(key: "name", defaultValue: "", storage: .standard)
-    var name: String
-    
-    @UserDefault(key: "area", defaultValue: "", storage: .standard)
-    var area: String
-    
     @UserDefault(key: "recentSearch", defaultValue: [String](), storage: .standard)
     var recentSearch: [String]
     
