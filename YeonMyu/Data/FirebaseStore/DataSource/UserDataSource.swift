@@ -47,6 +47,7 @@ extension UserDataSource {
         return UserModel(
             uid: uid,
             name: data["name"] as? String ?? "알수없음",
+            introduction: data["introduction"] as? String ?? "",
             area: data["area"] as? String ?? "알수없음",
             profileID: data["profileID"] as? Int ?? 0,
             likesPerformance: likes,
@@ -60,6 +61,7 @@ extension UserDataSource {
             "area": area,
             "createdAt": Timestamp(),
             "profileID": 0,
+            "introduction" : "",
             "likesPerformance": [],
             "reviews": []
         ]
