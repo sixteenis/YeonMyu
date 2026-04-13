@@ -11,8 +11,9 @@ final class UserDataSource {
     private lazy var db = Firestore.firestore()
 }
 
-// MARK: - 유저 조회/생성
+// MARK: - 유저
 extension UserDataSource {
+    //유저정보 조회
     func fetchUser(uid: String) async throws -> UserModel? {
         let document = try await db.collection("users").document(uid).getDocument()
         guard let data = document.data() else { return nil }
@@ -54,7 +55,7 @@ extension UserDataSource {
             reviews: reviews
         )
     }
-
+    //유저 생성
     func createUser(uid: String, name: String, area: String) async throws {
         let data: [String: Any] = [
             "name": name,
@@ -67,7 +68,18 @@ extension UserDataSource {
         ]
         try await db.collection("users").document(uid).setData(data)
     }
+    // 유저 정보 수정
+    func updateUser(uid: String, name: String, introduction: String, area: String, profileID: Int) async throws {
+        let data: [String: Any] = [
+            "name": name,
+            "introduction": introduction,
+            "area": area,
+            "profileID": profileID
+        ]
+        try await db.collection("users").document(uid).updateData(data)
+    }
 }
+
 
 // MARK: - 후기
 extension UserDataSource {
