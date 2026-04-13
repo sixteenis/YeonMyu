@@ -15,10 +15,10 @@ struct MyView: View {
     @MainActor private var navHeight = CGFloat.safeAreaTop + 12 + 28 + 12
     let safeAreaTop: CGFloat = 10
     @State private var profileContentHeight: CGFloat = 300
-
+    
     // 초기 시트 위치 — BioCardView 하단까지의 실제 높이
     private var initialOffsetY: CGFloat { profileContentHeight }
-
+    
     @State private var selectedTab = 0
     @State private var scrollOffset: CGFloat = 0
     @State private var stickyOffset: CGFloat = 0
@@ -48,9 +48,9 @@ struct MyView: View {
                     // 보라색 프로필 배경 (ProfileNavigationBar 높이만큼 상단 여백)
                     VStack(alignment: .leading, spacing: 0) {
                         VStack(alignment: .leading, spacing: 0) {
-                            ProfileHeaderView()
+                            profileHeaderView()
                                 .padding(.horizontal, 20)
-                            BioCardView()
+                            bioCardView()
                                 .padding(.top, 8)
                                 .padding(.horizontal, 20)
                         }
@@ -72,11 +72,11 @@ struct MyView: View {
                             Color.clear.frame(height: initialOffsetY)
                             LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                                 Section {
-                                    sheetListContent
+                                    sheetListContent()
                                         .frame(minHeight: UIScreen.main.bounds.height - navHeight + 12, alignment: .top)
                                         .background(Color.asGray600)
                                 } header: {
-                                    sheetTabHeader
+                                    sheetTabHeader()
                                         .background(
                                             GeometryReader { geometry in
                                                 Color.clear
@@ -108,15 +108,78 @@ struct MyView: View {
             .vTop()
             .hTrailing()
         }
-        
-
+    }
 }
 
-    // MARK: - 시트 탭 헤더 (고정)
-
-    private var sheetTabHeader: some View {
-//        let isPinned = sheetProgress >= 1
-//        let topRadius = 24 * (1 - sheetProgress)
+// MARK: - 프로필 UI
+private extension MyView {
+    //프로필 정보
+    func profileHeaderView() -> some View {
+        HStack(spacing: 16) {
+            userUseCase.userInfo.getProfileImage()
+                .resizable()
+                .scaledToFill()
+                .frame(width: 120, height: 120)
+                .clipShape(Circle())
+                .wrapToButton {
+                    print("프로필 클릭!!")
+                }
+            
+            VStack(alignment: .leading, spacing: 12) {
+                Text(userUseCase.userInfo.name)
+                    .font(.boldFont24)
+                    .foregroundColor(.asWhite)
+                
+                HStack(spacing: 0) {
+                    statView(label: "찜한 공연", value: userUseCase.userInfo.likesPerformance.count.formatted())
+                    statView(label: "작성 후기", value: userUseCase.userInfo.reviews.count.formatted())
+                }
+            }
+        }
+    }
+    // 한줄 소개
+    func bioCardView() -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Triangle()
+                .fill(Color.white.opacity(0.15))
+                .frame(width: 20, height: 12)
+                .padding(.leading, 50)
+            
+            VStack(alignment: .leading, spacing: 8) {
+                Text("한줄소개")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.7))
+                Text(userUseCase.userInfo.introduction)
+                    .font(.body)
+                    .foregroundColor(.white)
+                    .lineLimit(3)
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.white.opacity(0.15))
+            .cornerRadius(16)
+        }
+    }
+    // 정보 표시 공통 UI
+    func statView(label: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            asText(label)
+                .font(.font14)
+                .foregroundColor(.asPurple500)
+            asText(value)
+                .font(.boldFont24)
+                .foregroundColor(.asWhite)
+                .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .fixedSize(horizontal: true, vertical: false)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+}
+// MARK: - 바텀시트 UI
+private extension MyView {
+    // 시트 탭 헤더 (고정)
+    func sheetTabHeader() -> some View {
         ZStack {
             if stickyOffset <= navHeight + 10 {
                 
@@ -170,10 +233,10 @@ struct MyView: View {
                 ))
             )
         }
+        
     }
-
-    // MARK: - 시트 리스트 컨텐츠 (스크롤)
-    private var sheetListContent: some View {
+    // 시트 리스트 컨텐츠 (스크롤)
+    func sheetListContent() -> some View {
         LazyVStack(alignment: .leading, spacing: 0) {
             ForEach(0..<5, id: \.self) { _ in
                 PerformanceRowPlaceholder()
@@ -183,32 +246,7 @@ struct MyView: View {
     }
 }
 
-
-struct BioCardView: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Triangle()
-                .fill(Color.white.opacity(0.15))
-                .frame(width: 20, height: 12)
-                .padding(.leading, 50)
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("한줄소개")
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
-                Text("\"지금 이 순간, 마법처럼.")
-                    .font(.body)
-                    .foregroundColor(.white)
-                    .lineLimit(3)
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.white.opacity(0.15))
-            .cornerRadius(16)
-        }
-    }
-}
-
+//삼각형 모형 만들기~
 struct Triangle: Shape {
     func path(in rect: CGRect) -> Path {
         Path { path in
@@ -220,48 +258,6 @@ struct Triangle: Shape {
     }
 }
 
-
-struct ProfileHeaderView: View {
-    var body: some View {
-        HStack(spacing: 16) {
-            Image.asProfile1
-                .resizable()
-                .scaledToFill()
-                .frame(width: 120, height: 120)
-                .clipShape(Circle())
-                .wrapToButton {
-                    print("프로필 클릭!!")
-                }
-            
-            VStack(alignment: .leading, spacing: 12) {
-                Text("취향탐구중")
-                    .font(.boldFont24)
-                    .foregroundColor(.asWhite)
-                
-                HStack(spacing: 0) {
-                    StatView(label: "찜한 공연", value: "102")
-                    StatView(label: "작성 후기", value: "43")
-                }
-            }
-        }
-    }
-}
-
-struct StatView: View {
-    let label: String
-    let value: String
-    var body: some View {
-        VStack(alignment: .leading, spacing: 3) {
-            asText(label)
-                .font(.font14)
-                .foregroundColor(.asPurple500)
-            asText(value)
-                .font(.boldFont24)
-                .foregroundColor(.asWhite)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
 
 struct PerformanceRowPlaceholder: View {
     var body: some View {

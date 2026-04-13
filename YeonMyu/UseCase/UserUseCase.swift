@@ -13,7 +13,7 @@ final class UserUseCase {
     private let userDS = UserDataSource()
     private let performanceDS = PerformanceDataSource()
 
-    var userInfo = UserModel(uid: "", name: "", area: "", profileID: 0, likesPerformance: [], reviews: [])
+    var userInfo = UserModel(uid: "", name: "", introduction: "", area: "", profileID: 0, likesPerformance: [], reviews: [])
 
     init() {}
 }
@@ -83,6 +83,7 @@ extension UserUseCase {
         userInfo = UserModel(
             uid: userInfo.uid,
             name: userInfo.name,
+            introduction: userInfo.introduction,
             area: userInfo.area,
             profileID: userInfo.profileID,
             likesPerformance: userInfo.likesPerformance,
@@ -96,6 +97,7 @@ extension UserUseCase {
         userInfo = UserModel(
             uid: userInfo.uid,
             name: userInfo.name,
+            introduction: userInfo.introduction,
             area: userInfo.area,
             profileID: userInfo.profileID,
             likesPerformance: userInfo.likesPerformance,
@@ -112,6 +114,7 @@ extension UserUseCase {
             userInfo = UserModel(
                 uid: userInfo.uid,
                 name: userInfo.name,
+                introduction: userInfo.introduction,
                 area: userInfo.area,
                 profileID: userInfo.profileID,
                 likesPerformance: userInfo.likesPerformance + [data],
@@ -121,6 +124,7 @@ extension UserUseCase {
             userInfo = UserModel(
                 uid: userInfo.uid,
                 name: userInfo.name,
+                introduction: userInfo.introduction,
                 area: userInfo.area,
                 profileID: userInfo.profileID,
                 likesPerformance: userInfo.likesPerformance.filter {
