@@ -25,7 +25,7 @@ struct SimplePerformance {
         return SimplePerformance(playId: "", playDate: "", title: "", place: "", postURL: "")
     }
 }
-struct DetailPerformance: Hashable {
+struct DetailPerformance: Hashable, PerformanceDisplayable {
     var mt20id: String //공연id
     var placeId: String //장소id
     var name: String //이름
@@ -67,7 +67,15 @@ struct DetailPerformance: Hashable {
         return replaced.components(separatedBy: "|").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
     }
     var genrenm: String //공연 종류
-    
+
+    // MARK: - PerformanceDisplayable 채택을 위한 맵핑....
+    var postURL: String { posterURL }
+    var postTitle: String { name }
+    var location: String { place }
+    var genreType: Genre { Genre.transform(str: genrenm) }
+    var startDate: String { playDate.components(separatedBy: "~").first?.trimmingCharacters(in: .whitespaces) ?? playDate }
+    var endDate: String { playDate.components(separatedBy: "~").last?.trimmingCharacters(in: .whitespaces) ?? playDate }
+
     init(mt20id: String, placeId: String, name: String, playDate: String, place: String, actors: String, actorArray: [String], teams: String, runtime: String, limitAge: String, ticketPrice: String, posterURL: String, state: PerformanceStateType, DetailPosts: [String], relates: [RelatedLink], guidance: String, genrenm: String) {
         self.mt20id = mt20id
         self.placeId = placeId

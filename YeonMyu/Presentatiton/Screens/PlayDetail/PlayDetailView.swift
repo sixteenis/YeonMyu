@@ -48,7 +48,7 @@ extension PlayDetailView {
                     Task {
                         let isCurrentlyLiked = userUseCase.userInfo.likesPerformance.contains(where: { $0.mt20id == postID })
                         
-                        try await userUseCase.updateLike(LikesPerformanceModel(mt20id: postID, postType: postInfo.genrenm), isLike: !isCurrentlyLiked)
+                        try await userUseCase.updateLike(LikesPerformanceModel(displayable: postInfo), isLike: !isCurrentlyLiked)
                     }
                 } label: {
                     if (userUseCase.userInfo.likesPerformance.contains(where: {$0.mt20id == postID})) {

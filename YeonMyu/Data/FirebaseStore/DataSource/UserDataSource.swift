@@ -21,7 +21,12 @@ extension UserDataSource {
         let likes = (data["likesPerformance"] as? [[String: Any]] ?? []).map {
             LikesPerformanceModel(
                 mt20id: $0["mt20id"] as? String ?? "",
-                postType: $0["postType"] as? String ?? ""
+                postType: $0["postType"] as? String ?? "",
+                postURL: $0["postURL"] as? String ?? "",
+                postTitle: $0["postTitle"] as? String ?? "",
+                startDate: $0["startDate"] as? String ?? "",
+                endDate: $0["endDate"] as? String ?? "",
+                location: $0["location"] as? String ?? ""
             )
         }
 
@@ -104,10 +109,17 @@ extension UserDataSource {
 // MARK: - 찜하기
 extension UserDataSource {
     func updateLike(uid: String, like: LikesPerformanceModel, isLike: Bool) async throws {
-        let likeData: [String: Any] = ["mt20id": like.mt20id, "postType": like.postType]
-        let field: FieldValue = isLike
-            ? FieldValue.arrayUnion([likeData])
-            : FieldValue.arrayRemove([likeData])
-        try await db.collection("users").document(uid).updateData(["likesPerformance": field])
+        let userRef = db.collection("users").document(uid)
+        if isLike {
+            try await userRef.updateData([
+                "likesPerformance": FieldValue.arrayUnion([like.toDictionary()])
+            ])
+        } else {
+            let document = try await userRef.getDocument()
+            guard let data = document.data() else { return }
+            let updated = (data["likesPerformance"] as? [[String: Any]] ?? [])
+                .filter { $0["mt20id"] as? String != like.mt20id }
+            try await userRef.updateData(["likesPerformance": updated])
+        }
     }
 }
