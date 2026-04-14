@@ -344,6 +344,7 @@
 		062626232E71ADF5009B879B /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				06E507DF2D7F10CD00F5E7DE /* TabBar */,
 				06E507F72D7F10CD00F5E7DE /* Home */,
 				06E507EB2D7F10CD00F5E7DE /* Search */,
 				063F5D7C2D918325004F4C17 /* storage */,
@@ -630,7 +631,6 @@
 			isa = PBXGroup;
 			children = (
 				06E507DC2D7F10CD00F5E7DE /* Base */,
-				06E507DF2D7F10CD00F5E7DE /* TabBar */,
 				06E507E02D7F10CD00F5E7DE /* InitView.swift */,
 				06E507E12D7F10CD00F5E7DE /* LoadingView.swift */,
 			);
