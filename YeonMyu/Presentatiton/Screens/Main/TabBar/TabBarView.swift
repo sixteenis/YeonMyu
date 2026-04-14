@@ -52,7 +52,12 @@ struct MainTabView: View {
         }
         .tint(Color.asPurple300)
         .navigationBarBackButtonHidden()
-        
+        .onChange(of: coordinator.selectedTab) { _, newTab in
+            UIScrollView.appearance().bounces = (newTab != .my)
+        }
+        .onAppear {
+            UIScrollView.appearance().bounces = (coordinator.selectedTab != .my)
+        }
     }
 }
 

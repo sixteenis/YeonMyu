@@ -89,7 +89,6 @@ struct MyView: View {
                             }
                         } //:VSTACK
                     } //:SCROLL
-                    .onAppear { UIScrollView.appearance().bounces = false }
                 } //:ZSTACK
             } //:VSTACK
             .ignoresSafeArea(edges: .vertical)
