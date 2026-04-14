@@ -39,7 +39,7 @@ enum Screen: Identifiable, Hashable {
     case storage(selected: StorageType) //보관함 뷰
     case my //마이 뷰
     
-    case playDetail(id: String) //공연 상세 뷰
+    case playDetail(mt20id: String) //공연 상세 뷰
     case searchResult(search: String, date: Date, city: CityCode)
     
     //리뷰

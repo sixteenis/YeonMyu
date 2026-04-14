@@ -92,7 +92,7 @@ final class SearchVM: ViewModeltype {
         input.tapTop10Item
             .sink { [weak self] id in
                 guard let self else { return }
-                coordinator?.push(.playDetail(id: id))
+                coordinator?.push(.playDetail(mt20id: id))
             }.store(in: &cancellables)
     }
 }

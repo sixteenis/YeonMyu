@@ -216,7 +216,8 @@ private extension MyView {
                     }
                 }
                 Divider()
-                asText("15건")
+                let count = selectedTab == 0 ? userUseCase.userInfo.likesPerformance.count : userUseCase.userInfo.reviews.count
+                asText("\(count.formatted())건")
                     .font(.font16)
                     .foregroundColor(.asGray200)
                     .padding(.horizontal, 20)
@@ -237,9 +238,12 @@ private extension MyView {
     // 시트 리스트 컨텐츠 (스크롤)
     func sheetListContent() -> some View {
         LazyVStack(alignment: .leading, spacing: 0) {
-            ForEach(0..<5, id: \.self) { _ in
-                PerformanceRowPlaceholder()
-                    .padding(.horizontal, 24)
+            ForEach(userUseCase.userInfo.likesPerformance, id: \.mt20id) { post in
+                VerticalPerformanceView(post: post)
+                    .padding([.leading, .bottom], 24)
+                    .wrapToButton {
+                        coordinator.push(.playDetail(mt20id: post.mt20id))
+                    }
             }
         }
     }
@@ -254,38 +258,5 @@ struct Triangle: Shape {
             path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
             path.closeSubpath()
         }
-    }
-}
-
-
-struct PerformanceRowPlaceholder: View {
-    var body: some View {
-        HStack(spacing: 12) {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.secondary.opacity(0.15))
-                .frame(width: 64, height: 80)
-            VStack(alignment: .leading, spacing: 4) {
-                Text("공연 제목 [지역]")
-                    .font(.subheadline.weight(.medium))
-                HStack(spacing: 4) {
-                    Image(systemName: "calendar")
-                        .font(.caption2)
-                    Text("25/03/01~오픈런")
-                        .font(.caption)
-                }
-                .foregroundColor(.secondary)
-                HStack(spacing: 4) {
-                    Image(systemName: "mappin")
-                        .font(.caption2)
-                    Text("공연장명")
-                        .font(.caption)
-                }
-                .foregroundColor(.secondary)
-            }
-            Spacer()
-        }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 12)
-        .background(Color.asWhite)
     }
 }

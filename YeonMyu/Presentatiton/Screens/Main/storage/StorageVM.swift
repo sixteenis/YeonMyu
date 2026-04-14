@@ -58,7 +58,7 @@ final class StorageVM: ViewModeltype {
         input.postTapped
             .sink { [weak self] postId in
                 guard let self else { return }
-                self.coordinator?.push(.playDetail(id: postId))
+                self.coordinator?.push(.playDetail(mt20id: postId))
             }.store(in: &cancellables)
         
     }
