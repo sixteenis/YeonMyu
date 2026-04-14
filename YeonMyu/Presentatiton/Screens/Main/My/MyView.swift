@@ -236,7 +236,17 @@ private extension MyView {
         
     }
     // 시트 리스트 컨텐츠 (스크롤)
+    @ViewBuilder
     func sheetListContent() -> some View {
+        if selectedTab == 0 {
+            likesPerformanceView()
+        } else {
+            reviewsView()
+        }
+    }
+    
+    //찜리스트
+    func likesPerformanceView() -> some View {
         LazyVStack(alignment: .leading, spacing: 0) {
             ForEach(userUseCase.userInfo.likesPerformance, id: \.mt20id) { post in
                 VerticalPerformanceView(post: post)
@@ -244,6 +254,20 @@ private extension MyView {
                     .wrapToButton {
                         coordinator.push(.playDetail(mt20id: post.mt20id))
                     }
+            }
+        }
+    }
+    
+    //작성한 리뷰 리스트
+    func reviewsView() -> some View {
+        LazyVStack(alignment: .leading, spacing: 0) {
+            ForEach(userUseCase.userInfo.reviews) { review in
+                Text(review.postTitle)
+//                VerticalPerformanceView(post: post)
+//                    .padding([.leading, .bottom], 24)
+//                    .wrapToButton {
+//                        coordinator.push(.playDetail(mt20id: post.mt20id))
+//                    }
             }
         }
     }
