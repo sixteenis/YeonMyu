@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct SimplePostModel: Identifiable, VerticalPerformanceRepresentable {
+struct SimplePostModel: Identifiable, PerformanceDisplayable {
     let id = UUID()
-    let postId: String //id
+    let mt20id: String //id
+    let genreType: Genre
     let postURL: String
     let postType: String //공연 종류
     let postTitle: String
@@ -19,7 +20,8 @@ struct SimplePostModel: Identifiable, VerticalPerformanceRepresentable {
     let location: String
     
     init(postId: String, postURL: String, postType: String, postTitle: String, startDate: String, endDate: String, fullDate: String? = nil, location: String) {
-        self.postId = postId
+        self.mt20id = postId
+        self.genreType = Genre.transform(str: postType)
         self.postURL = postURL
         self.postType = postType
         self.postTitle = postTitle
@@ -29,7 +31,7 @@ struct SimplePostModel: Identifiable, VerticalPerformanceRepresentable {
         self.location = location
         print("""
         ----- Post Info -----
-        postId: \(self.postId)
+        postId: \(self.mt20id)
         postURL: \(self.postURL)
         postType: \(self.postType)
         postTitle: \(self.postTitle)

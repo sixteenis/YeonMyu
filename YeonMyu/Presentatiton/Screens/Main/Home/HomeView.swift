@@ -465,7 +465,7 @@ private extension HomeView {
                         .frame(width: 120, height: 240)
                         .padding(.horizontal, 12)
                         .wrapToButton {
-                            intent.postTapped(id: post.postId)
+                            intent.postTapped(id: post.mt20id)
                         }
                 }
             }
@@ -507,7 +507,7 @@ private extension HomeView {
                 VerticalPerformanceView(post: post)
                     .padding([.leading, .bottom], 24)
                     .wrapToButton {
-                        intent.postTapped(id: post.postId)
+                        intent.postTapped(id: post.mt20id)
                     }
             }
         }

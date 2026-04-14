@@ -193,7 +193,7 @@ private extension SearchResultView {
                     VerticalPerformanceView(post: post)
                         .padding([.leading, .bottom], 24)
                         .wrapToButton {
-                            vm.input.tapPost.send(post.postId)
+                            vm.input.tapPost.send(post.mt20id)
                         }
                 }
             }

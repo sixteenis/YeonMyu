@@ -9,7 +9,12 @@ import SwiftUI
 
 struct VerticalPerformanceView: View {
     
-    var post: SimplePostModel
+    let post: PerformanceDisplayable
+    
+    init(post: PerformanceDisplayable) {
+        self.post = post
+    }
+    
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             postView()
@@ -19,7 +24,7 @@ struct VerticalPerformanceView: View {
                 genreView()
                     .padding(.bottom, 4)
                     .padding(.top, 2)
-                infoView(image: .calendarIcon, text: post.fullDate == nil ? post.startDate+"~"+post.endDate: post.fullDate! )
+                infoView(image: .calendarIcon, text: post.startDate+"~"+post.endDate)
                 infoView(image: .markerIcon, text: post.location)
             }
         }.frame(height: 123)
@@ -31,7 +36,7 @@ private extension VerticalPerformanceView {
         ZStack {
             PosterImageView(url: post.postURL)
             
-            PerformanceTagView(tagTT: post.getPostString())
+            PerformanceTagView(tagTT: post.genreType.displayName)
                 .hLeading()
                 .vTop()
                 .padding(6)

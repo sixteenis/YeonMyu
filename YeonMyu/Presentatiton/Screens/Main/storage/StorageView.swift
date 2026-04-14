@@ -132,7 +132,7 @@ private extension StorageView {
                     VerticalPerformanceView(post: post)
                         .padding([.leading, .bottom], 24)
                         .wrapToButton {
-                            vm.input.postTapped.send(post.postId)
+                            vm.input.postTapped.send(post.mt20id)
                         }
                 }
             }
