@@ -48,7 +48,8 @@ struct ReviewModel {
 }
 
 // MARK: - 공연 관련 모델
-struct LikesPerformanceModel: PerformanceDisplayable {
+struct LikesPerformanceModel: Identifiable, PerformanceDisplayable {
+    let id = UUID().uuidString
     let mt20id: String      // 공연 고유 ID
     let postType: String    // 공연 종류
     let postURL: String     // 포스터 이미지 URL

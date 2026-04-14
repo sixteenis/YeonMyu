@@ -22,8 +22,9 @@ struct VerticalPerformanceView: View {
             
             VStack(alignment: .leading, spacing: 0) {
                 genreView()
-                    .padding(.bottom, 4)
+                    .padding(.bottom, 12)
                     .padding(.top, 2)
+                    
                 infoView(image: .calendarIcon, text: post.startDate+"~"+post.endDate)
                 infoView(image: .markerIcon, text: post.location)
             }
