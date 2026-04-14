@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SimplePostModel: Identifiable {
+struct SimplePostModel: Identifiable, VerticalPerformanceRepresentable {
     let id = UUID()
     let postId: String //id
     let postURL: String
