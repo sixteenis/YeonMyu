@@ -76,10 +76,10 @@ extension HomeView {
             intent.configureUserInfo(name: userUseCase.userInfo.name, city: userUseCase.userInfo.getCityCode())
             if state.contentState != .content { intent.onAppear(city: state.selectedCity, prfCate: state.selectedPrfCate) }
         }
-        .onChange(of: state.selectedPost) { oldValue, newValue in // 공연 상세뷰로 이동
+        .onChange(of: state.selectedPost) { _, newValue in // 공연 상세뷰로 이동
             guard let id = newValue else { return }
             intent.postTapped(id: nil)
-            coordinator.push(.playDetail(id: id))
+            coordinator.push(.playDetail(mt20id: id))
         }
         .onChange(of: state.selectedUserInfo) { oldValue, newValue in // 사용자 정보 뷰로 이동
             guard let newValue else { return }
@@ -502,7 +502,7 @@ private extension HomeView {
     }
     
     func randomTableView(_ data: [SimplePostModel]) -> some View {
-        VStack {
+        LazyVStack {
             ForEach(data, id: \.id) { post in
                 VerticalPerformanceView(post: post)
                     .padding([.leading, .bottom], 24)
