@@ -1,5 +1,5 @@
 //
-//  CustomHorizontalPlayView.swift
+//  CustomVerticalPlayView.swift
 //  musicalRecordProject
 //
 //  Created by 박성민 on 2/8/25.
@@ -7,29 +7,36 @@
 
 import SwiftUI
 
-struct CustomHorizontalPlayView: View {
-    let post: SimplePostModel
+struct VerticalPerformanceView: View {
+    
+    var post: SimplePostModel
     var body: some View {
-        VStack(spacing: 0) {
-            ZStack {
-                CustomPostImage(url: post.postURL)
-                PerformanceTagView(tagTT: post.getPostString())
-                    .vTop()
-                    .hLeading()
-                    .padding(6)
-                
+        HStack(alignment: .top, spacing: 12) {
+            postView()
+                .frame(width: 92)
+            
+            VStack(alignment: .leading, spacing: 0) {
+                genreView()
+                    .padding(.bottom, 4)
+                    .padding(.top, 2)
+                infoView(image: .calendarIcon, text: post.fullDate == nil ? post.startDate+"~"+post.endDate: post.fullDate! )
+                infoView(image: .markerIcon, text: post.location)
             }
-            genreView()
-                .frame(height: 17)
-                .hLeading()
-                .padding(.vertical, 4)
-            infoView(image: .calendarIcon, text: "\(post.startDate)~\(post.endDate)")
-            infoView(image: .markerIcon, text: post.location)
-        }
+        }.frame(height: 123)
     }
 }
 
-private extension CustomHorizontalPlayView {
+private extension VerticalPerformanceView {
+    func postView() -> some View {
+        ZStack {
+            PosterImageView(url: post.postURL)
+            
+            PerformanceTagView(tagTT: post.getPostString())
+                .hLeading()
+                .vTop()
+                .padding(6)
+        }
+    }
     func genreView() -> some View {
         HStack(spacing: 2) {
             //            asText(post.getPostString())
@@ -47,6 +54,7 @@ private extension CustomHorizontalPlayView {
                 .lineLimit(1)
                 .font(.boldFont16)
                 .foregroundStyle(Color.asTextColor)
+                .padding(.trailing, 46)
             
         } //:HSTACK
     }
@@ -66,6 +74,6 @@ private extension CustomHorizontalPlayView {
     }
 }
 //#Preview {
-//    CustomHorizontalPlayView()
-//        .frame(width: 120, height: 230)
+//    CustomVerticalPlayView()
+//        .frame(height: 80)
 //}

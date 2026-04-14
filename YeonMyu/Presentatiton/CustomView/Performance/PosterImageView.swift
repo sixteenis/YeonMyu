@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct CustomPostImage: View {
+struct PosterImageView: View {
     var url: String
     var size: CGSize? // 직접 크기 지정 가능 (없으면 자동 조정)
 

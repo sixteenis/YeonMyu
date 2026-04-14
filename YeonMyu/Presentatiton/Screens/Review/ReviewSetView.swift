@@ -109,7 +109,7 @@ private extension ReviewSetView {
     var postInfoSection: some View {
         HStack {
             ZStack {
-                CustomPostImage(url: vm.postInfo.posterURL)
+                PosterImageView(url: vm.postInfo.posterURL)
                     .frame(width: 92, height: 123)
                 
                 PerformanceTagView(tagTT: vm.postInfo.genrenm)

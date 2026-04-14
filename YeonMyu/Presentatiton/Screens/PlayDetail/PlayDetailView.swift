@@ -217,7 +217,7 @@ private extension PlayDetailView {
         VStack(spacing: 9) {
             ZStack {
                 ZStack {
-                    CustomPostImage(url: postInfo.posterURL)
+                    PosterImageView(url: postInfo.posterURL)
                         .scaledToFill()
                         .frame(width: screenWidth + 10, height: screenWidth)
                         .blur(radius: 3)
@@ -226,7 +226,7 @@ private extension PlayDetailView {
                         .foregroundStyle(Color.asBlack.opacity(0.5))
                 }
                 
-                CustomPostImage(url: postInfo.posterURL)
+                PosterImageView(url: postInfo.posterURL)
                     .frame(width: screenWidth * 0.625, height: screenWidth * 0.835)
             } //: ZStack
             Text(postInfo.state.title) // asText 대신 Text로 변경 (asText가 정의되지 않았으므로)

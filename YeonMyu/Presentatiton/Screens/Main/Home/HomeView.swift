@@ -225,7 +225,7 @@ private extension HomeView {
                     let item = state.headerPostsTmp[index]
                     
                     ZStack {
-                        CustomPostImage(url: item.postURL)
+                        PosterImageView(url: item.postURL)
                         
                         LinearGradient(
                             gradient: Gradient(stops: [
@@ -461,7 +461,7 @@ private extension HomeView {
         ScrollView(.horizontal) {
             LazyHStack {
                 ForEach(posts, id: \.id) { post in
-                    CustomHorizontalPlayView(post: post)
+                    HorizontalPerformanceView(post: post)
                         .frame(width: 120, height: 240)
                         .padding(.horizontal, 12)
                         .wrapToButton {
@@ -504,7 +504,7 @@ private extension HomeView {
     func randomTableView(_ data: [SimplePostModel]) -> some View {
         VStack {
             ForEach(data, id: \.id) { post in
-                CustomVerticalPlayView(post: post)
+                VerticalPerformanceView(post: post)
                     .padding([.leading, .bottom], 24)
                     .wrapToButton {
                         intent.postTapped(id: post.postId)
