@@ -10,7 +10,7 @@ import Foundation
 enum Genre: CaseIterable {
     case play
     case musical
-    var title: String {
+    var displayName: String {
         switch self {
         case .play:
             "연극"
@@ -25,6 +25,12 @@ enum Genre: CaseIterable {
         case .musical:
             return "GGGA"
         }
+    }
+    static func transform(str: String) -> Genre {
+        if str == "연극" {
+            return .play
+        }
+        return .musical
     }
 }
 

@@ -39,7 +39,7 @@ extension AppDataSource {
 
     func updateRanking(items: [SimplePostModel]) async throws {
         let rankingData: [[String: Any]] = items.map {
-            ["mt20id": $0.postId, "postTitle": $0.postTitle, "postType": $0.postType]
+            ["mt20id": $0.mt20id, "postTitle": $0.postTitle, "postType": $0.postType]
         }
         try await rankingRef.setData([
             "updateDate": Timestamp(),

@@ -23,7 +23,7 @@ struct SelectListView: View {
             selected = type
         } label: {
             VStack(spacing: 5) {
-                Text(type.title)
+                Text(type.displayName)
                     .font(.title2)
                     .fontWeight(selected == type ? .bold : .regular)
                     .foregroundStyle(selected == type ? Color.asMainColor : Color.asPlaceholder)

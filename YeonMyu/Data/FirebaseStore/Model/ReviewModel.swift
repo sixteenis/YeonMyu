@@ -48,7 +48,45 @@ struct ReviewModel {
 }
 
 // MARK: - 공연 관련 모델
-struct LikesPerformanceModel {
-    let mt20id: String // 공연 고유 ID
-    let postType: String // 공연 종류
+struct LikesPerformanceModel: PerformanceDisplayable {
+    let mt20id: String      // 공연 고유 ID
+    let postType: String    // 공연 종류
+    let postURL: String     // 포스터 이미지 URL
+    let postTitle: String   // 공연 제목
+    let startDate: String   // 시작일
+    let endDate: String     // 종료일
+    let location: String    // 공연 장소
+
+    var genreType: Genre { Genre.transform(str: postType) }
+    
+    init(mt20id: String, postType: String, postURL: String, postTitle: String, startDate: String, endDate: String, location: String) {
+        self.mt20id = mt20id
+        self.postType = postType
+        self.postURL = postURL
+        self.postTitle = postTitle
+        self.startDate = startDate
+        self.endDate = endDate
+        self.location = location
+    }
+    init(displayable: PerformanceDisplayable) {
+        self.mt20id = displayable.mt20id
+        self.postType = displayable.genreType.displayName
+        self.postURL = displayable.postURL
+        self.postTitle = displayable.postTitle
+        self.startDate = displayable.startDate
+        self.endDate = displayable.endDate
+        self.location = displayable.location
+    }
+
+    func toDictionary() -> [String: Any] {
+        return [
+            "mt20id": mt20id,
+            "postType": postType,
+            "postURL": postURL,
+            "postTitle": postTitle,
+            "startDate": startDate,
+            "endDate": endDate,
+            "location": location
+        ]
+    }
 }

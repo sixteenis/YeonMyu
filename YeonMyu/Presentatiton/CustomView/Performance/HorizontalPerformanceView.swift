@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct HorizontalPerformanceView: View {
-    let post: SimplePostModel
+    let post: PerformanceDisplayable
+    
+    init(post: PerformanceDisplayable) {
+        self.post = post
+    }
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
                 PosterImageView(url: post.postURL)
-                PerformanceTagView(tagTT: post.getPostString())
+                PerformanceTagView(tagTT: post.genreType.displayName)
                     .vTop()
                     .hLeading()
                     .padding(6)

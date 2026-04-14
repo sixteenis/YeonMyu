@@ -188,7 +188,7 @@ private extension SearchView {
                 .padding(.bottom, 18)
                 .hLeading()
                 .wrapToButton {
-                    vm.input.tapTop10Item.send(item.postId)
+                    vm.input.tapTop10Item.send(item.mt20id)
                 }
             }
         }
