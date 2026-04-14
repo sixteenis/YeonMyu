@@ -190,7 +190,7 @@ private extension SearchResultView {
         ScrollView {
             LazyVStack {
                 ForEach(data, id: \.id) { post in
-                    CustomVerticalPlayView(post: post)
+                    VerticalPerformanceView(post: post)
                         .padding([.leading, .bottom], 24)
                         .wrapToButton {
                             vm.input.tapPost.send(post.postId)

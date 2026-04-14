@@ -129,7 +129,7 @@ private extension StorageView {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(vm.output.scrollPostData, id: \.id) { post in
-                    CustomVerticalPlayView(post: post)
+                    VerticalPerformanceView(post: post)
                         .padding([.leading, .bottom], 24)
                         .wrapToButton {
                             vm.input.postTapped.send(post.postId)
