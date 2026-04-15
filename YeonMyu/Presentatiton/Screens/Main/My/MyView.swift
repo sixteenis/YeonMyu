@@ -213,6 +213,7 @@ private extension MyView {
                                     Rectangle().fill(Color.asPurple300).frame(width: 70, height: 3)
                                 }
                             }
+                            .frame(maxWidth: .infinity)
                         //                            .font(.subheadline.weight(selectedTab == idx ? .semibold : .regular))
                     }
                 }

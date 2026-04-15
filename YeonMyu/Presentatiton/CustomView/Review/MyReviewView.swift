@@ -50,7 +50,8 @@ struct MyReviewView: View {
                 .font(.font14)
                 .foregroundColor(.asGray200)
                 .lineLimit(2)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+
 
             // 닉네임 | 날짜
             HStack(spacing: 8) {

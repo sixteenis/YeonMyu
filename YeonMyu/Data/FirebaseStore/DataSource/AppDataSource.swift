@@ -17,6 +17,10 @@ extension AppDataSource {
     private var rankingRef: DocumentReference {
         db.collection("appData").document("performanceRanking")
     }
+    
+    private var recentReviewRef: DocumentReference {
+        db.collection("appData").document("recentReview")
+    }
     // 공연 탑 10 조회
     func fetchRanking() async throws -> (updateDate: Date?, ranking: [SimplePostModel]) {
         let document = try await rankingRef.getDocument()
@@ -47,3 +51,58 @@ extension AppDataSource {
         ])
     }
 }
+// MARK: - 최근 리뷰
+extension AppDataSource {
+    // 리뷰 저장 (최신 10개 유지)
+    func saveRecentReview(_ review: ReviewModel) async throws {
+        let document = try await recentReviewRef.getDocument()
+        var reviews = (document.data()?["reviews"] as? [[String: Any]]) ?? []
+        reviews.insert(review.toDictionary(), at: 0)
+        if reviews.count > 10 { reviews = Array(reviews.prefix(10)) }
+        try await recentReviewRef.setData(["reviews": reviews])
+    }
+
+    // 최근 리뷰에서 특정 리뷰 삭제 (포함된 경우에만)
+    func removeRecentReviewIfExists(reviewid: String) async throws {
+        let document = try await recentReviewRef.getDocument()
+        guard let reviews = document.data()?["reviews"] as? [[String: Any]],
+              reviews.contains(where: { $0["reviewid"] as? String == reviewid })
+        else { return }
+        let updated = reviews.filter { $0["reviewid"] as? String != reviewid }
+        try await recentReviewRef.setData(["reviews": updated])
+    }
+
+    // 최근 리뷰 10개 조회
+    func fetchRecentReviews() async throws -> [ReviewModel] {
+        let document = try await recentReviewRef.getDocument()
+        guard let list = document.data()?["reviews"] as? [[String: Any]] else { return [] }
+        return list.compactMap { dict -> ReviewModel? in
+            guard
+                let reviewid      = dict["reviewid"]      as? String,
+                let mt20id        = dict["mt20id"]        as? String,
+                let postTitle     = dict["postTitle"]     as? String,
+                let postType      = dict["postType"]      as? String,
+                let rating        = dict["rating"]        as? Int,
+                let highlights    = dict["selectedPerformanceHighlights"]   as? [String],
+                let feelings      = dict["selectedPerformanceFeelings"]     as? [String],
+                let environments  = dict["selectedPerformanceEnvironments"] as? [String],
+                let setting       = dict["setting"]       as? String,
+                let review        = dict["review"]        as? String,
+                let createdAt     = (dict["createdAt"] as? Timestamp)?.dateValue(),
+                let userID        = dict["userID"]        as? String,
+                let userName      = dict["userName"]      as? String,
+                let userProfileID = dict["userProfileID"] as? Int
+            else { return nil }
+            return ReviewModel(
+                reviewid: reviewid, mt20id: mt20id, postTitle: postTitle,
+                genreType: Genre.transform(str: postType), rating: rating,
+                selectedPerformanceHighlights: highlights,
+                selectedPerformanceFeelings: feelings,
+                selectedPerformanceEnvironments: environments,
+                setting: setting, review: review, createdAt: createdAt,
+                userID: userID, userName: userName, userProfileID: userProfileID
+            )
+        }
+    }
+}
+

@@ -19,7 +19,10 @@ final class PerformanceUseCase {
         let reviews = try await performanceDS.fetchReviews(mt20id: postId)
         return reviews
     }
-
+    // 최근 작성된 리뷰 10개 가져오기
+    func getRecentReviewList() async throws -> [ReviewModel] {
+        return try await rankingDS.fetchRecentReviews()
+    }
     // 랭킹 조회 - 하루가 지났으면 백그라운드에서 갱신 후 캐시된 값 반환
     func fetchRanking() async throws -> [SimplePostModel] {
         let (updateDate, cached) = try await rankingDS.fetchRanking()
