@@ -83,7 +83,7 @@ final class ReviewSetVM: ObservableObject {
             reviewid: UUID().uuidString,
             mt20id: postInfo.mt20id,
             postTitle: postInfo.name,
-            postType: postInfo.genrenm,
+            genreType: Genre.transform(str: postInfo.genrenm),
             rating: Int(rating),
             selectedPerformanceHighlights: Array(selectedHighlights),
             selectedPerformanceFeelings: Array(selectedFeelings),

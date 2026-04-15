@@ -13,7 +13,7 @@ struct ReviewModel: Identifiable {
     let reviewid: String //리뷰 고유 ID
     let mt20id: String // 공연 고유 ID
     let postTitle: String // 공연 이름
-    let postType: String // 공연 종류
+    var genreType: Genre// 공연 종류
     let rating: Int // 평점
     let selectedPerformanceHighlights: [String]
     let selectedPerformanceFeelings: [String]
@@ -31,7 +31,7 @@ struct ReviewModel: Identifiable {
             "reviewid": reviewid,
             "mt20id": mt20id,
             "postTitle": postTitle,
-            "postType": postType,
+            "postType": genreType.displayName,
             "rating": rating,
             "selectedPerformanceHighlights": selectedPerformanceHighlights,
             "selectedPerformanceFeelings": selectedPerformanceFeelings,

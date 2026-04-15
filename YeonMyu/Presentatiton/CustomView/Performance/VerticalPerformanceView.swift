@@ -36,8 +36,7 @@ private extension VerticalPerformanceView {
     func postView() -> some View {
         ZStack {
             PosterImageView(url: post.postURL)
-            
-            PerformanceTagView(tagTT: post.genreType.displayName)
+            PerformanceTagView(tagTT: post.genreType.tagText, tagType: .opacity)
                 .hLeading()
                 .vTop()
                 .padding(6)

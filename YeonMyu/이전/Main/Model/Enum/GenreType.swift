@@ -18,6 +18,14 @@ enum Genre: CaseIterable {
             "뮤지컬"
         }
     }
+    var tagText: String {
+        switch self {
+        case .play:
+            "연"
+        case .musical:
+            "뮤"
+        }
+    }
     var codeString: String {
         switch self {
         case .play:

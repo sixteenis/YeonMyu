@@ -17,7 +17,7 @@ struct HorizontalPerformanceView: View {
         VStack(spacing: 0) {
             ZStack {
                 PosterImageView(url: post.postURL)
-                PerformanceTagView(tagTT: post.genreType.displayName)
+                PerformanceTagView(tagTT: post.genreType.tagText, tagType: .opacity)
                     .vTop()
                     .hLeading()
                     .padding(6)

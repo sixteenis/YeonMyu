@@ -31,6 +31,8 @@ extension Image {
     
     static let asSlider = Image("슬라이드")
     static let asStar = Image("Star")
+    static let asRoundStar = Image("둥근별")
+    static let asFillRoundStar = Image("채워진둥근별")
     
     //로고
     static let logo = Image("logo")
