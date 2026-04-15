@@ -69,8 +69,9 @@ final class MainCoordinator: CoordinatorProtocol {
         case .profileSetting: ProfileSetting() //프로필 설정 화면
         case .playDetail(let id) : PlayDetailView(postID: id)
         case .searchResult(let search, let date, let city): SearchResultView(searchText: search, date: date, city: city)
-        case .reviewSetView(let postInfo): ReviewSetView(postInfo: postInfo)
-        default: EmptyView()
+        //리뷰
+        case .reviewWriteView(let postInfo): ReviewWriteView(postInfo: postInfo)
+        case .reviewDetailView(let reviewInfo): ReviewDetailView(reviewInfo: reviewInfo)
             
         }
     }

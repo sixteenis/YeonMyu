@@ -43,8 +43,8 @@ enum Screen: Identifiable, Hashable {
     case searchResult(search: String, date: Date, city: CityCode)
     
     //리뷰
-    case reviewSetView(postInfo: DetailPerformance)
-    
+    case reviewWriteView(postInfo: DetailPerformance)
+    case reviewDetailView(reviewInfo: ReviewModel)
     case profileSetting
 }
 

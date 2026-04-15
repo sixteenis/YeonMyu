@@ -263,8 +263,7 @@ private extension MyView {
         LazyVStack(alignment: .leading, spacing: 0) {
             ForEach(userUseCase.userInfo.reviews) { review in
                 MyReviewView(review: review) {
-                    // TODO: - 리뷰 상세 보기 페이지로 이동
-//                    coordinator.push(.rev)
+                    coordinator.push(.reviewDetailView(reviewInfo: review))
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 8)
