@@ -11,7 +11,7 @@
 		0605D88A2E48BB3F00BBF5E7 /* TicketScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */; };
 		061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */; };
 		061A16752E574FBA00AF13D3 /* ScannerLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A16742E574FBA00AF13D3 /* ScannerLineView.swift */; };
-		062626252E7588D8009B879B /* ReviewSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626242E7588D8009B879B /* ReviewSetView.swift */; };
+		062626252E7588D8009B879B /* ReviewWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626242E7588D8009B879B /* ReviewWriteView.swift */; };
 		063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */; };
 		063F5D712D9035D0004F4C17 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6E2D9035D0004F4C17 /* CoordinatorProtocol.swift */; };
 		063F5D722D9035D0004F4C17 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6D2D9035D0004F4C17 /* MainCoordinator.swift */; };
@@ -52,7 +52,7 @@
 		06CD38232D7DD0EB00959852 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CD381E2D7DD0EB00959852 /* Preview Assets.xcassets */; };
 		06CD38242D7DD0EB00959852 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CD38202D7DD0EB00959852 /* Assets.xcassets */; };
 		06CD38252D7DD0EB00959852 /* YeonMyuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD38212D7DD0EB00959852 /* YeonMyuApp.swift */; };
-		06D7669D2EB2333400725429 /* ReviewSetVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D7669C2EB2333400725429 /* ReviewSetVM.swift */; };
+		06D7669D2EB2333400725429 /* ReviewWriteVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D7669C2EB2333400725429 /* ReviewWriteVM.swift */; };
 		06DEB9B42F83CD7500E03CD1 /* SignState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DEB9B32F83CD7500E03CD1 /* SignState.swift */; };
 		06DEB9B62F83CD8500E03CD1 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DEB9B52F83CD8500E03CD1 /* UserModel.swift */; };
 		06DEB9B82F83CDE200E03CD1 /* ReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DEB9B72F83CDE200E03CD1 /* ReviewModel.swift */; };
@@ -154,6 +154,7 @@
 		937C22F52F8E14DA00F11DC4 /* PerformanceDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C22F42F8E14DA00F11DC4 /* PerformanceDisplayable.swift */; };
 		937C6BDB2F8F2C6100ADFD3D /* PerformanceReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C6BDA2F8F2C6100ADFD3D /* PerformanceReviewView.swift */; };
 		937C6BDD2F8F2C6C00ADFD3D /* MyReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C6BDC2F8F2C6C00ADFD3D /* MyReviewView.swift */; };
+		937C6BE02F8F4F1F00ADFD3D /* ReviewDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C6BDF2F8F4F1F00ADFD3D /* ReviewDetailView.swift */; };
 		939C604B2F8C891B00ECDF00 /* ProfileSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C604A2F8C891B00ECDF00 /* ProfileSetting.swift */; };
 		939C604D2F8CCB4D00ECDF00 /* AppDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C604C2F8CCB4D00ECDF00 /* AppDataSource.swift */; };
 		939EC79B2F88965900E22955 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939EC79A2F88965900E22955 /* ProfileImageView.swift */; };
@@ -180,7 +181,7 @@
 		0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScanResult.swift; sourceTree = "<group>"; };
 		061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTagView.swift; sourceTree = "<group>"; };
 		061A16742E574FBA00AF13D3 /* ScannerLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerLineView.swift; sourceTree = "<group>"; };
-		062626242E7588D8009B879B /* ReviewSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSetView.swift; sourceTree = "<group>"; };
+		062626242E7588D8009B879B /* ReviewWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteView.swift; sourceTree = "<group>"; };
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YeonMyu.entitlements; sourceTree = "<group>"; };
 		063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
@@ -211,7 +212,7 @@
 		06CD381E2D7DD0EB00959852 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		06CD38202D7DD0EB00959852 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		06CD38212D7DD0EB00959852 /* YeonMyuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YeonMyuApp.swift; sourceTree = "<group>"; };
-		06D7669C2EB2333400725429 /* ReviewSetVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSetVM.swift; sourceTree = "<group>"; };
+		06D7669C2EB2333400725429 /* ReviewWriteVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteVM.swift; sourceTree = "<group>"; };
 		06DEB9B32F83CD7500E03CD1 /* SignState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignState.swift; sourceTree = "<group>"; };
 		06DEB9B52F83CD8500E03CD1 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		06DEB9B72F83CDE200E03CD1 /* ReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModel.swift; sourceTree = "<group>"; };
@@ -311,6 +312,7 @@
 		937C22F42F8E14DA00F11DC4 /* PerformanceDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceDisplayable.swift; sourceTree = "<group>"; };
 		937C6BDA2F8F2C6100ADFD3D /* PerformanceReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceReviewView.swift; sourceTree = "<group>"; };
 		937C6BDC2F8F2C6C00ADFD3D /* MyReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewView.swift; sourceTree = "<group>"; };
+		937C6BDF2F8F4F1F00ADFD3D /* ReviewDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailView.swift; sourceTree = "<group>"; };
 		939C604A2F8C891B00ECDF00 /* ProfileSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetting.swift; sourceTree = "<group>"; };
 		939C604C2F8CCB4D00ECDF00 /* AppDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataSource.swift; sourceTree = "<group>"; };
 		939EC79A2F88965900E22955 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
@@ -408,13 +410,13 @@
 			path = FirebaseStore;
 			sourceTree = "<group>";
 		};
-		069415AC2E71A5DB00F4672E /* Review */ = {
+		069415AC2E71A5DB00F4672E /* ReviewWrite */ = {
 			isa = PBXGroup;
 			children = (
-				062626242E7588D8009B879B /* ReviewSetView.swift */,
-				06D7669C2EB2333400725429 /* ReviewSetVM.swift */,
+				062626242E7588D8009B879B /* ReviewWriteView.swift */,
+				06D7669C2EB2333400725429 /* ReviewWriteVM.swift */,
 			);
-			path = Review;
+			path = ReviewWrite;
 			sourceTree = "<group>";
 		};
 		06A607AF2E489F170066EC36 /* TicketScanner */ = {
@@ -711,7 +713,8 @@
 			isa = PBXGroup;
 			children = (
 				062626232E71ADF5009B879B /* Main */,
-				069415AC2E71A5DB00F4672E /* Review */,
+				069415AC2E71A5DB00F4672E /* ReviewWrite */,
+				937C6BDE2F8F4F1200ADFD3D /* ReviewDetail */,
 				06A607AF2E489F170066EC36 /* TicketScanner */,
 				06E507E92D7F10CD00F5E7DE /* Login */,
 				063F5D822D98FEAF004F4C17 /* PlayDetail */,
@@ -940,6 +943,14 @@
 			path = Review;
 			sourceTree = "<group>";
 		};
+		937C6BDE2F8F4F1200ADFD3D /* ReviewDetail */ = {
+			isa = PBXGroup;
+			children = (
+				937C6BDF2F8F4F1F00ADFD3D /* ReviewDetailView.swift */,
+			);
+			path = ReviewDetail;
+			sourceTree = "<group>";
+		};
 		939C60492F8C890C00ECDF00 /* ProfileSetting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1122,7 +1133,7 @@
 				06DEB9BF2F8678F400E03CD1 /* PerformanceDataSource.swift in Sources */,
 				061A16752E574FBA00AF13D3 /* ScannerLineView.swift in Sources */,
 				937C22F52F8E14DA00F11DC4 /* PerformanceDisplayable.swift in Sources */,
-				06D7669D2EB2333400725429 /* ReviewSetVM.swift in Sources */,
+				06D7669D2EB2333400725429 /* ReviewWriteVM.swift in Sources */,
 				06E508752D7F10D900F5E7DE /* MainView.swift in Sources */,
 				06DEB9C32F8680A000E03CD1 /* PerformanceUseCase.swift in Sources */,
 				06E508762D7F10D900F5E7DE /* SaveTicketModel.swift in Sources */,
@@ -1143,6 +1154,7 @@
 				06E5087F2D7F10D900F5E7DE /* RatingView.swift in Sources */,
 				06E508802D7F10D900F5E7DE /* Location.swift in Sources */,
 				066F3D482DB52F7D00EA77FB /* SearchVM.swift in Sources */,
+				937C6BE02F8F4F1F00ADFD3D /* ReviewDetailView.swift in Sources */,
 				06E508812D7F10D900F5E7DE /* EXDetailPerformanceView.swift in Sources */,
 				06E508822D7F10D900F5E7DE /* DetailPerformanceView.swift in Sources */,
 				06E508832D7F10D900F5E7DE /* ViewModeltype.swift in Sources */,
@@ -1156,7 +1168,7 @@
 				06E508202D7F10CD00F5E7DE /* PerformanceDTO.swift in Sources */,
 				063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */,
 				939EC79B2F88965900E22955 /* ProfileImageView.swift in Sources */,
-				062626252E7588D8009B879B /* ReviewSetView.swift in Sources */,
+				062626252E7588D8009B879B /* ReviewWriteView.swift in Sources */,
 				06E508212D7F10CD00F5E7DE /* ForegroundWrapper.swift in Sources */,
 				06E508222D7F10CD00F5E7DE /* CustomTextEditorStyle.swift in Sources */,
 				061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */,

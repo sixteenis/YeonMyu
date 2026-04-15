@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct ReviewSetView: View {
+struct ReviewWriteView: View {
     @Environment(UserUseCase.self) private var userUseCase
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var vm: ReviewSetVM
+    @StateObject private var vm: ReviewWriteVM
     
     init(
         postInfo: DetailPerformance,
@@ -19,7 +19,7 @@ struct ReviewSetView: View {
         feelings: [String] = [],
         environments: [String] = []
     ) {
-        _vm = StateObject(wrappedValue: ReviewSetVM(
+        _vm = StateObject(wrappedValue: ReviewWriteVM(
             postInfo: postInfo,
             rating: rating,
             highlights: highlights,
@@ -64,7 +64,7 @@ struct ReviewSetView: View {
     }
 }
 
-private extension ReviewSetView {
+private extension ReviewWriteView {
     func content() -> some View {
         ScrollView {
             LazyVStack {
@@ -105,7 +105,7 @@ private extension ReviewSetView {
     }
 }
 // MARK: - 공연 정보 섹션
-private extension ReviewSetView {
+private extension ReviewWriteView {
     var postInfoSection: some View {
         HStack {
             ZStack {
@@ -153,7 +153,7 @@ private extension ReviewSetView {
 }
 
 // MARK: - 별점 섹션
-private extension ReviewSetView {
+private extension ReviewWriteView {
     var ratingSection: some View {
         VStack {
             asText("별점 선택")
@@ -180,7 +180,7 @@ private extension ReviewSetView {
 }
 
 // MARK: - 태그 선택 섹션 (재사용 컴포넌트)
-private extension ReviewSetView {
+private extension ReviewWriteView {
     func tagSelectionSection(
         title: String,
         items: [String],
@@ -231,7 +231,7 @@ private extension ReviewSetView {
 }
 
 // MARK: - 좌석 & 후기 입력 섹션
-private extension ReviewSetView {
+private extension ReviewWriteView {
     var seatInputSection: some View {
         VStack {
             asText("관람한 좌석")
@@ -276,7 +276,7 @@ private extension ReviewSetView {
 }
 
 // MARK: - 공통 UI
-private extension ReviewSetView {
+private extension ReviewWriteView {
     var sectionDivider: some View {
         Rectangle()
             .fill(Color.asGray600)
