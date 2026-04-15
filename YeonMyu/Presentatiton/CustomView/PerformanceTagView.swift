@@ -22,7 +22,7 @@ struct PerformanceTagView: View {
     var body: some View {
         asText(tagTT)
             .font(.font12)
-            .foregroundStyle(tagType == .opacity ? Color.asWhite : Color.asGray700)
+            .foregroundStyle(tagType == .opacity ? Color.asWhite : Color.asNewGray600)
             .padding(.horizontal, 7)
             .padding(.vertical, 4)
             .background(
@@ -30,7 +30,7 @@ struct PerformanceTagView: View {
                     .fill(tagType == .opacity ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(Color.clear))
                     .overlay(
                         RoundedRectangle(cornerRadius: 15)
-                            .stroke(tagType == .opacity ? Color.asWhite : Color.asGray700, lineWidth: 1)
+                            .stroke(tagType == .opacity ? Color.asWhite : Color.asNewGray600, lineWidth: 1)
                     )
             )
     }
