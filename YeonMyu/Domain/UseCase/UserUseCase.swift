@@ -12,6 +12,7 @@ import Observation
 final class UserUseCase {
     private let userDS = UserDataSource()
     private let performanceDS = PerformanceDataSource()
+    private let appDS = AppDataSource()
 
     var userInfo = UserModel(uid: "", name: "", introduction: "", area: "", profileID: 0, likesPerformance: [], reviews: [])
 
@@ -72,6 +73,7 @@ extension UserUseCase {
     func writeReview(_ review: ReviewModel) async throws {
         try await userDS.addReview(uid: userInfo.uid, review: review)
         try await performanceDS.addReview(review)
+        try await appDS.saveRecentReview(review)
         userInfo = UserModel(
             uid: userInfo.uid,
             name: userInfo.name,
@@ -86,6 +88,7 @@ extension UserUseCase {
     func deleteReview(_ review: ReviewModel) async throws {
         try await userDS.removeReview(uid: userInfo.uid, reviewid: review.reviewid)
         try await performanceDS.removeReview(mt20id: review.mt20id, reviewid: review.reviewid)
+        try await appDS.removeRecentReviewIfExists(reviewid: review.reviewid)
         userInfo = UserModel(
             uid: userInfo.uid,
             name: userInfo.name,

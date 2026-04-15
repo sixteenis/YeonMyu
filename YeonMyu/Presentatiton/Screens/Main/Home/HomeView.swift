@@ -30,6 +30,8 @@ struct HomeView: View {
     @State private var goSearchView = false
     
     @State var arePosition = ScrollPosition(edge: .leading) //지역 스크롤 상단
+    
+    @State var recentReview = [ReviewModel]()
 }
 // MARK: - 빌드 부분
 extension HomeView {
@@ -74,6 +76,10 @@ extension HomeView {
         } //:VSTACK
         .onAppear {
             intent.configureUserInfo(name: userUseCase.userInfo.name, city: userUseCase.userInfo.getCityCode())
+            Task {
+                let recentReivew = try await PerformanceUseCase().getRecentReviewList()
+                self.recentReview = recentReivew
+            }
             if state.contentState != .content { intent.onAppear(city: state.selectedCity, prfCate: state.selectedPrfCate) }
         }
         .onChange(of: state.selectedPost) { _, newValue in // 공연 상세뷰로 이동
@@ -140,12 +146,14 @@ private extension HomeView {
                         searchView()
                             .frame(height: 50)
                             .padding(24)
-                        infoHeaderView()
-                        inforView()
-                            .frame(height: 120)
-                            .padding(.horizontal, 22)
-                            .padding(.vertical, 6)
-                            .padding(.bottom, 48)
+                        if !recentReview.isEmpty {
+                            infoHeaderView()
+                            inforView()
+//                                .frame(height: 120)
+//                                .padding(.horizontal, 22)
+                                .padding(.vertical, 6)
+                                .padding(.bottom, 48)
+                        }
                     } //:VSTACK
                     Section(header: GeometryReader { geometry in
                         stickyHeader()
@@ -322,16 +330,28 @@ private extension HomeView {
 // MARK: - 사용자 커스텀 현황 부분
 private extension HomeView {
     func infoHeaderView() -> some View {
+//        VStack(alignment: .leading, spacing: 4) {
+//            HStack(spacing: 0) {
+//                asText(state.userName)
+//                    .foregroundColor(.asMainSecondaryPurple) // 닉네임의 색상 변경
+//                    .font(.boldFont20)
+//                asText("님의 공연 기록")
+//                    .foregroundColor(.asFont) // 나머지 텍스트 색상
+//                    .font(.boldFont20)
+//            } //:HSTACK
+//            asText("궁금한 기록을 눌러서 확인해보세요!")
+//                .foregroundColor(.asGray200)
+//                .font(.font14)
+//        } //:VSTACK
+//        .hLeading()
+//        .padding(.leading, 24)
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 0) {
-                asText(state.userName)
-                    .foregroundColor(.asMainSecondaryPurple) // 닉네임의 색상 변경
-                    .font(.boldFont20)
-                asText("님의 공연 기록")
+                asText("따끈따끈! New 공연 후기")
                     .foregroundColor(.asFont) // 나머지 텍스트 색상
                     .font(.boldFont20)
             } //:HSTACK
-            asText("궁금한 기록을 눌러서 확인해보세요!")
+            asText("다른 사용자들의 실시간 리뷰를 확인해 보세요!")
                 .foregroundColor(.asGray200)
                 .font(.font14)
         } //:VSTACK
@@ -340,30 +360,48 @@ private extension HomeView {
     }
     
     func inforView() -> some View {
-        RoundedRectangle(cornerRadius: 20)
-            .fill(Color.asMainPurpleBorder)
-            .stroke(Color.asMainPurpleBorderLine, lineWidth: 1.5)
-            .overlay{
-                HStack(spacing: 0) {
-                    oneInforView(title: "찜한 공연", logo: Image.asHeart, result: "10")
-                        .frame(maxWidth: .infinity)
-                        .wrapToButton {
-                            intent.userInfoTapped(info: .liikes)
-                        }
-                    inforLine()
-                    oneInforView(title: "관람한 공연", logo: Image.asperformance, result: "2")
-                        .frame(maxWidth: .infinity)
-                        .wrapToButton {
-                            intent.userInfoTapped(info: .recodePlayCnt)
-                        }
-                    inforLine()
-                    oneInforView(title: "예정된 티켓", logo: Image.asCircleTicket, result: "1")
-                        .frame(maxWidth: .infinity)
-                        .wrapToButton {
-                            intent.userInfoTapped(info: .schedulePlayCnt)
-                        }
+//        RoundedRectangle(cornerRadius: 20)
+//            .fill(Color.asMainPurpleBorder)
+//            .stroke(Color.asMainPurpleBorderLine, lineWidth: 1.5)
+//            .overlay{
+//                HStack(spacing: 0) {
+//                    oneInforView(title: "찜한 공연", logo: Image.asHeart, result: "10")
+//                        .frame(maxWidth: .infinity)
+//                        .wrapToButton {
+//                            intent.userInfoTapped(info: .liikes)
+//                        }
+//                    inforLine()
+//                    oneInforView(title: "관람한 공연", logo: Image.asperformance, result: "2")
+//                        .frame(maxWidth: .infinity)
+//                        .wrapToButton {
+//                            intent.userInfoTapped(info: .recodePlayCnt)
+//                        }
+//                    inforLine()
+//                    oneInforView(title: "예정된 티켓", logo: Image.asCircleTicket, result: "1")
+//                        .frame(maxWidth: .infinity)
+//                        .wrapToButton {
+//                            intent.userInfoTapped(info: .schedulePlayCnt)
+//                        }
+//                }
+//            }
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: 12) {
+                ForEach(recentReview) { review in
+                    MyReviewView(review: review) {
+                        coordinator.push(.reviewDetailView(reviewInfo: review, isShowMovePerfInfo: true))
+                    }
+                    .padding(.vertical,5)
+                    .frame(width: UIScreen.main.bounds.width - 48)
+                    .containerRelativeFrame(.horizontal)
+                    .scrollTransition { content, phase in
+                        content.opacity(phase.isIdentity ? 1 : 0.6)
+                    }
                 }
             }
+            .scrollTargetLayout()
+        }
+        .scrollTargetBehavior(.viewAligned)
+        .contentMargins(.horizontal, 24, for: .scrollContent)
     }
     
     func oneInforView(title: String, logo: Image, result: String) -> some View {

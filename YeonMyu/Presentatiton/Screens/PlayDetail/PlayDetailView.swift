@@ -539,14 +539,13 @@ private extension PlayDetailView {
                 .font(.boldFont20)
                 .foregroundStyle(Color.asFont)
                 .padding(.top, 24)
-                .padding(.bottom, 20)
+                .padding(.bottom, 20) 
             if playReviews.count > 0 {
                 LazyVStack(alignment: .leading, spacing: 0) {
                     ForEach(playReviews) { review in
                         PerformanceReviewView(review: review) {
                             coordinator.push(.reviewDetailView(reviewInfo: review, isShowMovePerfInfo: false))
                         }
-                        .padding(.horizontal, 20)
                         .padding(.bottom, 8)
                     }
                 }
