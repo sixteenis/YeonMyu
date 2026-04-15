@@ -534,11 +534,31 @@ private extension PlayDetailView {
 // MARK: - 관람후기
 private extension PlayDetailView {
     func reviewSection() -> some View {
-        VStack {
-            ForEach(playReviews, id: \.id) { review in
-                Text(review.review)
+        VStack(alignment: .leading, spacing: 15) {
+            asText("관람 후기(\(playReviews.count))")
+                .font(.boldFont20)
+                .foregroundStyle(Color.asFont)
+                .padding(.top, 24)
+                .padding(.bottom, 20)
+            if playReviews.count > 0 {
+                LazyVStack(alignment: .leading, spacing: 0) {
+                    ForEach(playReviews) { review in
+                        PerformanceReviewView(review: review) {
+                            coordinator.push(.reviewDetailView(reviewInfo: review, isShowMovePerfInfo: false))
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 8)
+                    }
+                }
+                .padding(.bottom, 20)
+            } else {
+                asText("등록된 후기가 없어요.\n\n첫 후기를 등록해 보세요!")
+                    .asForeground(.asNewGray600)
+                    .font(.font14)
+                    .frame(maxWidth: .infinity, minHeight: 44, alignment: .topLeading)
+                    .padding(.bottom, 20)
             }
-        }
+        }.hLeading()
     }
 }
 
