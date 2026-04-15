@@ -44,7 +44,7 @@ enum Screen: Identifiable, Hashable {
     
     //리뷰
     case reviewWriteView(postInfo: DetailPerformance)
-    case reviewDetailView(reviewInfo: ReviewModel)
+    case reviewDetailView(reviewInfo: ReviewModel, isShowMovePerfInfo: Bool)
     case profileSetting
 }
 

@@ -296,9 +296,17 @@ private extension ReviewWriteView {
                         ProgressView()
                             .tint(.white)
                     } else {
-                        Text("후기 등록하기")
-                            .font(.boldFont16)
-                            .foregroundStyle(Color.asWhite)
+                        HStack(alignment: .center, spacing: 6) {
+                            Image.checkingIcon
+                                .resizable()
+                                .scaledToFill()
+                                .foregroundStyle(Color.asWhite)
+                                .frame(width: 28, height: 28)
+                            
+                            Text("작성 완료")
+                                .font(.boldFont16)
+                                .foregroundStyle(Color.asWhite)
+                        }
                     }
                 }
         }

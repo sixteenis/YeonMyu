@@ -71,7 +71,7 @@ final class MainCoordinator: CoordinatorProtocol {
         case .searchResult(let search, let date, let city): SearchResultView(searchText: search, date: date, city: city)
         //리뷰
         case .reviewWriteView(let postInfo): ReviewWriteView(postInfo: postInfo)
-        case .reviewDetailView(let reviewInfo): ReviewDetailView(reviewInfo: reviewInfo)
+        case .reviewDetailView(let reviewInfo, let isShowMovePerfInfo): ReviewDetailView(reviewInfo: reviewInfo, isShowMovePerfInfo: isShowMovePerfInfo)
             
         }
     }

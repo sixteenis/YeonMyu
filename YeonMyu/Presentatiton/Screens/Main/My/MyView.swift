@@ -192,6 +192,7 @@ private extension MyView {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .clipped()
+                .allowsHitTesting(false)
             }
             
             VStack(spacing: 0) {
@@ -263,7 +264,7 @@ private extension MyView {
         LazyVStack(alignment: .leading, spacing: 0) {
             ForEach(userUseCase.userInfo.reviews) { review in
                 MyReviewView(review: review) {
-                    coordinator.push(.reviewDetailView(reviewInfo: review))
+                    coordinator.push(.reviewDetailView(reviewInfo: review, isShowMovePerfInfo: true))
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 8)
