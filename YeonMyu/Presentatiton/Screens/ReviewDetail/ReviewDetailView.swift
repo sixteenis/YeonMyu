@@ -9,18 +9,42 @@ import SwiftUI
 
 struct ReviewDetailView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    @Environment(UserUseCase.self) private var userUseCase
     private let reviewInfo: ReviewModel
-
+    private let isShowMovePerfInfo: Bool
     @State private var perfInfo: DetailPerformance? = nil
     @State private var isLoading = false
-
-    init(reviewInfo: ReviewModel) {
+    private var isReviewOwner: Bool { reviewInfo.userID == userUseCase.userInfo.uid }
+    init(reviewInfo: ReviewModel, isShowMovePerfInfo: Bool) {
         self.reviewInfo = reviewInfo
+        self.isShowMovePerfInfo = isShowMovePerfInfo
     }
 
     var body: some View {
         content()
-            .navigationTitle("관람 후기")
+            .navigationTitle(isReviewOwner ? "관람후기" : "내 후기")
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    if (isReviewOwner) {
+                        Button {
+                            print("삭제 버튼 클릭")
+                            Task {
+                                isLoading = true
+                                try await userUseCase.deleteReview(reviewInfo)
+                                isLoading = false
+                                
+                            }
+                        } label: {
+                            Image.asTrash
+                                .resizable()
+                                .frame(width: 28, height: 28)
+                                .foregroundStyle(Color.asNewGray800)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
             .task {
                 isLoading = true
                 let dto = try? await NetworkManager.shared.requestDetailPerformance(performanceId: reviewInfo.mt20id)
@@ -39,7 +63,23 @@ private extension ReviewDetailView {
             LazyVStack {
                 postInfoSection
                     .padding(.vertical, 10)
-                
+                if isShowMovePerfInfo {
+                    //공연 정보 보로가기 버튼
+                    Button {
+                        // Action
+                        coordinator.push(.playDetail(mt20id: reviewInfo.mt20id))
+                    } label: {
+                        RoundedRectangle(cornerRadius: 12)
+                            .asForeground(Color.asNewGray200)
+                            .overlay {
+                                asText("공연 정보 보로가기")
+                                    .asForeground(Color.asNewGray700)
+                                    .font(.boldFont18)
+                            }
+                    }
+                    .frame(height: 56)
+                    .padding(.bottom, 12)
+                }
                 sectionDivider
                 
                 ratingSection
