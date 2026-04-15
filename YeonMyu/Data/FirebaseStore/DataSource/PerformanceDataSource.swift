@@ -46,7 +46,7 @@ extension PerformanceDataSource {
                 reviewid: reviewid,
                 mt20id: mt20id,
                 postTitle: postTitle,
-                postType: postType,
+                genreType: Genre.transform(str: postType),
                 rating: rating,
                 selectedPerformanceHighlights: highlights,
                 selectedPerformanceFeelings: feelings,

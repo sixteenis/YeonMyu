@@ -112,7 +112,7 @@ private extension ReviewSetView {
                 PosterImageView(url: vm.postInfo.posterURL)
                     .frame(width: 92, height: 123)
                 
-                PerformanceTagView(tagTT: vm.postInfo.genrenm)
+                PerformanceTagView(tagTT: vm.postInfo.genreType.tagText, tagType: .opacity)
                     .hLeading()
                     .vTop()
                     .padding(6)

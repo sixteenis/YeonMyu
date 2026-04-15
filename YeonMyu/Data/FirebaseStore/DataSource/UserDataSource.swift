@@ -35,7 +35,7 @@ extension UserDataSource {
                 reviewid: item["reviewid"] as? String ?? "",
                 mt20id: item["mt20id"] as? String ?? "",
                 postTitle: item["postTitle"] as? String ?? "",
-                postType: item["postType"] as? String ?? "",
+                genreType: Genre.transform(str: item["postType"] as? String ?? "") ,
                 rating: item["rating"] as? Int ?? 0,
                 selectedPerformanceHighlights: item["selectedPerformanceHighlights"] as? [String] ?? [],
                 selectedPerformanceFeelings: item["selectedPerformanceFeelings"] as? [String] ?? [],

@@ -262,12 +262,13 @@ private extension MyView {
     func reviewsView() -> some View {
         LazyVStack(alignment: .leading, spacing: 0) {
             ForEach(userUseCase.userInfo.reviews) { review in
-                Text(review.postTitle)
-//                VerticalPerformanceView(post: post)
-//                    .padding([.leading, .bottom], 24)
-//                    .wrapToButton {
-//                        coordinator.push(.playDetail(mt20id: post.mt20id))
-//                    }
+                MyReviewView(review: review) {
+                    // TODO: - 리뷰 상세 보기 페이지로 이동
+//                    coordinator.push(.rev)
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 8)
+                
             }
         }
     }
