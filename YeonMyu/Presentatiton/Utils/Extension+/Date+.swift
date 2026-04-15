@@ -8,6 +8,12 @@
 import Foundation
 
 extension Date {
+    //  yyyy/MM/dd 형식으로 변환
+    func asTrasnFormyyyy_mm_dd() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        return formatter.string(from: self)
+    }
     //  yy/MM/dd 형식으로 변환
     func asTrasnFormyy_mm_dd() -> String {
         let formatter = DateFormatter()

@@ -7,25 +7,30 @@
 
 import SwiftUI
 
+enum TagType {
+    case opacity //투명
+    case normal // 기본
+}
 struct PerformanceTagView: View {
     var tagTT: String
-    
-    init(tagTT: String) {
+    var tagType: TagType
+    init(tagTT: String, tagType: TagType) {
         self.tagTT = tagTT
+        self.tagType = tagType
     }
     
     var body: some View {
         asText(tagTT)
-            .font(.font11)
-            .foregroundStyle(Color.asWhite)
-            .padding(.horizontal, 5)
-            .padding(.vertical, 2)
+            .font(.font12)
+            .foregroundStyle(tagType == .opacity ? Color.asWhite : Color.asGray700)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 4)
             .background(
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(.ultraThinMaterial) // 흐릿하게 비치는 배경
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(tagType == .opacity ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(Color.clear))
                     .overlay(
                         RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color.asWhite, lineWidth: 1) // 기존 테두리
+                            .stroke(tagType == .opacity ? Color.asWhite : Color.asGray700, lineWidth: 1)
                     )
             )
     }
