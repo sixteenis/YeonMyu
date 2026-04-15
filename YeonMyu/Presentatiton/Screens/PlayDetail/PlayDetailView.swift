@@ -546,7 +546,7 @@ private extension PlayDetailView {
 private extension PlayDetailView {
     var reviewFloatingButton: some View {
         Button {
-            coordinator.push(.reviewSetView(postInfo: postInfo))
+            coordinator.push(.reviewWriteView(postInfo: postInfo))
         } label: {
             HStack(spacing: 6) {
                 Image.asWriteBtn

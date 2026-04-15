@@ -14,7 +14,7 @@ enum ReviewSaveState {
 }
 
 @MainActor
-final class ReviewSetVM: ObservableObject {
+final class ReviewWriteVM: ObservableObject {
     // MARK: - Constants
     let performanceHighlights = ["음악", "연기", "스토리", "무대"]
     let performanceFeelings = ["감동", "재미", "몰입", "공감", "에너지"]
