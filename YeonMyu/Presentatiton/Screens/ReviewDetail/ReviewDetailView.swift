@@ -24,15 +24,24 @@ struct ReviewDetailView: View {
     var body: some View {
         content()
             .navigationTitle(isReviewOwner ? "관람후기" : "내 후기")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     if (isReviewOwner) {
                         Button {
                             print("삭제 버튼 클릭")
                             Task {
-                                isLoading = true
-                                try await userUseCase.deleteReview(reviewInfo)
-                                isLoading = false
+                                
+                                coordinator.presentAlert(.deleteReview {
+                                    Task {
+                                        isLoading = true
+                                        try? await userUseCase.deleteReview(reviewInfo)
+                                        isLoading = false
+                                    }
+                                    
+                                })
+
+                                
                                 
                             }
                         } label: {

@@ -47,6 +47,7 @@ struct YeonMyuApp: App {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().tintColor = UIColor(hex: "919193")
+        UINavigationBar.appearance().prefersLargeTitles = false
         
         KakaoSDK.initSDK(appKey: APIKey.kakaoKey)
     }
