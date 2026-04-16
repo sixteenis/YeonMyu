@@ -44,10 +44,8 @@ extension PlayDetailView {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
-                    print("좋아요 버튼 클릭")
                     Task {
                         let isCurrentlyLiked = userUseCase.userInfo.likesPerformance.contains(where: { $0.mt20id == postID })
-                        
                         try await userUseCase.updateLike(LikesPerformanceModel(displayable: postInfo), isLike: !isCurrentlyLiked)
                     }
                 } label: {

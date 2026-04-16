@@ -15,6 +15,7 @@ final class MainCoordinator: CoordinatorProtocol {
     @Published var selectedTab: Tab = .home
     @Published var rootScreen: Screen = .start // 루트 뷰를 동적으로 관리
     @Published var alertType: AlertType? = nil
+    @Published var toast: ToastModel? = nil
     
     func push(_ screen: Screen) {
         path.append(screen)
@@ -59,6 +60,18 @@ final class MainCoordinator: CoordinatorProtocol {
     
     func dismissAlert() {
         alertType = nil
+    }
+
+    func showToast(_ model: ToastModel) {
+        toast = model
+        Task {
+            try? await Task.sleep(for: .seconds(model.duration))
+            await MainActor.run { if toast?.id == model.id { toast = nil } }
+        }
+    }
+
+    func dismissToast() {
+        toast = nil
     }
     
     // 화면
