@@ -58,6 +58,8 @@ extension Color {
     static let ticketLine = Color.dynamic(light: "E6D7FF", dark: "5B3F92")
     
     static let asredColor = Color.dynamic(light: "FF4D4F", dark: "D73232")
+    static let asIconRedColor = Color.dynamic(light: "FA6363", dark: "D73232")
+    
     static let removeColor = Color.dynamic(light: "D32F2F", dark: "B22222")
     static let ticketButtonColor = Color.dynamic(light: "5C3D99", dark: "2E1F66")
     

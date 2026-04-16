@@ -22,6 +22,80 @@ protocol CoordinatorProtocol: ObservableObject {
     func changeTab(tab: Tab)
 }
 
+// MARK: - Alert 유형 정의
+// 뷰에서는 action만 주입, 아이콘/제목/메시지는 여기서 관리
+enum AlertType {
+    // MARK: 단순 알림 (버튼 1개)
+    case networkError(action: () -> Void)          // 네트워크 오류
+    case saveSuccess(action: () -> Void)           // 저장 완료
+    case withdrawComplete(action: () -> Void)      // 회원탈퇴 완료
+
+    // MARK: 경고/확인 알림 (버튼 2개)
+    case deleteReview(confirmAction: () -> Void)   // 리뷰 삭제
+    case withdrawMember(confirmAction: () -> Void) // 회원탈퇴
+    case logout(confirmAction: () -> Void) // 로그아웃
+
+    /// AlertType → DefaultAlertConfig 변환 (dismiss 자동 주입)
+    func toConfig(dismiss: @escaping () -> Void) -> DefaultAlertConfig {
+        switch self {
+        case .networkError(let action):
+            return DefaultAlertConfig(
+                icon: .warning,
+                title: "네트워크 오류",
+                message: "일시적인 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.",
+                buttonStyle: .single(title: "확인") { action(); dismiss() }
+            )
+        case .saveSuccess(let action):
+            return DefaultAlertConfig(
+                icon: .success,
+                title: "저장 완료",
+                message: "성공적으로 저장되었습니다.",
+                buttonStyle: .single(title: "확인") { action(); dismiss() }
+            )
+        case .withdrawComplete(let action):
+            return DefaultAlertConfig(
+                icon: .success,
+                title: "회원탈퇴가 완료되었습니다",
+                message: "그동안 이용해 주셔서 감사합니다.\n고객님의 모든 데이터가 안전하게 파기되었습니다.",
+                buttonStyle: .single(title: "확인") { action(); dismiss() }
+            )
+        case .deleteReview(let confirm):
+            return DefaultAlertConfig(
+                icon: .delete,
+                title: "후기를 삭제하시겠습니까?",
+                message: "삭제된 후기는 복구할 수 없으며,\n모든 데이터가 영구히 삭제됩니다.",
+                buttonStyle: .double(
+                    cancelTitle: "취소", confirmTitle: "후기 삭제",
+                    cancelAction: { dismiss() },
+                    confirmAction: { confirm(); dismiss() }
+                )
+            )
+        case .withdrawMember(let confirm):
+            return DefaultAlertConfig(
+                icon: .warning,
+                title: "정말 탈퇴하시겠습니까?",
+                message: "고객님의 모든 기록 및 개인정보가 삭제되며,\n삭제된 데이터는 복구할 수 없습니다.",
+                buttonStyle: .double(
+                    cancelTitle: "취소", confirmTitle: "회원탈퇴",
+                    cancelAction: { dismiss() },
+                    confirmAction: { confirm(); dismiss() }
+                )
+            )
+        case .logout(let confirm):
+            return DefaultAlertConfig(
+                icon: .logout,
+                title: "로그아웃 하시겠습니까?",
+                message: "사용 중인 계정에서 로그아웃하며,\n로그인 화면으로 즉시 이동합니다.",
+                buttonStyle: .double(
+                    cancelTitle: "취소", confirmTitle: "로그아웃",
+                    cancelAction: { dismiss() },
+                    confirmAction: { confirm(); dismiss() }
+                )
+            )
+        }
+    }
+}
+
 //MARK: 필요한 뷰 추가해서 사용
 //MARK: 값전달이 필요하면 필요한 파라미터 정의해서 사용. ex) postDetail 케이스
 enum Screen: Identifiable, Hashable {

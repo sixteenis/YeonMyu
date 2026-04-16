@@ -23,5 +23,11 @@ struct CoordinatorView: View {
 //                    appCoordinator.build(fullScreenCover)
 //                }
         }
+        .overlay {
+            if let type = appCoordinator.alertType {
+                DefaultAlertView(config: type.toConfig(dismiss: appCoordinator.dismissAlert))
+                    .transition(.opacity.animation(.easeInOut(duration: 0.2)))
+            }
+        }
     }
 }
