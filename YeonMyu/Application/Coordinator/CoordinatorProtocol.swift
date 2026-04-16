@@ -22,6 +22,24 @@ protocol CoordinatorProtocol: ObservableObject {
     func changeTab(tab: Tab)
 }
 
+// MARK: - Toast 모델
+struct ToastModel: Identifiable {
+    let id = UUID()
+    let message: String
+    let icon: Image?
+    let duration: Double
+    let actionTitle: String?
+    let action: (() -> Void)?
+
+    init(message: String, icon: Image? = nil, duration: Double = 2.5, actionTitle: String? = nil, action: (() -> Void)? = nil) {
+        self.message = message
+        self.icon = icon
+        self.duration = duration
+        self.actionTitle = actionTitle
+        self.action = action
+    }
+}
+
 // MARK: - Alert 유형 정의
 // 뷰에서는 action만 주입, 아이콘/제목/메시지는 여기서 관리
 enum AlertType {
