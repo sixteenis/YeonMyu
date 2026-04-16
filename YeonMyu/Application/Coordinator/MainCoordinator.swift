@@ -14,6 +14,7 @@ final class MainCoordinator: CoordinatorProtocol {
     @Published var fullScreenCover: FullScreenCover?
     @Published var selectedTab: Tab = .home
     @Published var rootScreen: Screen = .start // 루트 뷰를 동적으로 관리
+    @Published var alertType: AlertType? = nil
     
     func push(_ screen: Screen) {
         path.append(screen)
@@ -50,6 +51,14 @@ final class MainCoordinator: CoordinatorProtocol {
     
     func changeTab(tab: Tab) {
         selectedTab = tab
+    }
+    
+    func presentAlert(_ type: AlertType) {
+        alertType = type
+    }
+    
+    func dismissAlert() {
+        alertType = nil
     }
     
     // 화면

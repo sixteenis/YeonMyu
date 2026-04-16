@@ -83,6 +83,8 @@ extension Image {
     
     static let asSetting = Image("설정")
     static let asTrash = Image("trash")
+    static let asLogoutIcon = Image("log-out")
+    
     
     //프로필 이미지 리스트
     static let asProfileList: [Image] = (0...11).map { Image("profile\($0)") }
