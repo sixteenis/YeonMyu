@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Snap
 
 struct MyView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입

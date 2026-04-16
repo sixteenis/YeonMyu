@@ -152,6 +152,7 @@
 		06F4A86A2DD06985008B1D29 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A8692DD06985008B1D29 /* Date+.swift */; };
 		06F4A86C2DD06BB8008B1D29 /* SearchResultVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */; };
 		934632AF2F906C6D00A9F96D /* DefaultAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934632AE2F906C6D00A9F96D /* DefaultAlertView.swift */; };
+		934632B22F90886D00A9F96D /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 934632B12F90886D00A9F96D /* PopupView */; };
 		937C22F52F8E14DA00F11DC4 /* PerformanceDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C22F42F8E14DA00F11DC4 /* PerformanceDisplayable.swift */; };
 		937C6BDB2F8F2C6100ADFD3D /* PerformanceReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C6BDA2F8F2C6100ADFD3D /* PerformanceReviewView.swift */; };
 		937C6BDD2F8F2C6C00ADFD3D /* MyReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C6BDC2F8F2C6C00ADFD3D /* MyReviewView.swift */; };
@@ -159,7 +160,6 @@
 		939C604B2F8C891B00ECDF00 /* ProfileSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C604A2F8C891B00ECDF00 /* ProfileSetting.swift */; };
 		939C604D2F8CCB4D00ECDF00 /* AppDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C604C2F8CCB4D00ECDF00 /* AppDataSource.swift */; };
 		939EC79B2F88965900E22955 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939EC79A2F88965900E22955 /* ProfileImageView.swift */; };
-		939EC79E2F88BEB100E22955 /* Snap in Frameworks */ = {isa = PBXBuildFile; productRef = 939EC79D2F88BEB100E22955 /* Snap */; };
 		939EC7A02F88EDFC00E22955 /* BottomDragSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939EC79F2F88EDFC00E22955 /* BottomDragSheet.swift */; };
 		93D7E0C52F87435D004EE103 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93D7E0C42F87435D004EE103 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -328,12 +328,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				939EC79E2F88BEB100E22955 /* Snap in Frameworks */,
 				066C1C972D7F13C000C44567 /* KakaoSDKCommon in Frameworks */,
 				066C1C952D7F13C000C44567 /* KakaoSDKAuth in Frameworks */,
 				066C1C902D7F12ED00C44567 /* FirebaseDatabase in Frameworks */,
 				066C1CA72D7F153400C44567 /* GoogleSignIn in Frameworks */,
 				0605D8882E48AB4600BBF5E7 /* ChatGPTSwift in Frameworks */,
+				934632B22F90886D00A9F96D /* PopupView in Frameworks */,
 				066C1C882D7F12ED00C44567 /* FirebaseAnalytics in Frameworks */,
 				066C1C8E2D7F12ED00C44567 /* FirebaseCrashlytics in Frameworks */,
 				066C1C8C2D7F12ED00C44567 /* FirebaseCore in Frameworks */,
@@ -1013,7 +1013,7 @@
 				066C1CA82D7F153400C44567 /* GoogleSignInSwift */,
 				066C1CAE2D7F167F00C44567 /* Kingfisher */,
 				0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */,
-				939EC79D2F88BEB100E22955 /* Snap */,
+				934632B12F90886D00A9F96D /* PopupView */,
 			);
 			productName = YeonMyu;
 			productReference = 06CD37272D7DD04E00959852 /* YeonMyu.app */;
@@ -1052,7 +1052,7 @@
 				066C1CA52D7F153400C44567 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				066C1CAD2D7F167F00C44567 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				0605D8862E48AB4600BBF5E7 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
-				939EC79C2F88BEB100E22955 /* XCRemoteSwiftPackageReference "Snap" */,
+				934632B02F90886D00A9F96D /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 06CD37282D7DD04E00959852 /* Products */;
@@ -1513,12 +1513,12 @@
 				minimumVersion = 8.3.0;
 			};
 		};
-		939EC79C2F88BEB100E22955 /* XCRemoteSwiftPackageReference "Snap" */ = {
+		934632B02F90886D00A9F96D /* XCRemoteSwiftPackageReference "PopupView" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nerdsupremacist/Snap.git";
+			repositoryURL = "https://github.com/exyte/PopupView.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.2;
+				minimumVersion = 4.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1604,10 +1604,10 @@
 			package = 066C1CAD2D7F167F00C44567 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
-		939EC79D2F88BEB100E22955 /* Snap */ = {
+		934632B12F90886D00A9F96D /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 939EC79C2F88BEB100E22955 /* XCRemoteSwiftPackageReference "Snap" */;
-			productName = Snap;
+			package = 934632B02F90886D00A9F96D /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

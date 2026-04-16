@@ -69,16 +69,18 @@ struct DefaultAlertView: View {
                     .foregroundStyle(Color.asNewGray800)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
+                    .padding(.bottom, config.message.isEmpty ? 24 : 8)
                 
-                // 메시지
-                asText(config.message)
-                    .font(.font14)
-                    .foregroundStyle(Color.asNewGray600)
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(4)
-                    .padding(.horizontal, 24)
-                    .padding(.top, 8)
-                    .padding(.bottom, 24)
+                if (!config.message.isEmpty) {
+                    // 메시지
+                    asText(config.message)
+                        .font(.font14)
+                        .foregroundStyle(Color.asNewGray600)
+                        .multilineTextAlignment(.center)
+                        .lineSpacing(4)
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 24)
+                }
                 
                 // 버튼
                 buttonArea

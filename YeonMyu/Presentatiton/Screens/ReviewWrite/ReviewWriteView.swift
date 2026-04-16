@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ReviewWriteView: View {
-    @Environment(UserUseCase.self) private var userUseCase
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    @Environment(UserUseCase.self) private var userUseCase
+    
     @StateObject private var vm: ReviewWriteVM
     
     init(
@@ -37,29 +39,26 @@ struct ReviewWriteView: View {
                         .ignoresSafeArea()
                 }
             }
-            // 검증 실패 알림
-            .alert("입력 확인", isPresented: $vm.showValidationAlert) {
-                Button("확인", role: .cancel) {}
-            } message: {
-                Text(vm.validationMessage)
+            .onChange(of: vm.showValidationAlert) { oldValue, newValue in
+                coordinator.presentAlert(.validation(title: vm.validationMessage,  action: {
+                    print("검증 실패 알림 확인누름")
+                }))
             }
-            // 작성 완료 팝업
-            .alert("작성 완료", isPresented: Binding(
-                get: { vm.saveState == .success },
-                set: { if !$0 { vm.saveState = .idle } }
-            )) {
-                Button("확인") { dismiss() }
-            } message: {
-                Text("후기가 성공적으로 등록되었습니다.")
-            }
-            // 실패 팝업
-            .alert("저장 실패", isPresented: Binding(
-                get: { vm.saveState == .failure },
-                set: { if !$0 { vm.saveState = .idle } }
-            )) {
-                Button("확인", role: .cancel) {}
-            } message: {
-                Text("후기 등록에 실패했습니다.\n다시 시도해주세요.")
+            .onChange(of: vm.saveState) { oldValue, newValue in
+                switch newValue {
+                case .success:
+                    coordinator.presentAlert(.saveReviewSuccess(action: {
+                        dismiss()
+                    }))
+                case .failure:
+                    coordinator.presentAlert(.networkError(action: {
+                        vm.saveState = .idle
+                        print("후기 작성 과정에서 오류 발생")
+                    }))
+                case .idle:
+                    break
+                }
+                
             }
     }
 }

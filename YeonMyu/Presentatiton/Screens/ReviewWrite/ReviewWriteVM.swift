@@ -62,12 +62,12 @@ final class ReviewWriteVM: ObservableObject {
     func validate() -> Bool {
         if reviewText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             validationMessage = "후기를 입력해주세요."
-            showValidationAlert = true
+            showValidationAlert.toggle()
             return false
         }
         if seatText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             validationMessage = "관람한 좌석을 입력해주세요."
-            showValidationAlert = true
+            showValidationAlert.toggle()
             return false
         }
         return true

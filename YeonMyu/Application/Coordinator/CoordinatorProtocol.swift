@@ -27,13 +27,19 @@ protocol CoordinatorProtocol: ObservableObject {
 enum AlertType {
     // MARK: 단순 알림 (버튼 1개)
     case networkError(action: () -> Void)          // 네트워크 오류
-    case saveSuccess(action: () -> Void)           // 저장 완료
+    case saveReviewSuccess(action: () -> Void)           // 저장 완료
     case withdrawComplete(action: () -> Void)      // 회원탈퇴 완료
+    case validation(title: String, action: () -> Void)      // 검증 오류 알림
 
     // MARK: 경고/확인 알림 (버튼 2개)
     case deleteReview(confirmAction: () -> Void)   // 리뷰 삭제
     case withdrawMember(confirmAction: () -> Void) // 회원탈퇴
+
+    // MARK: 경고/확인 알림 (버튼 2개) - 추가
     case logout(confirmAction: () -> Void) // 로그아웃
+
+    // MARK: 커스텀 알림 (DefaultAlertConfig 값을 직접 설정)
+    case custom(DefaultAlertConfig)
 
     /// AlertType → DefaultAlertConfig 변환 (dismiss 자동 주입)
     func toConfig(dismiss: @escaping () -> Void) -> DefaultAlertConfig {
@@ -45,11 +51,11 @@ enum AlertType {
                 message: "일시적인 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.",
                 buttonStyle: .single(title: "확인") { action(); dismiss() }
             )
-        case .saveSuccess(let action):
+        case .saveReviewSuccess(let action):
             return DefaultAlertConfig(
                 icon: .success,
-                title: "저장 완료",
-                message: "성공적으로 저장되었습니다.",
+                title: "후기 작성을 완료했습니다",
+                message: "작성한 후기는 마이페이지에서 확인할 수 있습니다.",
                 buttonStyle: .single(title: "확인") { action(); dismiss() }
             )
         case .withdrawComplete(let action):
@@ -57,6 +63,13 @@ enum AlertType {
                 icon: .success,
                 title: "회원탈퇴가 완료되었습니다",
                 message: "그동안 이용해 주셔서 감사합니다.\n고객님의 모든 데이터가 안전하게 파기되었습니다.",
+                buttonStyle: .single(title: "확인") { action(); dismiss() }
+            )
+        case .validation(let title, let action):
+            return DefaultAlertConfig(
+                icon: .warning,
+                title: title,
+                message: "",
                 buttonStyle: .single(title: "확인") { action(); dismiss() }
             )
         case .deleteReview(let confirm):
@@ -92,6 +105,8 @@ enum AlertType {
                     confirmAction: { confirm(); dismiss() }
                 )
             )
+        case .custom(let config):
+            return config
         }
     }
 }
