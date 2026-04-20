@@ -17,7 +17,7 @@ struct DefaultAlertConfig {
         
         var iconImage: Image {
             switch self {
-            case .success: return Image.checkingIcon
+            case .success: return Image.asCheckingIcon
             case .warning: return Image(systemName: "exclamationmark.triangle")
             case .logout: return Image.asLogoutIcon
             case .delete: return Image.asTrash
