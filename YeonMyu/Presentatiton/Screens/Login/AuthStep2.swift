@@ -92,27 +92,16 @@ struct AuthStep2: View {
                     .vBottom()
             }
             .onChange(of: name) { oldValue, newValue in
-                if newValue.isEmpty {
-                    self.color = Color.asPurple300
-                    self.isOk = false
-                    self.alertText = ""
-                    return
-                }
-                if !isValidInput(newValue) {
+                let validateResult = newValue.validateNickname()
+                if validateResult == .valid {
+                    self.color = Color.checkGreenColor
+                    self.isOk = true
+                    self.alertText = "사용할 수 있는 별명이에요"
+                } else {
                     self.color = Color.errRedColor
                     self.isOk = false
-                    self.alertText = "영문, 숫자, 한글만 사용 가능합니다."
-                    return
+                    self.alertText = validateResult.message
                 }
-                if !countString(newValue) {
-                    self.color = Color.errRedColor
-                    self.isOk = false
-                    self.alertText = "6글자 이내로 별명을 정해주세요"
-                    return
-                }
-                self.color = Color.checkGreenColor
-                self.isOk = true
-                self.alertText = "사용할 수 있는 별명이에요"
             }
             .onChange(of: isCeate) { oldValue, newValue in
                 appCoordinator.pushAndReset(.tab)
@@ -169,14 +158,4 @@ private extension AuthStep2 {
         .buttonStyle(PlainButtonStyle())
     }
     
-    func isValidInput(_ input: String) -> Bool {
-        let pattern = "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]+$"
-        let regex = try? NSRegularExpression(pattern: pattern)
-        let range = NSRange(location: 0, length: input.utf16.count)
-        return regex?.firstMatch(in: input, options: [], range: range) != nil
-    }
-    
-    func countString(_ input: String) -> Bool {
-        return input.count <= 6
-    }
 }

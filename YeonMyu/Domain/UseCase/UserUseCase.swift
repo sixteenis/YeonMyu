@@ -66,6 +66,18 @@ extension UserUseCase {
         userInfo = user
         try await userDS.updateUser(uid: user.uid, name: user.name, introduction: user.introduction, area: user.area, profileID: user.profileID)
     }
+    //로그아웃
+    func logout() {
+        UserDefaultManager.shared.resetData()
+        userInfo = UserModel(uid: "", name: "", introduction: "", area: "", profileID: 0, likesPerformance: [], reviews: [])
+    }
+    //계정탈퇴
+    func withdraw() async throws {
+        // TODO: 계정 탈퇴 시 작성한 리뷰 정보도 삭제 필요?
+        try await userDS.deleteUser(uid: userInfo.uid)
+        UserDefaultManager.shared.resetData()
+    }
+    
 }
 
 // MARK: - 후기

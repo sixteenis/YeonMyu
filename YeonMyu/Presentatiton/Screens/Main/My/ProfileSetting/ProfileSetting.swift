@@ -10,7 +10,6 @@ import SwiftUI
 struct ProfileSetting: View {
     @EnvironmentObject var coordinator: MainCoordinator
     @Environment(UserUseCase.self) private var userUseCase
-    
     @State private var selectedProfileIndex: Int = 0
     @State private var scrollPositionID: Int? = 0
     @State private var nickname: String = ""
@@ -23,20 +22,21 @@ struct ProfileSetting: View {
         
         
         VStack(spacing: 0) {
-            //                profileCarouselSection
-            //                    .padding(.top, 24)
-            
-            VStack(spacing: 20) {
-                nicknameField
-                introductionField
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 32)
-            
+            profileCarouselSection
+                .padding(.top, navHeight + 12)
+
+                VStack(spacing: 20) {
+                    nicknameField
+                    introductionField
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 32)
+
             bottomButtons
-                .padding(.horizontal, 40)
+                .vBottom()
                 .padding(.bottom, 32)
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
         .navigationTitle("프로필 설정")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .navigationBar)
@@ -58,69 +58,52 @@ struct ProfileSetting: View {
             Image.asGradientColor
                 .resizable()
                 .scaledToFill()
-                .ignoresSafeArea(edges: .top)
+                
         }
-        
+        .ignoresSafeArea(edges: .vertical)
     }
 }
 
 // MARK: - 프로필 캐러셀
 private extension ProfileSetting {
     var profileCarouselSection: some View {
-        VStack(spacing: 14) {
-            pageIndicator
+        VStack(spacing: 12) {
+            Circle()
+                .fill(Color.asWhite)
+                .frame(width: 8, height: 8)
             
-            GeometryReader { geo in
-                let itemSize: CGFloat = 80
-                let sideItemSize: CGFloat = 56
-                let spacing: CGFloat = 14
-                let sidePadding = (geo.size.width - itemSize) / 2
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: spacing) {
-                        ForEach(0..<profiles.count, id: \.self) { index in
-                            let isSelected = index == selectedProfileIndex
-                            profiles[index]
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: itemSize, height: itemSize)
-                                .clipShape(Circle())
-                                .scaleEffect(isSelected ? 1.0 : CGFloat(sideItemSize / itemSize))
-                                .overlay {
-                                    if isSelected {
-                                        Circle()
-                                            .stroke(.white, lineWidth: 3)
-                                    }
-                                }
-                                .animation(.spring(duration: 0.3), value: selectedProfileIndex)
-                                .id(index)
-                        }
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: 16) {
+                    ForEach(0..<profiles.count, id: \.self) { index in
+                        profiles[index]
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 110, height: 110)
+                            .clipShape(Circle())
+                            .overlay {
+                                Circle()
+                                    .stroke(Color.asWhite, lineWidth: 2)
+                                    .opacity(index == selectedProfileIndex ? 1 : 0)
+                                    .animation(.spring(duration: 0.3), value: selectedProfileIndex)
+                            }
+                            .scrollTransition(.animated(.spring(duration: 0.3))) { content, phase in
+                                content
+                                    .scaleEffect(phase.isIdentity ? 1.3 : 0.85)
+                                    .opacity(phase.isIdentity ? 1.0 : 0.55)
+                            }
+                            .id(index)
                     }
-                    .scrollTargetLayout()
-                    .padding(.horizontal, sidePadding)
-                    .frame(height: itemSize)
                 }
-                .scrollTargetBehavior(.viewAligned)
-                .scrollPosition(id: $scrollPositionID)
-                .onChange(of: scrollPositionID) { _, newValue in
-                    if let newValue { selectedProfileIndex = newValue }
-                }
-                .onChange(of: selectedProfileIndex) { _, newValue in
-                    scrollPositionID = newValue
-                }
+                .scrollTargetLayout()
             }
-            .frame(height: 80)
-        }
-    }
-    
-    var pageIndicator: some View {
-        HStack(spacing: 5) {
-            ForEach(0..<profiles.count, id: \.self) { index in
-                Circle()
-                    .fill(index == selectedProfileIndex ? Color.white : Color.white.opacity(0.35))
-                    .frame(width: index == selectedProfileIndex ? 7 : 5,
-                           height: index == selectedProfileIndex ? 7 : 5)
-                    .animation(.spring(duration: 0.3), value: selectedProfileIndex)
+            .scrollTargetBehavior(.viewAligned)
+            .scrollPosition(id: $scrollPositionID)
+            .contentMargins(.horizontal, (UIScreen.main.bounds.width - 110) / 2)
+            .frame(height: 175)
+            .onChange(of: scrollPositionID) { _, newValue in
+                if let newValue {
+                    selectedProfileIndex = newValue
+                }
             }
         }
     }
@@ -131,12 +114,12 @@ private extension ProfileSetting {
     var nicknameField: some View {
         VStack(alignment: .leading, spacing: 8) {
             asText("별명 설정")
-                .font(.boldFont14)
-                .foregroundStyle(.white.opacity(0.8))
+                .font(.font16)
+                .foregroundStyle(Color.asWhite)
             
             HStack {
                 TextField("별명을 입력해주세요", text: $nickname)
-                    .font(.boldFont16)
+                    .font(.boldFont20)
                     .foregroundStyle(.white)
                     .tint(.white)
                 
@@ -162,8 +145,8 @@ private extension ProfileSetting {
     var introductionField: some View {
         VStack(alignment: .leading, spacing: 8) {
             asText("소개글 작성")
-                .font(.boldFont14)
-                .foregroundStyle(.white.opacity(0.8))
+                .font(.font16)
+                .foregroundStyle(Color.asWhite)
             
             ZStack(alignment: .topLeading) {
                 TextEditor(text: $introduction)
@@ -190,12 +173,12 @@ private extension ProfileSetting {
                 }
             }
             
-            HStack {
-                Spacer()
-                Text("\(introduction.count)/\(maxIntroLength)")
-                    .font(.font12)
-                    .foregroundStyle(.white.opacity(0.5))
-            }
+//            HStack {
+//                Spacer()
+//                Text("\(introduction.count)/\(maxIntroLength)")
+//                    .font(.font12)
+//                    .foregroundStyle(.white.opacity(0.5))
+//            }
         }
     }
 }
@@ -203,27 +186,41 @@ private extension ProfileSetting {
 // MARK: - 하단 버튼
 private extension ProfileSetting {
     var bottomButtons: some View {
-        HStack {
+        HStack(alignment: .center) {
             Button {
                 coordinator.presentAlert(.logout(confirmAction: {
+                    userUseCase.logout()
                     coordinator.pushAndReset(.login)
                 }))
             } label: {
                 asText("로그아웃")
-                    .font(.font14)
-                    .foregroundStyle(.white.opacity(0.6))
+                    .font(.font16)
+                    .foregroundStyle(Color.asWhite)
             }
             
-            Spacer()
+            Rectangle()
+                .fill(Color.asWhite)
+                .frame(width: 1, height: 10)
+                .padding(.horizontal, 6)
             
             Button {
                 coordinator.presentAlert(.withdrawMember(confirmAction: {
-                    coordinator.pushAndReset(.login)
+                    Task {
+                        do {
+                            try await userUseCase.withdraw()
+                            coordinator.pushAndReset(.login)
+                        } catch {
+                            coordinator.presentAlert(.networkError(action: {
+                                print("탈퇴 시 오류 발생")
+                            }))
+                        }
+                    }
+                    
                 }))
             } label: {
                 asText("회원탈퇴")
-                    .font(.font14)
-                    .foregroundStyle(.white.opacity(0.6))
+                    .font(.font16)
+                    .foregroundStyle(Color.asWhite)
             }
         }
     }
@@ -234,12 +231,37 @@ private extension ProfileSetting {
     func loadUserInfo() {
         let user = userUseCase.userInfo
         selectedProfileIndex = user.profileID
+        scrollPositionID = user.profileID
         nickname = user.name
         introduction = user.introduction
     }
     
     func saveProfile() {
-        coordinator.pop()
+        Task {
+            do {
+                let validateResult = nickname.validateNickname()
+                // 닉네임 검증
+                if validateResult != .valid {
+                    coordinator.presentAlert(.validation(title: validateResult.message, action: {
+                        print("검증 실패")
+                    }))
+                    return
+                }
+                var user = userUseCase.userInfo
+                user.profileID = selectedProfileIndex
+                user.name = nickname
+                user.introduction = introduction
+                try await userUseCase.updateUserData(user)
+                // TODO: 탈퇴 완료 시 성공 팝업? 하단토스트?
+                coordinator.pop()
+            } catch {
+                coordinator.presentAlert(.networkError(action: {
+                    print("탈퇴 시 오류 발생")
+                }))
+            }
+            
+        }
+        
     }
 }
 

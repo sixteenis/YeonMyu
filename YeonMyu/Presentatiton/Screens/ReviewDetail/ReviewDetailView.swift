@@ -36,6 +36,8 @@ struct ReviewDetailView: View {
                                     Task {
                                         isLoading = true
                                         try? await userUseCase.deleteReview(reviewInfo)
+//                                        coordinator.showToast(.simple(message: "후기가 삭제되었습니다.", icon: .asCheckingIcon))
+                                        dismiss()
                                         isLoading = false
                                     }
                                     

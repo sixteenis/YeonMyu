@@ -73,6 +73,10 @@ extension UserDataSource {
         ]
         try await db.collection("users").document(uid).setData(data)
     }
+    // 유저 삭제
+    func deleteUser(uid: String) async throws {
+        try await db.collection("users").document(uid).delete()
+    }
     // 유저 정보 수정
     func updateUser(uid: String, name: String, introduction: String, area: String, profileID: Int) async throws {
         let data: [String: Any] = [

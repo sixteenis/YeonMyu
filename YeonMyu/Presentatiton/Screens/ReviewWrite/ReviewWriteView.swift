@@ -48,14 +48,10 @@ struct ReviewWriteView: View {
                 switch newValue {
                 case .success:
                     coordinator.presentAlert(.saveReviewSuccess(action: {
-                        coordinator.showToast(ToastModel(
-                            message: "후기가 저장되었습니다.",
-                            actionTitle: "보러가기",
-                            action: {
+                        coordinator.showToast(.reviewMove(action: {
                                 coordinator.pushAndReset(.tab)
                                 coordinator.changeTab(tab: .my)
-                            }
-                        ))
+                            }))
                         dismiss()
                     }))
                 case .failure:

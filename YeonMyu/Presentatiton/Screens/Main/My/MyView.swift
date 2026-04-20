@@ -11,7 +11,6 @@ struct MyView: View {
     @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
     @Environment(UserUseCase.self) private var userUseCase
     @State private var isSheetPresented = true
-    @MainActor private var navHeight = CGFloat.safeAreaTop + 12 + 28 + 12
     let safeAreaTop: CGFloat = 10
     @State private var profileContentHeight: CGFloat = 300
     

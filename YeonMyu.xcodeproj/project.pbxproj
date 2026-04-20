@@ -12,6 +12,7 @@
 		061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */; };
 		061A16752E574FBA00AF13D3 /* ScannerLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A16742E574FBA00AF13D3 /* ScannerLineView.swift */; };
 		062626252E7588D8009B879B /* ReviewWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626242E7588D8009B879B /* ReviewWriteView.swift */; };
+		062FA78D2F9102C200360FFF /* DefaultToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FA78C2F9102C200360FFF /* DefaultToastView.swift */; };
 		063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */; };
 		063F5D712D9035D0004F4C17 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6E2D9035D0004F4C17 /* CoordinatorProtocol.swift */; };
 		063F5D722D9035D0004F4C17 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6D2D9035D0004F4C17 /* MainCoordinator.swift */; };
@@ -44,6 +45,7 @@
 		066C1CAF2D7F167F00C44567 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 066C1CAE2D7F167F00C44567 /* Kingfisher */; };
 		066F3D482DB52F7D00EA77FB /* SearchVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066F3D472DB52F7D00EA77FB /* SearchVM.swift */; };
 		066F3D4A2DB53B9B00EA77FB /* DateSelectBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066F3D492DB53B9B00EA77FB /* DateSelectBottomSheetView.swift */; };
+		06712A472F90FD7B003A2224 /* DefaultToastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06712A462F90FD7B003A2224 /* DefaultToastModel.swift */; };
 		06A607B12E48A0220066EC36 /* TicketScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A607B02E48A0220066EC36 /* TicketScannerView.swift */; };
 		06A607B32E48A08A0066EC36 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A607B22E48A0890066EC36 /* CameraService.swift */; };
 		06A607B52E48A0A70066EC36 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A607B42E48A0A70066EC36 /* CameraView.swift */; };
@@ -153,7 +155,6 @@
 		06F4A86C2DD06BB8008B1D29 /* SearchResultVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */; };
 		934632AF2F906C6D00A9F96D /* DefaultAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934632AE2F906C6D00A9F96D /* DefaultAlertView.swift */; };
 		934632B22F90886D00A9F96D /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 934632B12F90886D00A9F96D /* PopupView */; };
-		934632B52F90D54500A9F96D /* ReviewMoveToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934632B42F90D54500A9F96D /* ReviewMoveToast.swift */; };
 		937C22F52F8E14DA00F11DC4 /* PerformanceDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C22F42F8E14DA00F11DC4 /* PerformanceDisplayable.swift */; };
 		937C6BDB2F8F2C6100ADFD3D /* PerformanceReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C6BDA2F8F2C6100ADFD3D /* PerformanceReviewView.swift */; };
 		937C6BDD2F8F2C6C00ADFD3D /* MyReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C6BDC2F8F2C6C00ADFD3D /* MyReviewView.swift */; };
@@ -184,6 +185,7 @@
 		061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTagView.swift; sourceTree = "<group>"; };
 		061A16742E574FBA00AF13D3 /* ScannerLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerLineView.swift; sourceTree = "<group>"; };
 		062626242E7588D8009B879B /* ReviewWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteView.swift; sourceTree = "<group>"; };
+		062FA78C2F9102C200360FFF /* DefaultToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultToastView.swift; sourceTree = "<group>"; };
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YeonMyu.entitlements; sourceTree = "<group>"; };
 		063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 		066C1CB22D7F172C00C44567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		066F3D472DB52F7D00EA77FB /* SearchVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVM.swift; sourceTree = "<group>"; };
 		066F3D492DB53B9B00EA77FB /* DateSelectBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectBottomSheetView.swift; sourceTree = "<group>"; };
+		06712A462F90FD7B003A2224 /* DefaultToastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultToastModel.swift; sourceTree = "<group>"; };
 		06A607B02E48A0220066EC36 /* TicketScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScannerView.swift; sourceTree = "<group>"; };
 		06A607B22E48A0890066EC36 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		06A607B42E48A0A70066EC36 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -312,7 +315,6 @@
 		06F4A8692DD06985008B1D29 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		06F4A86B2DD06BB8008B1D29 /* SearchResultVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultVM.swift; sourceTree = "<group>"; };
 		934632AE2F906C6D00A9F96D /* DefaultAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAlertView.swift; sourceTree = "<group>"; };
-		934632B42F90D54500A9F96D /* ReviewMoveToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewMoveToast.swift; sourceTree = "<group>"; };
 		937C22F42F8E14DA00F11DC4 /* PerformanceDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceDisplayable.swift; sourceTree = "<group>"; };
 		937C6BDA2F8F2C6100ADFD3D /* PerformanceReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceReviewView.swift; sourceTree = "<group>"; };
 		937C6BDC2F8F2C6C00ADFD3D /* MyReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewView.swift; sourceTree = "<group>"; };
@@ -924,7 +926,8 @@
 		934632B32F90D52100A9F96D /* Toast */ = {
 			isa = PBXGroup;
 			children = (
-				934632B42F90D54500A9F96D /* ReviewMoveToast.swift */,
+				06712A462F90FD7B003A2224 /* DefaultToastModel.swift */,
+				062FA78C2F9102C200360FFF /* DefaultToastView.swift */,
 			);
 			path = Toast;
 			sourceTree = "<group>";
@@ -1138,6 +1141,7 @@
 				063F5D7B2D904233004F4C17 /* ContentView.swift in Sources */,
 				06E508682D7F10D900F5E7DE /* TicketStorageVM.swift in Sources */,
 				06E508692D7F10D900F5E7DE /* HorizontalCalendarView.swift in Sources */,
+				062FA78D2F9102C200360FFF /* DefaultToastView.swift in Sources */,
 				06E5086A2D7F10D900F5E7DE /* TicketStorageView.swift in Sources */,
 				06E5086B2D7F10D900F5E7DE /* TicketMakeModel.swift in Sources */,
 				066F3D4A2DB53B9B00EA77FB /* DateSelectBottomSheetView.swift in Sources */,
@@ -1160,6 +1164,7 @@
 				06E508752D7F10D900F5E7DE /* MainView.swift in Sources */,
 				06DEB9C32F8680A000E03CD1 /* PerformanceUseCase.swift in Sources */,
 				06E508762D7F10D900F5E7DE /* SaveTicketModel.swift in Sources */,
+				06712A472F90FD7B003A2224 /* DefaultToastModel.swift in Sources */,
 				06E508772D7F10D900F5E7DE /* TicketMakeVM.swift in Sources */,
 				0666EAE82DABFB1100A7E6DD /* placeCheckView.swift in Sources */,
 				937C6BDD2F8F2C6C00ADFD3D /* MyReviewView.swift in Sources */,
@@ -1183,7 +1188,6 @@
 				06E508832D7F10D900F5E7DE /* ViewModeltype.swift in Sources */,
 				06E5081B2D7F10CD00F5E7DE /* UserDefault.swift in Sources */,
 				06E5081C2D7F10CD00F5E7DE /* DetailPerformanceDTO.swift in Sources */,
-				934632B52F90D54500A9F96D /* ReviewMoveToast.swift in Sources */,
 				0655F9152E25392300A1AAF4 /* ADBannerVM.swift in Sources */,
 				06F4A8662DCB7D94008B1D29 /* TotalSelectBottomSheetView.swift in Sources */,
 				06E5081D2D7F10CD00F5E7DE /* CitySelectBottomSheetView.swift in Sources */,
@@ -1363,7 +1367,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = YeonMyu/YeonMyuDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.5.1;
+				CURRENT_PROJECT_VERSION = 1.0.5.2;
 				DEVELOPMENT_ASSET_PATHS = "\"YeonMyu/Preview Content\"";
 				DEVELOPMENT_TEAM = G9LS4YQCM2;
 				ENABLE_PREVIEWS = YES;
@@ -1404,7 +1408,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = YeonMyu/YeonMyu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.5.1;
+				CURRENT_PROJECT_VERSION = 1.0.5.2;
 				DEVELOPMENT_ASSET_PATHS = "\"YeonMyu/Preview Content\"";
 				DEVELOPMENT_TEAM = G9LS4YQCM2;
 				ENABLE_PREVIEWS = YES;

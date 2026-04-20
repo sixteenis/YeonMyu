@@ -20,7 +20,6 @@ struct HomeView: View {
     //@StateObject private var vm = HomeVM()
     @State private var isToolbarHidden = true // 탭바 숨김 유무
     @State private var isAreSelectedPresented = false //지역 선택 바텀시트 토글
-    @MainActor private var navHeight = CGFloat.safeAreaTop + 12 + 28 + 12
     
     private let colors: [Color] = [.white, .blue, .green]
     @State private var segmentedPage: Int = 0
