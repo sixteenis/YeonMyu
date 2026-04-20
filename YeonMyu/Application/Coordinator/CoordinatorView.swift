@@ -13,7 +13,7 @@ struct CoordinatorView: View {
 
     private var isToastPresented: Binding<Bool> {
         Binding(
-            get: { appCoordinator.toast != nil },
+            get: { appCoordinator.toastType != nil },
             set: { if !$0 { appCoordinator.dismissToast() } }
         )
     }
@@ -28,6 +28,7 @@ struct CoordinatorView: View {
                     appCoordinator.build(sheet)
                 }
         }
+        .hideKeyboardOnTap()
         .overlay {
             if let type = appCoordinator.alertType {
                 DefaultAlertView(config: type.toConfig(dismiss: appCoordinator.dismissAlert))
@@ -35,7 +36,7 @@ struct CoordinatorView: View {
             }
         }
         .popup(isPresented: isToastPresented) {
-            ReviewMoveToast()
+            DefaultToastView()
         } customize: {
             $0
                 .type(.floater(verticalPadding: 24, horizontalPadding: 16, useSafeAreaInset: true))

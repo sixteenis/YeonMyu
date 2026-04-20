@@ -68,6 +68,7 @@ extension Image {
     static let loginText = Image("로그인문구")
     static let checkIcon = Image("check")
     static let asCheckingIcon = Image("관람기록 등")
+    static let fillCheckIcon = Image("초록체크")
     static let errIcon = Image("err")
     static let asMarker = Image("지도 마커")
     static let asCheck = Image("아이콘체크")

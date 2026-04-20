@@ -10,6 +10,9 @@ extension View {
     var screenWidth: CGFloat { UIScreen.main.bounds.width }
     
     var screenHeight: CGFloat { UIScreen.main.bounds.height }
+//    var navSafeArea: CGFloat {CGFloat.safeAreaTop + 12 + 28}
+    var navHeight: CGFloat {CGFloat.safeAreaTop + 12 + 28 + 12}
+    
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

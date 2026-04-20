@@ -22,23 +22,47 @@ protocol CoordinatorProtocol: ObservableObject {
     func changeTab(tab: Tab)
 }
 
-// MARK: - Toast 모델
-struct ToastModel: Identifiable {
-    let id = UUID()
-    let message: String
-    let icon: Image?
-    let duration: Double
-    let actionTitle: String?
-    let action: (() -> Void)?
 
-    init(message: String, icon: Image? = nil, duration: Double = 2.5, actionTitle: String? = nil, action: (() -> Void)? = nil) {
-        self.message = message
-        self.icon = icon
-        self.duration = duration
-        self.actionTitle = actionTitle
-        self.action = action
+// MARK: - Toast 유형 정의
+// 뷰에서는 action만 주입, 메시지/아이콘은 여기서 관리
+enum ToastType {
+    // MARK: 단순 토스트 (버튼 없음)
+    case simple(message: String, icon: Image? = nil)
+
+    // MARK: 액션 토스트 (버튼 있음)
+    case reviewMove(action: () -> Void)      // 후기 작성 후 이동 토스트
+
+    // MARK: 커스텀 토스트
+    case custom(ToastModel)
+
+    /// 액션 버튼 포함 여부 (CoordinatorView에서 뷰 분기 기준)
+    var hasAction: Bool {
+        switch self {
+        case .simple: return false
+        case .reviewMove: return true
+        case .custom(let model): return model.action != nil
+        }
+    }
+
+    /// ToastType → ToastModel 변환 (dismiss 자동 주입)
+    func toConfig(dismiss: @escaping () -> Void) -> ToastModel {
+        switch self {
+        case .simple(let message, let icon):
+            return ToastModel(message: message, icon: icon)
+        case .reviewMove(let action):
+            return ToastModel(
+                message: "후기가 저장되었습니다.",
+                icon: Image.checkIcon,
+                iconTint: .checkGreenColor,
+                actionTitle: "보러가기",
+                action: { action(); dismiss() }
+            )
+        case .custom(let model):
+            return model
+        }
     }
 }
+
 
 // MARK: - Alert 유형 정의
 // 뷰에서는 action만 주입, 아이콘/제목/메시지는 여기서 관리

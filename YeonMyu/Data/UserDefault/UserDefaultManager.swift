@@ -17,5 +17,8 @@ final class UserDefaultManager {
     
     private init() {}
     
-    
+    func resetData() {
+        guard let bundleID = Bundle.main.bundleIdentifier else { return }
+        UserDefaults.standard.removePersistentDomain(forName: bundleID)
+    }
 }
