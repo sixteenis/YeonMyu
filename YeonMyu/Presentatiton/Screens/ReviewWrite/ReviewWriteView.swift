@@ -304,7 +304,7 @@ private extension ReviewWriteView {
                             .tint(.white)
                     } else {
                         HStack(alignment: .center, spacing: 6) {
-                            Image.checkingIcon
+                            Image.asCheckingIcon
                                 .resizable()
                                 .scaledToFill()
                                 .foregroundStyle(Color.asWhite)
