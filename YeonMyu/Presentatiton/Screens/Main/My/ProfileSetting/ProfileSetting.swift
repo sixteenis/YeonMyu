@@ -190,7 +190,7 @@ private extension ProfileSetting {
             Button {
                 coordinator.presentAlert(.logout(confirmAction: {
                     userUseCase.logout()
-                    coordinator.pushAndReset(.login)
+                    coordinator.pushAndReset(.start)
                 }))
             } label: {
                 asText("로그아웃")
@@ -208,7 +208,7 @@ private extension ProfileSetting {
                     Task {
                         do {
                             try await userUseCase.withdraw()
-                            coordinator.pushAndReset(.login)
+                            coordinator.pushAndReset(.start)
                         } catch {
                             coordinator.presentAlert(.networkError(action: {
                                 print("탈퇴 시 오류 발생")

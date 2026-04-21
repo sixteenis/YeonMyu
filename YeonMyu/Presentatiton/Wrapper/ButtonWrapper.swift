@@ -19,6 +19,13 @@ private struct ButtonWrapper: ViewModifier {
         }
     }
 }
+extension UIApplication {
+    static func hideKeyboard() {
+        shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                          to: nil, from: nil, for: nil)
+    }
+}
+
 extension View {
     func wrapToButton(action: @escaping () -> Void) -> some View {
         modifier(ButtonWrapper(action: action))
@@ -26,8 +33,7 @@ extension View {
 
     func hideKeyboardOnTap() -> some View {
         self.onTapGesture {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                            to: nil, from: nil, for: nil)
+            UIApplication.hideKeyboard()
         }
     }
 }

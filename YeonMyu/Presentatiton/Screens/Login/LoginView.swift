@@ -15,17 +15,15 @@ struct LoginView: View {
     @Environment(UserUseCase.self) private var userUseCase
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                LoginTitleView()
-                    .vCenter()
-                    .padding(.bottom, 50)
-                Spacer()
-                
-                LoginButtons()
-                    .padding(.bottom, 50)
-                
-            }
+        VStack(spacing: 0) {
+            LoginTitleView()
+                .vCenter()
+                .padding(.bottom, 50)
+            Spacer()
+
+            LoginButtons()
+                .padding(.bottom, 50)
+
         }
         .task { vm.configure(userUseCase: userUseCase) }
         .onChange(of: vm.output.goJoinView) { oldValue, newValue in
