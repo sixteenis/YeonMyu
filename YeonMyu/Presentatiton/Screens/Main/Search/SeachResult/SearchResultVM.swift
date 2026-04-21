@@ -185,13 +185,11 @@ private extension SearchResultVM {
             for cate in PrfCate.all.code {
                 group.addTask {
                     let result = try await NetworkManager.shared.requestPerformance(
-                        date: date.asTrasnFormyyyyMMdd(),
+                        startDate: date.asTrasnFormyyyyMMdd(),
                         cateCode: cate,
                         area: cityCode.code,
                         title: term,
                         page: nil,
-                        openrun: nil,
-                        prfstate: nil,
                         maxOnePage: "100"
                     )
                     return result.map { $0.transformSimplePostModel() }

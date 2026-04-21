@@ -261,14 +261,3 @@ private extension ReviewDetailView {
     }
 }
 
-// MARK: - 공통 UI
-private extension ReviewDetailView {
-    var sectionDivider: some View {
-        Rectangle()
-            .fill(Color.asGray600)
-            .frame(height: 6)
-            .padding(.horizontal, -24)
-    }
-    
-
-}

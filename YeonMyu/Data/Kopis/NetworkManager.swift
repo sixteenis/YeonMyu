@@ -37,18 +37,19 @@ final class NetworkManager {
         return XMLPerformanceParser().parse(data: data)
     }
     // MARK: - 여러개의 공연 데이터 통신
-    func requestPerformance(date: String, cateCode: String, area: String?,title: String, page: Int?, openrun: String?, prfstate: String?, maxOnePage: String = "10") async throws -> [PerformanceDTO] {
+    func requestPerformance(startDate: String, endDate: String = "", cateCode: String, area: String?,title: String, page: Int?, openrun: Bool = false, prfstate: String? = nil, maxOnePage: String = "10") async throws -> [PerformanceDTO] {
         let urlString = APIKey.performanceURL
         var urlComponents = URLComponents(string: urlString)
         urlComponents?.queryItems = [
             URLQueryItem(name: "service", value: APIKey.key),
-            URLQueryItem(name: "stdate", value: date),
-            URLQueryItem(name: "eddate", value: date),
+            URLQueryItem(name: "stdate", value: startDate),
+            URLQueryItem(name: "eddate", value: endDate.isEmpty ? startDate : endDate),
             URLQueryItem(name: "cpage", value: String(page ?? 1)),
             URLQueryItem(name: "rows", value: maxOnePage), //페이지당 목록 수
             URLQueryItem(name: "shcate", value: cateCode),
             URLQueryItem(name: "shprfnm", value: title),
             URLQueryItem(name: "signgucode", value: area),
+            URLQueryItem(name: "openrun", value: openrun ? "Y" : "N"),
         ]
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
