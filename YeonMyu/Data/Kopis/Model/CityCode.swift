@@ -37,4 +37,7 @@ enum CityCode: String, CaseIterable {
         case .jeju: return "50"
         }
     }
+    static func getAreaCode(from areaName: String) -> String {
+        return CityCode(rawValue: areaName)?.code ?? ""
+    }
 }

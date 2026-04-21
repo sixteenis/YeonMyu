@@ -66,7 +66,7 @@ final class StorageVM: ViewModeltype {
     func getUserAreaPlayList(area: CityCode, PrfCate: PrfCate, page: Int?) async throws -> [SimplePostModel] {
         var data: [SimplePostModel] = []
         for cate in PrfCate.code {
-            let result = try await NetworkManager.shared.requestPerformance(date: String.getDateRelativeToToday(daysOffset: 0), cateCode: cate, area: area.code, title: "", page: page, openrun: nil, prfstate: nil)
+            let result = try await NetworkManager.shared.requestPerformance(startDate: String.getDateRelativeToToday(daysOffset: 0), cateCode: cate, area: area.code, title: "", page: page)
             data.append(contentsOf: result.map{$0.transformSimplePostModel()})
         }
         data.shuffle()

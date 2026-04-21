@@ -448,11 +448,27 @@ private extension HomeView {
                 .padding(.top, 36)
             
             recommendCollectionView(state.areaTopPrf)
+                .padding(.bottom, 20)
+            
+            sectionDivider
             
             randomHeaderView(main: state.randomPrfs.mainTitle, sub: state.randomPrfs.subTitle)
                 .padding(24)
-                .padding(.top, 12)
+            
             randomTableView(state.randomPrfs.simplePlayData)
+            
+            sectionDivider
+            
+            randomHeaderView(main: state.randomPrfs.mainTitle, sub: state.randomPrfs.subTitle)
+                .padding(24)
+            randomTableView(state.randomPrfs.simplePlayData)
+            
+            sectionDivider
+            
+            randomHeaderView(main: state.randomPrfs.mainTitle, sub: state.randomPrfs.subTitle)
+                .padding(24)
+            randomTableView(state.randomPrfs.simplePlayData)
+            
         }
     }
     //가로 스크롤 공연 추천 헤더 부분
@@ -531,10 +547,10 @@ private extension HomeView {
                     .hLeading()
             }
             Spacer()
-            Image.rightArrow
-                .resizable()
-                .foregroundStyle(Color.asGray300)
-                .frame(width: 24, height: 24)
+//            Image.rightArrow
+//                .resizable()
+//                .foregroundStyle(Color.asGray300)
+//                .frame(width: 24, height: 24)
         }
     }
     
