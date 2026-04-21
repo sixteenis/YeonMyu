@@ -30,18 +30,22 @@ final class MainCoordinator: CoordinatorProtocol {
     }
     
     func pop() {
+        UIApplication.hideKeyboard()
         path.removeLast()
     }
-    
+
     func popToRoot() {
+        UIApplication.hideKeyboard()
         path.removeLast(path.count) // 빈 배열로 초기화시 RootView
     }
-    
+
     func dismissSheet() {
+        UIApplication.hideKeyboard()
         self.sheet = nil
     }
-    
+
     func dismissFullScreenOver() {
+        UIApplication.hideKeyboard()
         self.fullScreenCover = nil
     }
     
