@@ -5,7 +5,7 @@
 //  Created by 박성민 on 2/23/25.
 //
 
-import Foundation
+import SwiftUI
 
 protocol HomeIntentProtocol {
     func configureUserInfo(name: String, city: CityCode) // 유저 초기 정보 설정
@@ -20,6 +20,7 @@ protocol HomeIntentProtocol {
 
 final class HomeIntent {
     private weak var state: HomeStateActionProtocol?
+    private var userCity: CityCode = .all
     init(state: HomeStateActionProtocol?) {
         self.state = state
     }
@@ -29,6 +30,7 @@ extension HomeIntent: HomeIntentProtocol {
     func configureUserInfo(name: String, city: CityCode) {
         state?.setUserName(name)
         state?.getCity(city)
+        userCity = city
     }
     //처음 뷰 뜰 때
     func onAppear(city: CityCode, prfCate: PrfCate) {
@@ -139,9 +141,10 @@ private extension HomeIntent {
     //곧 상영 예정인 공연
     func nowOpenPrf() async throws ->  MainHeaderPlayModel? {
         let date = String.getDateRelativeToToday(daysOffset: 2)
-        let data = try await NetworkManager.shared.requestPerformance(date: date, cateCode: "", area: "", title: "", page: nil, openrun: nil, prfstate: "?")
-        guard let post = data.first else { return nil}
-        let result = MainHeaderPlayModel(mainTitle: "곧 상영 예정인 공연", subTitle: "타이틀 회의하자~", postURL: post.poster, postID: post.mt20id)
+        let ddate = String.getDateRelativeToToday(daysOffset: 14)
+        let data = try await NetworkManager.shared.requestPerformance(startDate: date, endDate: ddate, cateCode: "", area: "", title: "", page: nil, openrun: false)
+        guard let post = data.randomElement() else { return nil}
+        let result = MainHeaderPlayModel(mainTitle: "이번 주 주목할 신작", subTitle: "곧 막이 오릅니다", postURL: post.poster, postID: post.mt20id)
         return result
     }
     //현재 날짜 기준 상받은 공연
@@ -149,29 +152,28 @@ private extension HomeIntent {
         let nowDate = String.getDateRelativeToToday(daysOffset: 0)
         let beforDate = String.getDateRelativeToToday(daysOffset: -90)
         let data = try await NetworkManager.shared.requestAwad(startDate: beforDate, endDate: nowDate, cateCode: nil, area: nil, page: nil)
-        guard let resultAward = data.first else { return nil }
+        guard let resultAward = data.randomElement() else { return nil }
         //resultAward.awards // 수상 내역
-        let result = MainHeaderPlayModel(mainTitle: "현재 날짜 기준 90일 이전으로\n상받은 공연~", subTitle: "타이틀 정하자~", postURL: resultAward.poster, postID: resultAward.mt20id)
+        let result = MainHeaderPlayModel(mainTitle: "지금 가장 빛나는 공연", subTitle: "최근 수상의 영예를 안은 공연", postURL: resultAward.poster, postID: resultAward.mt20id)
         return result
     }
     //현재 날짜 기준 작년 상받은 공연 정보
     func getLastYearAwardPrf() async throws ->  MainHeaderPlayModel? {
         let lastDate = String.getLastYearDatesToyyyyMMdd()
         let data = try await NetworkManager.shared.requestAwad(startDate: lastDate, endDate: lastDate, cateCode: nil, area: nil, page: nil)
-        guard let resultAward = data.first else { return nil }
+        guard let resultAward = data.randomElement() else { return nil }
         //resultAward.awards // 수상 내역
         let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: resultAward.mt20id)
-        let result = MainHeaderPlayModel(mainTitle: "작년 이날 날짜 기준\n상받은 공연~", subTitle: "타이틀 정하자~", postURL: postData.poster, postID: postData.mt20id)
+        let result = MainHeaderPlayModel(mainTitle: "작년 이맘때 관객과\n평단의 찬사를 받은 공연", subTitle: "정확히 1년 전 오늘 수상 기록을 세운 명작", postURL: postData.poster, postID: postData.mt20id)
         return result
     }
     //사용자 지정 지역의 실시간 1위 판매 공연
     func getTop1WithArea() async throws -> MainHeaderPlayModel? {
         let date = String.getDateRelativeToToday(daysOffset: -30)
         let ddate = String.getDateRelativeToToday(daysOffset: 0)
-        let area = "11" //임시 지역 서울!
-        let data = try await NetworkManager.shared.requestBoxOffice(startDate: date, endDate: ddate, cateCode: "AAAA", area: area) //area 수정해주기
-        guard let post = data.first else { return nil }
-        let result = MainHeaderPlayModel(mainTitle: "사용자 지역 기준 실시간 1위\n판매 공연!!!", subTitle: "타이틀 정하슈", postURL: post.poster, postID: post.mt20id)
+        let data = try await NetworkManager.shared.requestBoxOffice(startDate: date, endDate: ddate, cateCode: "AAAA", area: userCity.code)
+        guard let post = data.randomElement() else { return nil }
+        let result = MainHeaderPlayModel(mainTitle: "가장 많이 판매된 공연", subTitle: "\(userCity.rawValue) 실시간 1위", postURL: post.poster, postID: post.mt20id)
         return result
     }
     
@@ -182,7 +184,7 @@ private extension HomeIntent {
     func getUserAreaPlayList(area: CityCode, PrfCate: PrfCate, page: Int?) async throws -> [SimplePostModel] {
         var data: [SimplePostModel] = []
         for cate in PrfCate.code {
-            let result = try await NetworkManager.shared.requestPerformance(date: String.getDateRelativeToToday(daysOffset: 0), cateCode: cate, area: area.code, title: "", page: page, openrun: nil, prfstate: nil)
+            let result = try await NetworkManager.shared.requestPerformance(startDate: String.getDateRelativeToToday(daysOffset: 0), cateCode: cate, area: area.code, title: "", page: page)
             data.append(contentsOf: result.map{$0.transformSimplePostModel()})
         }
         data.shuffle()
@@ -205,10 +207,17 @@ private extension HomeIntent {
     //곧 상영 예정인 공연
     func nowOpenPrfs() async throws ->  RandomSimplePlayModel? {
         let date = String.getDateRelativeToToday(daysOffset: 2)
-        let data = try await NetworkManager.shared.requestPerformance(date: date, cateCode: "", area: "", title: "", page: nil, openrun: nil, prfstate: "?")
-//        guard let post = data.first else { return nil}
-//        let result = MainHeaderPlayModel(mainTitle: "곧 상영 예정인 공연", subTitle: "타이틀 회의하자~", postURL: post.poster, postID: post.mt20id)
-        let result = RandomSimplePlayModel(mainTitle: "곧 상영 예정", subTitle: "서브타이틀입니돠~", simplePlayData: data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" })
+        let ddate = String.getDateRelativeToToday(daysOffset: 14)
+        let data = try await NetworkManager.shared.requestPerformance(startDate: date, endDate: ddate, cateCode: "", area: "", title: "", page: nil, openrun: false)
+        let result = RandomSimplePlayModel(mainTitle: "곧 상영 예정인 공연", subTitle: "막이 오르기 전 미리 확인해보세요.", simplePlayData: data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" })
+        return result
+    }
+    
+    //오픈런 공연
+    func openrunPrfs() async throws ->  RandomSimplePlayModel? {
+        let date = String.getDateRelativeToToday(daysOffset: 0)
+        let data = try await NetworkManager.shared.requestPerformance(startDate: date, cateCode: "", area: "", title: "", page: nil, openrun: true)
+        let result = RandomSimplePlayModel(mainTitle: "스테디셀러 오픈런 공연", subTitle: "검증된 명작", simplePlayData: data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" })
         return result
     }
     
@@ -216,10 +225,10 @@ private extension HomeIntent {
     func getTop10WithArea() async throws -> RandomSimplePlayModel? {
         let date = String.getDateRelativeToToday(daysOffset: -30)
         let ddate = String.getDateRelativeToToday(daysOffset: 0)
-        let area = "11" //임시 지역 서울!
-        let data = try await NetworkManager.shared.requestBoxOffice(startDate: date, endDate: ddate, cateCode: "AAAA", area: area) //area 수정해주기
+        let areaCode = userCity.code
+        let data = try await NetworkManager.shared.requestBoxOffice(startDate: date, endDate: ddate, cateCode: "AAAA", area: areaCode) //area 수정해주기
         print(data)
-        let result = RandomSimplePlayModel(mainTitle: "사용자 위치에 실시간 인기 공연들", subTitle: "서브타이틀 임돠", simplePlayData: data.map { $0.transformSimplePostModel() })
+        let result = RandomSimplePlayModel(mainTitle: "\(userCity.rawValue) 인기 공연", subTitle: "\(userCity)에서 가장 핫한 공연을 확인해보세요.", simplePlayData: data.map { $0.transformSimplePostModel() })
         return result
     }
     
