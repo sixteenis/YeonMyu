@@ -18,8 +18,7 @@ struct AuthStep2: View {
     @State private var isOk = false
     @State private var isCeate = false
     var body: some View {
-        NavigationView {
-            VStack {
+        VStack {
                 Rectangle()
                     .frame(height: 1)
                     .foregroundStyle(Color.asGray400)
@@ -104,9 +103,11 @@ struct AuthStep2: View {
                 }
             }
             .onChange(of: isCeate) { oldValue, newValue in
-                appCoordinator.pushAndReset(.tab)
+                UIApplication.hideKeyboard()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    appCoordinator.pushAndReset(.tab)
+                }
             }
-        }
     }
 }
 

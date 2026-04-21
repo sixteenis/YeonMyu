@@ -20,8 +20,7 @@ struct AuthStep1: View {
     private let allCity = CityCode.allCases.filter { $0 != .all }
     
     var body: some View {
-        NavigationView {
-            VStack {
+        VStack {
                 Rectangle()
                     .frame(height: 1)
                     .foregroundStyle(Color.asGray400)
@@ -72,8 +71,7 @@ struct AuthStep1: View {
                     guard let area = selecedArea else { return }
                     appCoordinator.push(.authStep2(uid: uid, area: area.rawValue))
                 }
-            } //:VSTACK
-        } //:NAVIGATION
+        } //:VSTACK
     }
 }
 private extension AuthStep1 {
