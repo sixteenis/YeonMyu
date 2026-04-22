@@ -14,7 +14,9 @@ protocol HomeStateProtocol {
     var userInfo: UserInfoModel { get } //유저 연극 기록 정보
     var playCategorys: [PrfCate] { get } //공연 종류들
     var areaTopPrf: [SimplePostModel] { get } // 지역
-    var randomPrfs: RandomSimplePlayModel { get }
+    var randomPrfs: RandomSimplePlayModel { get }       // 곧 상영 예정
+    var openrunPrfs: RandomSimplePlayModel { get }      // 오픈런
+    var top10Prfs: RandomSimplePlayModel { get }        // 지역 인기 순위
     
     var selectedPost: String? { get } //공연 클릭 시
     var selectedUserInfo: UserInfo? { get }
@@ -29,6 +31,8 @@ protocol HomeStateActionProtocol: AnyObject {
     func getContentState(_ state: ContentState)
     func getHeaderPosts(_ posts: [MainHeaderPlayModel])
     func getRandomPrfs(_ data: RandomSimplePlayModel?)
+    func getOpenrunPrfs(_ data: RandomSimplePlayModel?)
+    func getTop10Prfs(_ data: RandomSimplePlayModel?)
     
     func getCity(_ city: CityCode)
     func getPlayCategoryIndex(_ index: Int) //공연 종류 선택 시
@@ -49,6 +53,8 @@ final class HomeState: HomeStateProtocol, ObservableObject {
     var areaTopPrf: [SimplePostModel] = []
     
     var randomPrfs: RandomSimplePlayModel = RandomSimplePlayModel(mainTitle: "", subTitle: "", simplePlayData: [])
+    var openrunPrfs: RandomSimplePlayModel = RandomSimplePlayModel(mainTitle: "", subTitle: "", simplePlayData: [])
+    var top10Prfs: RandomSimplePlayModel = RandomSimplePlayModel(mainTitle: "", subTitle: "", simplePlayData: [])
     
     var contentState: ContentState = .initView
     
@@ -75,6 +81,14 @@ extension HomeState: HomeStateActionProtocol {
     func getRandomPrfs(_ data: RandomSimplePlayModel?) {
         guard let data else { return }
         self.randomPrfs = data
+    }
+    func getOpenrunPrfs(_ data: RandomSimplePlayModel?) {
+        guard let data else { return }
+        self.openrunPrfs = data
+    }
+    func getTop10Prfs(_ data: RandomSimplePlayModel?) {
+        guard let data else { return }
+        self.top10Prfs = data
     }
     
     

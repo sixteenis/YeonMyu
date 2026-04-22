@@ -36,14 +36,17 @@ extension HomeIntent: HomeIntentProtocol {
     func onAppear(city: CityCode, prfCate: PrfCate) {
         Task {
             do {
-                let headerPosts = try await self.getHeaderPostData()
-                state?.getHeaderPosts(headerPosts)
+                async let headerPosts       = getHeaderPostData()
+                async let userAreaInfoPosts = getUserAreaPlayList(area: city, PrfCate: prfCate, page: 1)
+                async let nowOpen           = nowOpenPrfs()
+                async let openrun           = openrunPrfs()
+                async let top10             = getTop10WithArea()
                 
-                let userAreaInfoPosts = try await getUserAreaPlayList(area: city, PrfCate: prfCate, page: 1)
-                state?.getUserAreaInfoPosts(userAreaInfoPosts)
-                
-                let simplePosts = try await getSimpleRandomPostData()
-                state?.getRandomPrfs(simplePosts)
+                state?.getHeaderPosts(try await headerPosts)
+                state?.getUserAreaInfoPosts(try await userAreaInfoPosts)
+                state?.getRandomPrfs(try await nowOpen)
+                state?.getOpenrunPrfs(try await openrun)
+                state?.getTop10Prfs(try await top10)
                 
                 state?.getContentState(.content)
             
@@ -209,7 +212,7 @@ private extension HomeIntent {
         let date = String.getDateRelativeToToday(daysOffset: 2)
         let ddate = String.getDateRelativeToToday(daysOffset: 14)
         let data = try await NetworkManager.shared.requestPerformance(startDate: date, endDate: ddate, cateCode: "", area: "", title: "", page: nil, openrun: false)
-        let result = RandomSimplePlayModel(mainTitle: "곧 상영 예정인 공연", subTitle: "막이 오르기 전 미리 확인해보세요.", simplePlayData: data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" })
+        let result = RandomSimplePlayModel(mainTitle: "곧 상영 예정인 공연", subTitle: "막이 오르기 전 미리 확인해보세요.", simplePlayData: Array(data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" }.prefix(4)))
         return result
     }
     
@@ -217,7 +220,7 @@ private extension HomeIntent {
     func openrunPrfs() async throws ->  RandomSimplePlayModel? {
         let date = String.getDateRelativeToToday(daysOffset: 0)
         let data = try await NetworkManager.shared.requestPerformance(startDate: date, cateCode: "", area: "", title: "", page: nil, openrun: true)
-        let result = RandomSimplePlayModel(mainTitle: "스테디셀러 오픈런 공연", subTitle: "검증된 명작", simplePlayData: data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" })
+        let result = RandomSimplePlayModel(mainTitle: "스테디셀러 오픈런 공연", subTitle: "검증된 명작", simplePlayData: Array(data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" }.prefix(4)))
         return result
     }
     
@@ -228,7 +231,7 @@ private extension HomeIntent {
         let areaCode = userCity.code
         let data = try await NetworkManager.shared.requestBoxOffice(startDate: date, endDate: ddate, cateCode: "AAAA", area: areaCode) //area 수정해주기
         print(data)
-        let result = RandomSimplePlayModel(mainTitle: "\(userCity.rawValue) 인기 공연", subTitle: "\(userCity)에서 가장 핫한 공연을 확인해보세요.", simplePlayData: data.map { $0.transformSimplePostModel() })
+        let result = RandomSimplePlayModel(mainTitle: "\(userCity.rawValue) 인기 공연", subTitle: "\(userCity.rawValue)에서 가장 핫한 공연을 확인해보세요.", simplePlayData: Array(data.map { $0.transformSimplePostModel() }.prefix(4)))
         return result
     }
     
