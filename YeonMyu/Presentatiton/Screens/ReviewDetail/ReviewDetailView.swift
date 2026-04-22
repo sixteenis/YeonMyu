@@ -13,7 +13,6 @@ struct ReviewDetailView: View {
     @Environment(UserUseCase.self) private var userUseCase
     private let reviewInfo: ReviewModel
     private let isShowMovePerfInfo: Bool
-    @State private var perfInfo: DetailPerformance? = nil
     @State private var isLoading = false
     private var isReviewOwner: Bool { reviewInfo.userID == userUseCase.userInfo.uid }
     init(reviewInfo: ReviewModel, isShowMovePerfInfo: Bool) {
@@ -36,13 +35,13 @@ struct ReviewDetailView: View {
                                     Task {
                                         isLoading = true
                                         try? await userUseCase.deleteReview(reviewInfo)
-//                                        coordinator.showToast(.simple(message: "후기가 삭제되었습니다.", icon: .asCheckingIcon))
+                                        //                                        coordinator.showToast(.simple(message: "후기가 삭제되었습니다.", icon: .asCheckingIcon))
                                         dismiss()
                                         isLoading = false
                                     }
                                     
                                 })
-
+                                
                                 
                                 
                             }
@@ -55,12 +54,6 @@ struct ReviewDetailView: View {
                         .buttonStyle(.plain)
                     }
                 }
-            }
-            .task {
-                isLoading = true
-                let dto = try? await NetworkManager.shared.requestDetailPerformance(performanceId: reviewInfo.mt20id)
-                perfInfo = dto?.transformDetailModel()
-                isLoading = false
             }
             .overlay {
                 if isLoading { LoadingView().ignoresSafeArea() }
@@ -126,7 +119,7 @@ private extension ReviewDetailView {
     var postInfoSection: some View {
         HStack {
             ZStack {
-                PosterImageView(url: perfInfo?.posterURL ?? "")
+                PosterImageView(url: reviewInfo.postURL)
                     .frame(width: 92, height: 123)
 
                 PerformanceTagView(tagTT: reviewInfo.genreType.tagText, tagType: .opacity)
@@ -139,14 +132,14 @@ private extension ReviewDetailView {
             Spacer().frame(width: 20)
 
             VStack(alignment: .leading, spacing: 0) {
-                asText(perfInfo?.name ?? reviewInfo.postTitle)
+                asText(reviewInfo.postTitle)
                     .font(.boldFont14)
                     .lineLimit(2)
                     .padding(.bottom, 15)
                     .padding(.top, 5)
 
-                infoRow(image: .calendarIcon, text: perfInfo?.playDate ?? "")
-                infoRow(image: .markerIcon, text: perfInfo?.place ?? "")
+                infoRow(image: .calendarIcon, text: reviewInfo.startDate + "~" + reviewInfo.endDate)
+                infoRow(image: .markerIcon, text: reviewInfo.location)
             }
             .vTop()
         }

@@ -30,25 +30,7 @@ extension UserDataSource {
             )
         }
 
-        let reviews = (data["reviews"] as? [[String: Any]] ?? []).map { item in
-            ReviewModel(
-                reviewid: item["reviewid"] as? String ?? "",
-                mt20id: item["mt20id"] as? String ?? "",
-                postTitle: item["postTitle"] as? String ?? "",
-                genreType: Genre.transform(str: item["postType"] as? String ?? "") ,
-                rating: item["rating"] as? Int ?? 0,
-                selectedPerformanceHighlights: item["selectedPerformanceHighlights"] as? [String] ?? [],
-                selectedPerformanceFeelings: item["selectedPerformanceFeelings"] as? [String] ?? [],
-                selectedPerformanceEnvironments: item["selectedPerformanceEnvironments"] as? [String] ?? [],
-                setting: item["setting"] as? String ?? "",
-                review: item["review"] as? String ?? "",
-                createdAt: (item["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
-                userID: item["userID"] as? String ?? "",
-                userName: item["userName"] as? String ?? "",
-                userProfileID: item["userProfileID"] as? Int ?? 0,
-                
-            )
-        }
+        let reviews = (data["reviews"] as? [[String: Any]] ?? []).compactMap { ReviewModel(dict: $0) }
 
         return UserModel(
             uid: uid,
