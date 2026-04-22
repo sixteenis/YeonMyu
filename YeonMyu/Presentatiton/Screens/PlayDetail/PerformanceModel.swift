@@ -45,7 +45,7 @@ struct DetailPerformance: Hashable, PerformanceDisplayable {
     var guidanceList: [String] {
         let pattern = #"\),\s*"#  // ) 뒤에 , 그리고 공백도 포함해서 제거
         let regex = try! NSRegularExpression(pattern: pattern)
-        let range = NSRange(guidance.startIndex..<guidance.endIndex, in: guidance)
+//        let range = NSRange(guidance.startIndex..<guidance.endIndex, in: guidance)
         let replaced = regex.stringByReplacingMatches(
                 in: guidance,
                 options: [],
