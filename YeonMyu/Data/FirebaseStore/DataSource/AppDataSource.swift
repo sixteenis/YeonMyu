@@ -17,13 +17,13 @@ extension AppDataSource {
     private var rankingRef: DocumentReference {
         db.collection("appData").document("performanceRanking")
     }
-    
+
     private var recentReviewRef: DocumentReference {
         db.collection("appData").document("recentReview")
     }
     // 공연 탑 10 조회
     func fetchRanking() async throws -> (updateDate: Date?, ranking: [SimplePostModel]) {
-        let document = try await rankingRef.getDocument()
+        let document = try await rankingRef.loggedGetDocument()
         guard let data = document.data() else { return (nil, []) }
 
         let updateDate = (data["updateDate"] as? Timestamp)?.dateValue()
@@ -45,7 +45,7 @@ extension AppDataSource {
         let rankingData: [[String: Any]] = items.map {
             ["mt20id": $0.mt20id, "postTitle": $0.postTitle, "postType": $0.postType]
         }
-        try await rankingRef.setData([
+        try await rankingRef.loggedSetData([
             "updateDate": Timestamp(),
             "ranking": rankingData
         ])
@@ -55,28 +55,27 @@ extension AppDataSource {
 extension AppDataSource {
     // 리뷰 저장 (최신 10개 유지)
     func saveRecentReview(_ review: ReviewModel) async throws {
-        let document = try await recentReviewRef.getDocument()
+        let document = try await recentReviewRef.loggedGetDocument()
         var reviews = (document.data()?["reviews"] as? [[String: Any]]) ?? []
         reviews.insert(review.toDictionary(), at: 0)
         if reviews.count > 10 { reviews = Array(reviews.prefix(10)) }
-        try await recentReviewRef.setData(["reviews": reviews])
+        try await recentReviewRef.loggedSetData(["reviews": reviews])
     }
 
     // 최근 리뷰에서 특정 리뷰 삭제 (포함된 경우에만)
     func removeRecentReviewIfExists(reviewid: String) async throws {
-        let document = try await recentReviewRef.getDocument()
+        let document = try await recentReviewRef.loggedGetDocument()
         guard let reviews = document.data()?["reviews"] as? [[String: Any]],
               reviews.contains(where: { $0["reviewid"] as? String == reviewid })
         else { return }
         let updated = reviews.filter { $0["reviewid"] as? String != reviewid }
-        try await recentReviewRef.setData(["reviews": updated])
+        try await recentReviewRef.loggedSetData(["reviews": updated])
     }
 
     // 최근 리뷰 10개 조회
     func fetchRecentReviews() async throws -> [ReviewModel] {
-        let document = try await recentReviewRef.getDocument()
+        let document = try await recentReviewRef.loggedGetDocument()
         guard let list = document.data()?["reviews"] as? [[String: Any]] else { return [] }
         return list.compactMap { ReviewModel(dict: $0) }
     }
 }
-
