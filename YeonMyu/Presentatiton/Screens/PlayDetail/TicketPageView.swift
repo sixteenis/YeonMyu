@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TicketPageView: View {
-    var ticketImage: String
     var ticketName: String
     var goticketPageURL: String
     
@@ -25,10 +24,11 @@ struct TicketPageView: View {
     }
     private func ticketViewInfo() -> some View {
         HStack {
-            Image.exTicket
+            getTickInfoImage(name: ticketName)
                 .resizable()
                 .frame(width: 36, height: 36)
                 .padding([.leading, .vertical], 6)
+                .clipShape(Circle())
             
             Text(ticketName)
                 .font(.font10)
@@ -53,8 +53,18 @@ struct TicketPageView: View {
             
         }
     }
+    private func getTickInfoImage(name: String) -> Image {
+        switch name {
+        case "쿠팡": Image.ticketProviderCoupang
+        case "NHN티켓링크": Image.ticketProviderTicketLink
+        case "네이버N예약": Image.ticketProviderNaver
+        case "놀유니버스": Image.ticketProviderNol
+        case "예스24": Image.ticketProviderYes24
+        default: Image.ticketProviderDefault
+        }
+    }
 }
 
 #Preview {
-    TicketPageView(ticketImage: "", ticketName: "예스24티켓", goticketPageURL: "??")
+    TicketPageView(ticketName: "예스24티켓", goticketPageURL: "??")
 }

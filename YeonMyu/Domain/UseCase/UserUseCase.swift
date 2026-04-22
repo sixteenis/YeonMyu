@@ -69,6 +69,7 @@ extension UserUseCase {
     //로그아웃
     func logout() {
         UserDefaultManager.shared.resetData()
+        TicketManager.shared.deleteAll()
         userInfo = UserModel(uid: "", name: "", introduction: "", area: "", profileID: 0, likesPerformance: [], reviews: [])
     }
     //계정탈퇴
@@ -76,6 +77,7 @@ extension UserUseCase {
         // TODO: 계정 탈퇴 시 작성한 리뷰 정보도 삭제 필요?
         try await userDS.deleteUser(uid: userInfo.uid)
         UserDefaultManager.shared.resetData()
+        TicketManager.shared.deleteAll()
     }
     
 }

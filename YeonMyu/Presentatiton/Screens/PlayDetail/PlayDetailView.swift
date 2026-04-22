@@ -411,7 +411,7 @@ private extension PlayDetailView {
                 
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(postInfo.relates) {
-                        TicketPageView(ticketImage: "", ticketName: $0.relatename, goticketPageURL: $0.relateurl)
+                        TicketPageView(ticketName: $0.relatename, goticketPageURL: $0.relateurl)
                     }
                 }
                 
