@@ -29,18 +29,18 @@ struct SimplePostModel: Identifiable, PerformanceDisplayable {
         self.endDate = endDate
         self.fullDate = fullDate
         self.location = location
-        print("""
-        ----- Post Info -----
-        postId: \(self.mt20id)
-        postURL: \(self.postURL)
-        postType: \(self.postType)
-        postTitle: \(self.postTitle)
-        startDate: \(self.startDate)
-        endDate: \(self.endDate)
-        fullDate: \(self.fullDate)
-        location: \(self.location)
-        ---------------------
-        """)
+//        print("""
+//        ----- Post Info -----
+//        postId: \(self.mt20id)
+//        postURL: \(self.postURL)
+//        postType: \(self.postType)
+//        postTitle: \(self.postTitle)
+//        startDate: \(self.startDate)
+//        endDate: \(self.endDate)
+//        fullDate: \(self.fullDate)
+//        location: \(self.location)
+//        ---------------------
+//        """)
         
     }
     func getPostString() -> String {

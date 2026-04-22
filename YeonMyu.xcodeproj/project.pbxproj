@@ -13,6 +13,7 @@
 		061A16752E574FBA00AF13D3 /* ScannerLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A16742E574FBA00AF13D3 /* ScannerLineView.swift */; };
 		062626252E7588D8009B879B /* ReviewWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626242E7588D8009B879B /* ReviewWriteView.swift */; };
 		062FA78D2F9102C200360FFF /* DefaultToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FA78C2F9102C200360FFF /* DefaultToastView.swift */; };
+		062FA78F2F98E96E00360FFF /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FA78E2F98E96E00360FFF /* NetworkLogger.swift */; };
 		063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */; };
 		063F5D712D9035D0004F4C17 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6E2D9035D0004F4C17 /* CoordinatorProtocol.swift */; };
 		063F5D722D9035D0004F4C17 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6D2D9035D0004F4C17 /* MainCoordinator.swift */; };
@@ -186,6 +187,7 @@
 		061A16742E574FBA00AF13D3 /* ScannerLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerLineView.swift; sourceTree = "<group>"; };
 		062626242E7588D8009B879B /* ReviewWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteView.swift; sourceTree = "<group>"; };
 		062FA78C2F9102C200360FFF /* DefaultToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultToastView.swift; sourceTree = "<group>"; };
+		062FA78E2F98E96E00360FFF /* NetworkLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YeonMyu.entitlements; sourceTree = "<group>"; };
 		063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
@@ -499,6 +501,7 @@
 				06E507C22D7F10CD00F5E7DE /* PerformanceError.swift */,
 				06E507C82D7F10CD00F5E7DE /* DTO */,
 				06E507E72D7F10CD00F5E7DE /* Model */,
+				062FA78E2F98E96E00360FFF /* NetworkLogger.swift */,
 			);
 			path = Kopis;
 			sourceTree = "<group>";
@@ -1128,6 +1131,7 @@
 				06A607B12E48A0220066EC36 /* TicketScannerView.swift in Sources */,
 				06E508122D7F10CD00F5E7DE /* PerformanceError.swift in Sources */,
 				06E508132D7F10CD00F5E7DE /* TabBarView.swift in Sources */,
+				062FA78F2F98E96E00360FFF /* NetworkLogger.swift in Sources */,
 				06E508142D7F10CD00F5E7DE /* Notification.swift in Sources */,
 				06E508152D7F10CD00F5E7DE /* SimplePostModel.swift in Sources */,
 				06E508162D7F10CD00F5E7DE /* FacilityDTO.swift in Sources */,

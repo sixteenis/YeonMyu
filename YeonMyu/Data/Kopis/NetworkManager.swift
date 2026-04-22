@@ -10,6 +10,7 @@ import Foundation
 final class NetworkManager {
     static let shared = NetworkManager()
     
+    private let session = NetworkLogger.session
     private init() {}
     // MARK: - 여러개의 공연 데이터 통신
     func requestPerformance(date: String, genreType: Genre, title: String, page: String) async throws -> [PerformanceDTO] {
@@ -26,14 +27,10 @@ final class NetworkManager {
             
         ]
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
-        print(url.absoluteString)
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
         request.httpMethod = "GET"
-        let (data, response) = try await URLSession.shared.data(for: request)
-        let a = response as? HTTPURLResponse
-        print(a?.statusCode)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw PerformanceError.invalidResponse}
-        
+        let (data, response) = try await session.data(for: request)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
         return XMLPerformanceParser().parse(data: data)
     }
     // MARK: - 여러개의 공연 데이터 통신
@@ -54,12 +51,11 @@ final class NetworkManager {
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
         request.httpMethod = "GET"
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw PerformanceError.invalidResponse}
+        let (data, response) = try await session.data(for: request)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
         return XMLPerformanceParser().parse(data: data)
     }
-    
+
     // MARK: - 여러개의 공연 데이터 통신
     func requestPerformance(date: String,title: String) async throws -> [PerformanceDTO] {
         let urlString = APIKey.performanceURL
@@ -75,9 +71,8 @@ final class NetworkManager {
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
         request.httpMethod = "GET"
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw PerformanceError.invalidResponse}
+        let (data, response) = try await session.data(for: request)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
         return XMLPerformanceParser().parse(data: data)
     }
     // MARK: - 여러개의 공연 데이터 통신 (시작일 + 종료일)
@@ -97,9 +92,8 @@ final class NetworkManager {
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
         request.httpMethod = "GET"
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw PerformanceError.invalidResponse}
+        let (data, response) = try await session.data(for: request)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
         return XMLPerformanceParser().parse(data: data)
     }
 
@@ -115,10 +109,9 @@ final class NetworkManager {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        let (data, response) = try await URLSession.shared.data(for: request)
-
+        let (data, response) = try await session.data(for: request)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
-        guard let resultData = XMLDetailPerformanceParser().parse(data: data) else { throw PerformanceError.invalidData}
+        guard let resultData = XMLDetailPerformanceParser().parse(data: data) else { throw PerformanceError.invalidData }
         
         return resultData
     }
@@ -132,8 +125,7 @@ final class NetworkManager {
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
         return XMLFacilityParser().parse(data: data)
     }
@@ -152,7 +144,7 @@ final class NetworkManager {
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
         return BoxOfficeDTOXMLParser().parse(data: data)
     }
@@ -173,7 +165,7 @@ final class NetworkManager {
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
         return AwadPerformanceXMLParser().parse(data: data)
     }
