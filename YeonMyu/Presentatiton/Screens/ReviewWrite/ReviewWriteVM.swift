@@ -78,18 +78,26 @@ final class ReviewWriteVM: ObservableObject {
 
         isSaving = true
         saveState = .idle
-
+//        let postURL: String
+//        let startDate: String
+//        let endDate: String
+//        let location: String
         let review = ReviewModel(
             reviewid: UUID().uuidString,
             mt20id: postInfo.mt20id,
             postTitle: postInfo.name,
             genreType: Genre.transform(str: postInfo.genrenm),
+            postURL: postInfo.posterURL,
+            startDate: postInfo.startDate,
+            endDate: postInfo.endDate,
+            location: postInfo.location,
             rating: Int(rating),
             selectedPerformanceHighlights: Array(selectedHighlights),
             selectedPerformanceFeelings: Array(selectedFeelings),
             selectedPerformanceEnvironments: Array(selectedEnvironments),
             setting: seatText,
             review: reviewText,
+            reviewType: 0, //티켓 인증 여부 추후 변경해줘야함!! (0: 미인증, 1: 인증)
             createdAt: Date(),
             userID: useCase.userInfo.uid,
             userName: useCase.userInfo.name,
