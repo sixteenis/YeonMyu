@@ -14,27 +14,26 @@ final class PerformanceDataSource {
 // MARK: - 후기
 extension PerformanceDataSource {
     func addReview(_ review: ReviewModel) async throws {
-        try await db.collection("performanceReview").document(review.mt20id).setData([
+        try await db.collection("performanceReview").document(review.mt20id).loggedSetData([
             "reviews": FieldValue.arrayUnion([review.toDictionary()])
         ], merge: true)
     }
     //공연별 리뷰 정보 가져오기
     func fetchReviews(mt20id: String) async throws -> [ReviewModel] {
-        let document = try await db.collection("performanceReview").document(mt20id).getDocument()
+        let document = try await db.collection("performanceReview").document(mt20id).loggedGetDocument()
         guard let data = document.data(),
               let reviews = data["reviews"] as? [[String: Any]] else { return [] }
-
         return reviews.compactMap { ReviewModel(dict: $0) }
     }
 
     func removeReview(mt20id: String, reviewid: String) async throws {
         let performanceRef = db.collection("performanceReview").document(mt20id)
-        let document = try await performanceRef.getDocument()
+        let document = try await performanceRef.loggedGetDocument()
         guard let data = document.data() else { return }
 
         let updated = (data["reviews"] as? [[String: Any]] ?? [])
             .filter { $0["reviewid"] as? String != reviewid }
 
-        try await performanceRef.updateData(["reviews": updated])
+        try await performanceRef.loggedUpdateData(["reviews": updated])
     }
 }

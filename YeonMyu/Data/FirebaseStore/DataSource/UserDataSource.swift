@@ -15,7 +15,7 @@ final class UserDataSource {
 extension UserDataSource {
     //유저정보 조회
     func fetchUser(uid: String) async throws -> UserModel? {
-        let document = try await db.collection("users").document(uid).getDocument()
+        let document = try await db.collection("users").document(uid).loggedGetDocument()
         guard let data = document.data() else { return nil }
 
         let likes = (data["likesPerformance"] as? [[String: Any]] ?? []).map {
@@ -53,11 +53,11 @@ extension UserDataSource {
             "likesPerformance": [],
             "reviews": []
         ]
-        try await db.collection("users").document(uid).setData(data)
+        try await db.collection("users").document(uid).loggedSetData(data)
     }
     // 유저 삭제
     func deleteUser(uid: String) async throws {
-        try await db.collection("users").document(uid).delete()
+        try await db.collection("users").document(uid).loggedDelete()
     }
     // 유저 정보 수정
     func updateUser(uid: String, name: String, introduction: String, area: String, profileID: Int) async throws {
@@ -67,7 +67,7 @@ extension UserDataSource {
             "area": area,
             "profileID": profileID
         ]
-        try await db.collection("users").document(uid).updateData(data)
+        try await db.collection("users").document(uid).loggedUpdateData(data)
     }
 }
 
@@ -75,20 +75,20 @@ extension UserDataSource {
 // MARK: - 후기
 extension UserDataSource {
     func addReview(uid: String, review: ReviewModel) async throws {
-        try await db.collection("users").document(uid).updateData([
+        try await db.collection("users").document(uid).loggedUpdateData([
             "reviews": FieldValue.arrayUnion([review.toDictionary()])
         ])
     }
 
     func removeReview(uid: String, reviewid: String) async throws {
         let userRef = db.collection("users").document(uid)
-        let document = try await userRef.getDocument()
+        let document = try await userRef.loggedGetDocument()
         guard let data = document.data() else { return }
 
         let updated = (data["reviews"] as? [[String: Any]] ?? [])
             .filter { $0["reviewid"] as? String != reviewid }
 
-        try await userRef.updateData(["reviews": updated])
+        try await userRef.loggedUpdateData(["reviews": updated])
     }
 }
 
@@ -97,15 +97,15 @@ extension UserDataSource {
     func updateLike(uid: String, like: LikesPerformanceModel, isLike: Bool) async throws {
         let userRef = db.collection("users").document(uid)
         if isLike {
-            try await userRef.updateData([
+            try await userRef.loggedUpdateData([
                 "likesPerformance": FieldValue.arrayUnion([like.toDictionary()])
             ])
         } else {
-            let document = try await userRef.getDocument()
+            let document = try await userRef.loggedGetDocument()
             guard let data = document.data() else { return }
             let updated = (data["likesPerformance"] as? [[String: Any]] ?? [])
                 .filter { $0["mt20id"] as? String != like.mt20id }
-            try await userRef.updateData(["likesPerformance": updated])
+            try await userRef.loggedUpdateData(["likesPerformance": updated])
         }
     }
 }
