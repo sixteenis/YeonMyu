@@ -392,6 +392,15 @@ private extension PlayDetailView {
 }
 // MARK: - 티켓 부분
 private extension PlayDetailView {
+    // known 판매처를 우선 표시하고, 부족하면 나머지로 최대 4개까지 채움
+    var prioritizedRelates: [RelatedLink] {
+        let knownNames: Set<String> = ["쿠팡", "NHN티켓링크", "네이버N예약", "놀유니버스", "예스24"]
+        let known = postInfo.relates.filter { knownNames.contains($0.relatename) }
+        let unknown = postInfo.relates.filter { !knownNames.contains($0.relatename) }
+        let needed = max(0, 4 - known.count)
+        return known + Array(unknown.prefix(needed))
+    }
+
     func ticketInfoView() -> some View {
         VStack(alignment: .leading, spacing: 15) {
             asText("티켓 정보")
@@ -399,22 +408,22 @@ private extension PlayDetailView {
                 .foregroundStyle(Color.asFont)
                 .padding(.top, 24)
                 .padding(.bottom, 20)
-            
+
             customTicketInfo(header: "티켓금액", info: postInfo.ticketPriceList)
                 .padding(.bottom, 40)
-            
+
             HStack(alignment: .top, spacing: 0) {
                 asText("판매처")
                     .font(.font16)
                     .foregroundStyle(Color.asFont)
                     .frame(width: 100, alignment: .leading)
-                
+
                 VStack(alignment: .leading, spacing: 8) {
-                    ForEach(postInfo.relates) {
+                    ForEach(prioritizedRelates) {
                         TicketPageView(ticketName: $0.relatename, goticketPageURL: $0.relateurl)
                     }
                 }
-                
+
             }.padding(.bottom, 40)
             
             
