@@ -454,20 +454,21 @@ private extension HomeView {
             
             randomHeaderView(main: state.randomPrfs.mainTitle, sub: state.randomPrfs.subTitle)
                 .padding(24)
-            
             randomTableView(state.randomPrfs.simplePlayData)
             
             sectionDivider
             
-            randomHeaderView(main: state.randomPrfs.mainTitle, sub: state.randomPrfs.subTitle)
+            randomHeaderView(main: state.openrunPrfs.mainTitle, sub: state.openrunPrfs.subTitle)
                 .padding(24)
-            randomTableView(state.randomPrfs.simplePlayData)
+            randomTableView(state.openrunPrfs.simplePlayData)
             
             sectionDivider
             
-            randomHeaderView(main: state.randomPrfs.mainTitle, sub: state.randomPrfs.subTitle)
+            randomHeaderView(main: state.top10Prfs.mainTitle, sub: state.top10Prfs.subTitle)
                 .padding(24)
-            randomTableView(state.randomPrfs.simplePlayData)
+            randomTableView(state.top10Prfs.simplePlayData)
+            
+            SourceAndAppInfoView()
             
         }
     }
