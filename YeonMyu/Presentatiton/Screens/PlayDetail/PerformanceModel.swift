@@ -52,7 +52,10 @@ struct DetailPerformance: Hashable, PerformanceDisplayable {
                 range: NSRange(location: 0, length: guidance.utf16.count),
                 withTemplate: ")|"
             )
-        return replaced.components(separatedBy: "|").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        return replaced.components(separatedBy: "|")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines)
+                     .replacingOccurrences(of: ",", with: ", ")
+                     .replacingOccurrences(of: "(", with: " (") }
     }
     var ticketPriceList: [String] {
         let pattern = #"원,\s*"#  // "원" 다음에 쉼표와 공백 제거

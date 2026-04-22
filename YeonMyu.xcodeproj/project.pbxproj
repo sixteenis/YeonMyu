@@ -14,6 +14,7 @@
 		062626252E7588D8009B879B /* ReviewWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626242E7588D8009B879B /* ReviewWriteView.swift */; };
 		062FA78D2F9102C200360FFF /* DefaultToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FA78C2F9102C200360FFF /* DefaultToastView.swift */; };
 		062FA78F2F98E96E00360FFF /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FA78E2F98E96E00360FFF /* NetworkLogger.swift */; };
+		062FA7912F98EDB000360FFF /* FirestoreLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FA7902F98EDB000360FFF /* FirestoreLogger.swift */; };
 		063F5D402D89AE1C004F4C17 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */; };
 		063F5D712D9035D0004F4C17 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6E2D9035D0004F4C17 /* CoordinatorProtocol.swift */; };
 		063F5D722D9035D0004F4C17 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F5D6D2D9035D0004F4C17 /* MainCoordinator.swift */; };
@@ -188,6 +189,7 @@
 		062626242E7588D8009B879B /* ReviewWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteView.swift; sourceTree = "<group>"; };
 		062FA78C2F9102C200360FFF /* DefaultToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultToastView.swift; sourceTree = "<group>"; };
 		062FA78E2F98E96E00360FFF /* NetworkLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
+		062FA7902F98EDB000360FFF /* FirestoreLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLogger.swift; sourceTree = "<group>"; };
 		0631B1742D81CDB600287825 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		063F5D3E2D885F73004F4C17 /* YeonMyu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YeonMyu.entitlements; sourceTree = "<group>"; };
 		063F5D3F2D89AE1C004F4C17 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 			children = (
 				06DEB9B22F83CD6B00E03CD1 /* Model */,
 				06DEB9BA2F8678D100E03CD1 /* DataSource */,
+				062FA7902F98EDB000360FFF /* FirestoreLogger.swift */,
 			);
 			path = FirebaseStore;
 			sourceTree = "<group>";
@@ -1178,6 +1181,7 @@
 				063F5D792D903EBD004F4C17 /* AuthStep2.swift in Sources */,
 				06F4A86C2DD06BB8008B1D29 /* SearchResultVM.swift in Sources */,
 				06E5087A2D7F10D900F5E7DE /* SettingView.swift in Sources */,
+				062FA7912F98EDB000360FFF /* FirestoreLogger.swift in Sources */,
 				06E5087B2D7F10D900F5E7DE /* MainVM.swift in Sources */,
 				0655F9132E25383200A1AAF4 /* InfinitePageView.swift in Sources */,
 				06E5087C2D7F10D900F5E7DE /* ReviewView.swift in Sources */,
