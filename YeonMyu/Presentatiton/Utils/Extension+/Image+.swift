@@ -74,7 +74,15 @@ extension Image {
     static let asCheck = Image("아이콘체크")
     
     static let exPost = Image("testImage")
-    static let exTicket = Image("exTicket")
+    
+    static let ticketProviderDefault = Image("컬러로고")
+    static let ticketProviderCoupang = Image("쿠팡")
+    static let ticketProviderTicketLink = Image("티켓링크")
+    static let ticketProviderNaver = Image("naver")
+    static let ticketProviderNol = Image("nol")
+    static let ticketProviderYes24 = Image("yes24")
+    
+    
     
     static let asLikeHeart = Image("아이콘_찜")
     static let asLikeHeartFill = Image("아이콘_찜_fill")

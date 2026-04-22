@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "NAVER_login_Light_KR_green_icon_H48.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

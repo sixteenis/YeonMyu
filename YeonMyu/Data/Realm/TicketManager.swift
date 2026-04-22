@@ -56,6 +56,13 @@ final class TicketManager {
             }
         }
     }
+    func deleteAll() {
+        try! realm.write {
+            realm.deleteAll()
+        }
+        removeAllFilesInDocumentDirectory()
+    }
+
     func setReviewTicket(_ id: String, rating: Double, review: String) {
         let realmId = try! ObjectId(string: id)
         let ticket = realm.objects(TicketList.self).where {
