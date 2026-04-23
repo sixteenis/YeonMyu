@@ -13,7 +13,9 @@ struct LoadingView: View {
         Rectangle()
             .foregroundStyle(Color.asGray300.opacity(0.2))
             .overlay {
-                Text("로딩중~~~~")
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .scaleEffect(2)
             }
     }
 }
