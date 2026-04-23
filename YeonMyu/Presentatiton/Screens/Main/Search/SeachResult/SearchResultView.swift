@@ -46,8 +46,17 @@ private extension SearchResultView {
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 8)
-            
-            scrollView(vm.output.searchPosts)
+
+            ZStack {
+                scrollView(vm.output.searchPosts)
+                if vm.output.isLoading {
+                    Color.asWhite
+                        .ignoresSafeArea()
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .scaleEffect(1.5)
+                }
+            }
         }
     }
 }
@@ -88,28 +97,37 @@ private extension SearchResultView {
     func searchView() -> some View {
         RoundedRectangle(cornerRadius: 30)
             .fill(Color.asWhite)
-            .stroke(Color.purpleBlueGradient, lineWidth: 1)
-            .frame(width: 265,height: 40) // 외부 프레임 재지정
+            .stroke(Color.purpleBlueGradient, lineWidth: 2)
+            .frame(width: UIScreen.main.bounds.width - 80 - 20, height: 44)
             .overlay(
                 HStack(spacing: 0) {
                     TextField("검색어를 입력해주세요", text: $vm.output.seachText)
-                        .font(.font14)
-                        .foregroundStyle(Color.asGray300)
-                        .padding(.horizontal)
-                        .frame(width: 207, alignment: .leading)
+                        .font(.font16)
+                        .foregroundStyle(Color.asText)
+                        .padding(.horizontal, 16)
+                        .frame(alignment: .leading)
                         .textFieldStyle(PlainTextFieldStyle())
-                    
-                    Image.search
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundStyle(Color.asGray300)
+                        .submitLabel(.search)
+                        .onSubmit {
+                            vm.input.searchSubmit.send()
+                        }
+
+                    if !vm.output.seachText.isEmpty {
+                        Button {
+                            vm.output.seachText = ""
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .resizable()
+                                .frame(width: 21, height: 21)
+                                .foregroundStyle(Color.dynamic(light: "D6D5D8", dark: "BEBEC0"))
+                        }
                         .padding(.leading, 14)
                         .padding(.trailing, 10)
-                        .hTrailing()
-                    
+                    }
+
                 }
             )
-        
+
     }
     //검색 설정 옵션 뷰
     func optionsView() -> some View {
@@ -160,7 +178,7 @@ private extension SearchResultView {
     }
     //순서정렬 뷰
     func menuView() -> some View {
-        Menu(vm.output.searchSortEnum.title) {
+        Menu {
             Button {
                 vm.input.searchTypeTap.send(.nomal)
             } label: {
@@ -181,6 +199,12 @@ private extension SearchResultView {
             } label: {
                 Text("마감일 늦은순")
             }
+        } label: {
+            HStack(spacing: 4) {
+                Text(vm.output.searchSortEnum.title)
+                Image(systemName: "chevron.down")
+            }
+            .foregroundStyle(Color.asGray200)
         }
 
     }

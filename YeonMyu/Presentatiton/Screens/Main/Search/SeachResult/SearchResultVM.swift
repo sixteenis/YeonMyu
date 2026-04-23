@@ -43,10 +43,12 @@ final class SearchResultVM: ViewModeltype {
         
         transform()
         Task {
+            await MainActor.run { self.output.isLoading = true }
             let posts = try await self.fetchSearchPosts(term: searchText, date: selectedDate, cityCode: selectedCity)
             await MainActor.run {
                 self.allSearchPosts = self.removeDuplicatePosts(posts)
                 self.output.searchPosts = filterPostData(allData: self.allSearchPosts, playType: self.output.playCategorys[self.output.playCurrentPage], sortType: self.output.searchSortEnum)
+                self.output.isLoading = false
             }
         }
         bindOutputChanges()
@@ -57,17 +59,19 @@ final class SearchResultVM: ViewModeltype {
         let selectPlayCurrentPage = PassthroughSubject<Int, Never>()
         let tapPost = PassthroughSubject<String, Never>() //포스터 클릭 시
         let searchTypeTap = PassthroughSubject<SearchSortEnum, Never>()
+        let searchSubmit = PassthroughSubject<Void, Never>() //키보드 검색 버튼 탭
     }
     struct Output {
         var seachText: String //검색어
         var selectedDate: Date //날짜
         var selectedCity: CityCode //지역
         var selectedPrice: ClosedRange<Int> = 0...Int.max //가격
-        
+
         var playCategorys = PrfCate.allCases //공연 종류들
         var playCurrentPage = 0 //선택한 공연 index
         var searchSortEnum = SearchSortEnum.nomal //정렬 방식
         var searchPosts: [SimplePostModel] = [] // 공연 검색 정보
+        var isLoading: Bool = false // 로딩 상태
     }
     func transform() {
         input.presentBottomSheet
@@ -111,27 +115,44 @@ final class SearchResultVM: ViewModeltype {
                 guard let self else { return }
                 self.output.searchSortEnum = type
             }.store(in: &cancellables)
-        
+
+        input.searchSubmit
+            .sink { [weak self] in
+                guard let self else { return }
+                let searchText = self.output.seachText
+                let date = self.output.selectedDate
+                let city = self.output.selectedCity
+                Task {
+                    await MainActor.run { self.output.isLoading = true }
+                    let posts = try await self.fetchSearchPosts(term: searchText, date: date, cityCode: city)
+                    await MainActor.run {
+                        self.allSearchPosts = self.removeDuplicatePosts(posts)
+                        self.output.searchPosts = self.filterPostData(allData: self.allSearchPosts, playType: self.output.playCategorys[self.output.playCurrentPage], sortType: self.output.searchSortEnum)
+                        self.output.isLoading = false
+                    }
+                }
+            }.store(in: &cancellables)
+
     }
     private func bindOutputChanges() {
-        //검색어, 날짜, 지역, 가격 변경 시 동작
-        Publishers.CombineLatest4(
-            $output.map(\.seachText).removeDuplicates(),
+        //날짜, 지역, 가격 변경 시 동작 (검색어는 키보드 submit으로만 요청)
+        Publishers.CombineLatest3(
             $output.map(\.selectedDate).removeDuplicates(),
             $output.map(\.selectedCity).removeDuplicates(),
             $output.map(\.selectedPrice).removeDuplicates()
         )
         .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
         .dropFirst(1)
-        .sink { [weak self] (searchText, selectedDate, selectedCity, selectedPrice) in
+        .sink { [weak self] (selectedDate, selectedCity, _) in
             guard let self else { return }
-            do {
-                Task {
-                    let posts = try await self.fetchSearchPosts(term: searchText, date: selectedDate, cityCode: selectedCity)
-                    await MainActor.run {
-                        self.allSearchPosts = self.removeDuplicatePosts(posts)
-                        self.output.searchPosts = self.filterPostData(allData: self.allSearchPosts, playType: self.output.playCategorys[self.output.playCurrentPage], sortType: self.output.searchSortEnum)
-                    }
+            let searchText = self.output.seachText
+            Task {
+                await MainActor.run { self.output.isLoading = true }
+                let posts = try await self.fetchSearchPosts(term: searchText, date: selectedDate, cityCode: selectedCity)
+                await MainActor.run {
+                    self.allSearchPosts = self.removeDuplicatePosts(posts)
+                    self.output.searchPosts = self.filterPostData(allData: self.allSearchPosts, playType: self.output.playCategorys[self.output.playCurrentPage], sortType: self.output.searchSortEnum)
+                    self.output.isLoading = false
                 }
             }
         }.store(in: &cancellables)
