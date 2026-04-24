@@ -571,8 +571,8 @@ private extension PlayDetailView {
                         ))
                 }
             }
-            .padding(.horizontal, isScrolling ? 14 : 18)
-            .padding(.vertical, 14)
+            .padding(.horizontal, isScrolling ? 16 : 20)
+            .padding(.vertical, 16)
             .background(Color.purpleBlueGradient)
             .clipShape(Capsule())
             .shadow(color: .black.opacity(0.25), radius: 8, x: 0, y: 4)

@@ -26,6 +26,7 @@ final class LoginVM: NSObject, ViewModeltype {
     private var currentNonce: String?
     private var uid: String = ""
     private var userUseCase: UserUseCase?
+    private var appleAuthController: ASAuthorizationController?
     
     func configure(userUseCase: UserUseCase) {
         self.userUseCase = userUseCase
@@ -82,6 +83,7 @@ final class LoginVM: NSObject, ViewModeltype {
                 let controller = ASAuthorizationController(authorizationRequests: [request])
                 controller.delegate = self
                 controller.presentationContextProvider = self
+                self.appleAuthController = controller
                 controller.performRequests() // ✅ 여기서 실행되어야 로그인 UI가 뜸
             }.store(in: &cancellables)
         
