@@ -167,7 +167,7 @@ private extension HomeIntent {
         guard let resultAward = data.randomElement() else { return nil }
         //resultAward.awards // 수상 내역
         let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: resultAward.mt20id)
-        let result = MainHeaderPlayModel(mainTitle: "작년 이맘때 관객과\n평단의 찬사를 받은 공연", subTitle: "정확히 1년 전 오늘 수상 기록을 세운 명작", postURL: postData.poster, postID: postData.mt20id)
+        let result = MainHeaderPlayModel(mainTitle: "작년 오늘, 수상작", subTitle: "1년전 오늘 수상 기록을 세운 랜덤 명작", postURL: postData.poster, postID: postData.mt20id)
         return result
     }
     //사용자 지정 지역의 실시간 1위 판매 공연

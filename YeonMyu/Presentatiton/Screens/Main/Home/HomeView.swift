@@ -151,7 +151,7 @@ private extension HomeView {
 //                                .frame(height: 120)
 //                                .padding(.horizontal, 22)
                                 .padding(.vertical, 6)
-                                .padding(.bottom, 48)
+                                .padding(.bottom, 24)
                         }
                     } //:VSTACK
                     Section(header: GeometryReader { geometry in
@@ -563,7 +563,8 @@ private extension HomeView {
         LazyVStack {
             ForEach(data, id: \.id) { post in
                 VerticalPerformanceView(post: post)
-                    .padding([.leading, .bottom], 24)
+                    .padding(.leading, 24)
+                    .padding(.bottom, 8)
                     .wrapToButton {
                         intent.postTapped(id: post.mt20id)
                     }
