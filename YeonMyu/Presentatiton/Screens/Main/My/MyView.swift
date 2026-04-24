@@ -146,7 +146,7 @@ private extension MyView {
                 Text("한줄소개")
                     .font(.caption)
                     .foregroundColor(.white.opacity(0.7))
-                Text(userUseCase.userInfo.introduction)
+                Text(userUseCase.userInfo.introduction.isEmpty ? "소개글이 없습니다." : userUseCase.userInfo.introduction)
                     .font(.body)
                     .foregroundColor(.white)
                     .lineLimit(3)
