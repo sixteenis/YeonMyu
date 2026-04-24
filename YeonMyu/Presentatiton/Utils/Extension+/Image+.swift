@@ -34,6 +34,8 @@ extension Image {
     static let asRoundStar = Image("둥근별")
     static let asFillRoundStar = Image("채워진둥근별")
     
+    static let asEmpty = Image("에러이미지")
+    
     //로고
     static let logo = Image("logo")
     static let logoTitle = Image("logo+Title")
