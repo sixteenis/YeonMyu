@@ -446,9 +446,13 @@ private extension HomeView {
                 .hLeading()
                 .padding(24)
                 .padding(.top, 36)
-            
-            recommendCollectionView(state.areaTopPrf)
-                .padding(.bottom, 20)
+            if (state.areaTopPrf.isEmpty) {
+                PostEmptyView(infoText: "선택한 지역에 상영 중인 공연이 없습니다.")
+                    .padding(.bottom, 20)
+            } else {
+                recommendCollectionView(state.areaTopPrf)
+                    .padding(.bottom, 20)
+            }
             
             sectionDivider
             
