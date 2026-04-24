@@ -247,6 +247,14 @@ private extension ProfileSetting {
                     }))
                     return
                 }
+                
+                if introduction.isEmpty {
+                    coordinator.presentAlert(.validation(title: "한줄소개를 입력해 주세요.", action: {
+                        print("검증 실패")
+                    }))
+                    return
+                }
+                
                 var user = userUseCase.userInfo
                 user.profileID = selectedProfileIndex
                 user.name = nickname

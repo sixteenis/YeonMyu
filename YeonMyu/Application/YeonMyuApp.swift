@@ -16,7 +16,7 @@ import KakaoSDKAuth
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        LocalNotificationManager().requestPermission()
+//        LocalNotificationManager().requestPermission() 알림 현재 없음, 추후 알림 추가시 권한 요청 주석 해제 필요
         FirebaseApp.configure()
         
         return true
