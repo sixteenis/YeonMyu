@@ -48,7 +48,7 @@ extension UserDataSource {
             "name": name,
             "area": area,
             "createdAt": Timestamp(),
-            "profileID": 0,
+            "profileID":7,
             "introduction" : "",
             "likesPerformance": [],
             "reviews": []
