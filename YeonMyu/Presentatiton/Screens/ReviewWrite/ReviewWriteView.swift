@@ -48,10 +48,10 @@ struct ReviewWriteView: View {
                 switch newValue {
                 case .success:
                     coordinator.presentAlert(.saveReviewSuccess(action: {
-                        coordinator.showToast(.reviewMove(action: {
-                                coordinator.pushAndReset(.tab)
-                                coordinator.changeTab(tab: .my)
-                            }))
+//                        coordinator.showToast(.reviewMove(action: {
+//                                coordinator.pushAndReset(.tab)
+//                                coordinator.changeTab(tab: .my)
+//                            }))
                         dismiss()
                     }))
                 case .failure:

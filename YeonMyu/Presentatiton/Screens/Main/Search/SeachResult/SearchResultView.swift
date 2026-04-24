@@ -40,7 +40,9 @@ private extension SearchResultView {
                 .padding(.horizontal, 22)
                 .hLeading()
             HStack {
-                Text(vm.output.searchPosts.count.formatted() + "건")
+                if !vm.output.isLoading {
+                    Text(vm.output.searchPosts.count.formatted() + "건")
+                }
                 Spacer()
                 menuView()
             }
