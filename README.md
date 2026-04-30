@@ -55,7 +55,6 @@
 - `URLSession` + `Swift Concurrency` + `XML Parser`  
 - `Firebase Firestore` / `Firebase Crashlytics`  
 - `RealmSwift` / `UserDefault`  
-- `Kingfisher`
 
 <br>
 
