@@ -14,9 +14,10 @@ struct TicketScannerView : View
 {
     let cameraService = CameraService()
     @Binding var capturedImage : UIImage?
-    
+
     @Environment(\.presentationMode) private var presentationMode
     let openAI = ChatGPTAPI(apiKey: APIKey.openAIKey)
+    private let performanceDS = PerformanceDataSource()
     
     var body: some View{
         ZStack{
@@ -50,7 +51,7 @@ struct TicketScannerView : View
                                 Task {
                                     do {
                                         let scanModel = try await sendGPTAI(texts: ocrStr)
-                                        let scanRequest = try await NetworkManager.shared.requestPerformance(date: scanModel.date, title: scanModel.name)
+                                        let scanRequest = try await performanceDS.fetchPerformances(startDate: scanModel.date, title: scanModel.name)
                                         for i in scanRequest {
                                             print(i)
                                         }

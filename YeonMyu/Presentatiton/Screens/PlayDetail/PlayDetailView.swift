@@ -66,8 +66,8 @@ extension PlayDetailView {
         }
         .task {
             do {
-                let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: postID).transformDetailModel()
-                let placeData = try await NetworkManager.shared.requestFacility(facilityId: postData.placeId).transformPlaceModel()
+                let postData = try await perfUseCase.fetchDetailPerformance(id: postID)
+                let placeData = try await perfUseCase.fetchFacility(id: postData.placeId)
                 let reviewData = try await perfUseCase.getReviewData(postID)
                 print(postData.placeId)
                 print("-------")

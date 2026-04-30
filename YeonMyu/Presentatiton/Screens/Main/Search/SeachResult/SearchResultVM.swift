@@ -32,7 +32,8 @@ final class SearchResultVM: ViewModeltype {
     @Published var output: Output
     var coordinator: MainCoordinator?
     var allSearchPosts: [SimplePostModel] = []
-    
+    private let performanceDS = PerformanceDataSource()
+
     init(searchText: String, selectedDate: Date, selectedCity: CityCode) {
         self.cancellables = Set<AnyCancellable>()
         self.output = Output(
@@ -205,23 +206,20 @@ private extension SearchResultVM {
         try await withThrowingTaskGroup(of: [SimplePostModel].self) { group in
             for cate in PrfCate.all.code {
                 group.addTask {
-                    let result = try await NetworkManager.shared.requestPerformance(
+                    let result = try await self.performanceDS.fetchPerformances(
                         startDate: date.asTrasnFormyyyyMMdd(),
                         cateCode: cate,
                         area: cityCode.code,
                         title: term,
-                        page: nil,
                         maxOnePage: "100"
                     )
                     return result.map { $0.transformSimplePostModel() }
                 }
             }
-            
             for try await result in group {
                 data.append(contentsOf: result)
             }
         }
-        
         return data
     }
     //검색 결과 날짜 미선택 시
@@ -229,45 +227,37 @@ private extension SearchResultVM {
         var data: [SimplePostModel] = []
         let min = -150
         let max = 60
-        
+
         try await withThrowingTaskGroup(of: [SimplePostModel].self) { outerGroup in
             for cate in PrfCate.all.code {
                 outerGroup.addTask {
                     var localData: [SimplePostModel] = []
-                    
                     try await withThrowingTaskGroup(of: [SimplePostModel].self) { innerGroup in
                         for i in stride(from: min, to: max, by: 30) {
                             innerGroup.addTask {
-                                let result = try await NetworkManager.shared.requestPerformance(
-                                    stdate: String.getDateRelativeToToday(daysOffset: i),
-                                    eddate: String.getDateRelativeToToday(daysOffset: i + 30),
+                                let result = try await self.performanceDS.fetchPerformances(
+                                    startDate: String.getDateRelativeToToday(daysOffset: i),
+                                    endDate: String.getDateRelativeToToday(daysOffset: i + 30),
                                     cateCode: cate,
                                     area: cityCode.code,
                                     title: term,
-                                    page: nil,
-                                    openrun: nil,
-                                    prfstate: nil,
                                     maxOnePage: "15"
                                 )
                                 print("[\(cate)] \(String.getDateRelativeToToday(daysOffset: i)) ~ \(String.getDateRelativeToToday(daysOffset: i + 30))")
                                 return result.map { $0.transformSimplePostModel() }
                             }
                         }
-                        
                         for try await result in innerGroup {
                             localData.append(contentsOf: result)
                         }
                     }
-                    
                     return localData
                 }
             }
-            
             for try await result in outerGroup {
                 data.append(contentsOf: result)
             }
         }
-        
         return data
     }
     //중복 포스터 제거

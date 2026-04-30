@@ -19,6 +19,7 @@ final class StorageVM: ViewModeltype {
     var input = Input()
     @Published var output = Output()
     private let realm: Realm
+    private let performanceDS = PerformanceDataSource()
     var coordinator: MainCoordinator?
         
     init(selected: StorageType) {
@@ -66,7 +67,7 @@ final class StorageVM: ViewModeltype {
     func getUserAreaPlayList(area: CityCode, PrfCate: PrfCate, page: Int?) async throws -> [SimplePostModel] {
         var data: [SimplePostModel] = []
         for cate in PrfCate.code {
-            let result = try await NetworkManager.shared.requestPerformance(startDate: String.getDateRelativeToToday(daysOffset: 0), cateCode: cate, area: area.code, title: "", page: page)
+            let result = try await performanceDS.fetchPerformances(startDate: String.getDateRelativeToToday(daysOffset: 0), cateCode: cate, area: area.code, page: page ?? 1)
             data.append(contentsOf: result.map{$0.transformSimplePostModel()})
         }
         data.shuffle()

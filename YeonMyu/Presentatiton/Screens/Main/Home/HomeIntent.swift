@@ -21,6 +21,7 @@ protocol HomeIntentProtocol {
 final class HomeIntent {
     private weak var state: HomeStateActionProtocol?
     private var userCity: CityCode = .all
+    private let perfUseCase = PerformanceUseCase()
     init(state: HomeStateActionProtocol?) {
         self.state = state
     }
@@ -112,128 +113,42 @@ extension HomeIntent: HomeIntentProtocol {
 // MARK: - 랜덤 포스터 조회 부분
 private extension HomeIntent {
     func getHeaderPostData() async throws -> [MainHeaderPlayModel] {
-        var randomData = [nowOpenPrf, getNowYearAwardPrf, getLastYearAwardPrf, getTop1WithArea]
-        
-        //추가 랜덤 데이터 넣어주슈!
-        
-        randomData.shuffle() //랜덤 뽑기 진행
-        while randomData.count < 4 { //데이터가 3개가 될때까지 삭제 진행
-            randomData.removeLast()
-        }
-        
-        let resultArray = await withTaskGroup(of: MainHeaderPlayModel?.self) { group in //병렬로 비동기 처리 진행
-            var postData: [MainHeaderPlayModel?] = []
-            
-            for request in randomData { //비동기 처리 진행
-                group.addTask {
-                    let data = try? await request()
-                    return data
-                }
+        let randomData: [() async throws -> MainHeaderPlayModel?] = [
+            perfUseCase.fetchNowOpenPrf,
+            perfUseCase.fetchNowYearAwardPrf,
+            perfUseCase.fetchLastYearAwardPrf,
+            { try await self.perfUseCase.fetchTop1HeaderPost(city: self.userCity) }
+        ]
+
+        let resultArray = await withTaskGroup(of: MainHeaderPlayModel?.self) { group in
+            for request in randomData {
+                group.addTask { try? await request() }
             }
-            
-            for await data in group { //완료된 비동기 처리 담기
-                if let data {
-                    postData.append(data)
-                }
+            var postData: [MainHeaderPlayModel] = []
+            for await data in group {
+                if let data { postData.append(data) }
             }
             return postData
         }
-        return resultArray.compactMap { $0 }
+        return resultArray.shuffled()
     }
-    
-    //곧 상영 예정인 공연
-    func nowOpenPrf() async throws ->  MainHeaderPlayModel? {
-        let date = String.getDateRelativeToToday(daysOffset: 2)
-        let ddate = String.getDateRelativeToToday(daysOffset: 14)
-        let data = try await NetworkManager.shared.requestPerformance(startDate: date, endDate: ddate, cateCode: "", area: "", title: "", page: nil, openrun: false)
-        guard let post = data.randomElement() else { return nil}
-        let result = MainHeaderPlayModel(mainTitle: "이번 주 주목할 신작", subTitle: "곧 막이 오릅니다", postURL: post.poster, postID: post.mt20id)
-        return result
-    }
-    //현재 날짜 기준 상받은 공연
-    func getNowYearAwardPrf() async throws ->  MainHeaderPlayModel? {
-        let nowDate = String.getDateRelativeToToday(daysOffset: 0)
-        let beforDate = String.getDateRelativeToToday(daysOffset: -90)
-        let data = try await NetworkManager.shared.requestAwad(startDate: beforDate, endDate: nowDate, cateCode: nil, area: nil, page: nil)
-        guard let resultAward = data.randomElement() else { return nil }
-        //resultAward.awards // 수상 내역
-        let result = MainHeaderPlayModel(mainTitle: "지금 가장 빛나는 공연", subTitle: "최근 수상의 영예를 안은 공연", postURL: resultAward.poster, postID: resultAward.mt20id)
-        return result
-    }
-    //현재 날짜 기준 작년 상받은 공연 정보
-    func getLastYearAwardPrf() async throws ->  MainHeaderPlayModel? {
-        let lastDate = String.getLastYearDatesToyyyyMMdd()
-        let data = try await NetworkManager.shared.requestAwad(startDate: lastDate, endDate: lastDate, cateCode: nil, area: nil, page: nil)
-        guard let resultAward = data.randomElement() else { return nil }
-        //resultAward.awards // 수상 내역
-        let postData = try await NetworkManager.shared.requestDetailPerformance(performanceId: resultAward.mt20id)
-        let result = MainHeaderPlayModel(mainTitle: "작년 오늘, 수상작", subTitle: "1년전 오늘 수상 기록을 세운 랜덤 명작", postURL: postData.poster, postID: postData.mt20id)
-        return result
-    }
-    //사용자 지정 지역의 실시간 1위 판매 공연
-    func getTop1WithArea() async throws -> MainHeaderPlayModel? {
-        let date = String.getDateRelativeToToday(daysOffset: -30)
-        let ddate = String.getDateRelativeToToday(daysOffset: 0)
-        let data = try await NetworkManager.shared.requestBoxOffice(startDate: date, endDate: ddate, cateCode: "AAAA", area: userCity.code)
-        guard let post = data.randomElement() else { return nil }
-        let result = MainHeaderPlayModel(mainTitle: "가장 많이 판매된 공연", subTitle: "\(userCity.rawValue) 실시간 1위", postURL: post.poster, postID: post.mt20id)
-        return result
-    }
-    
 }
 // MARK: - 지역별 랜덤 공연 정보 부분
 private extension HomeIntent {
-    //지역별 공연 조회
     func getUserAreaPlayList(area: CityCode, PrfCate: PrfCate, page: Int?) async throws -> [SimplePostModel] {
-        var data: [SimplePostModel] = []
-        for cate in PrfCate.code {
-            let result = try await NetworkManager.shared.requestPerformance(startDate: String.getDateRelativeToToday(daysOffset: 0), cateCode: cate, area: area.code, title: "", page: page)
-            data.append(contentsOf: result.map{$0.transformSimplePostModel()})
-        }
-        data.shuffle()
-        return data.filter { $0.getPostString() != "" }
+        try await perfUseCase.fetchUserAreaPlayList(area: area, prfCate: PrfCate, page: page ?? 1)
     }
-    
-    //최종 랜덤 포스터 데이터
-    func getSimpleRandomPostData() async throws -> RandomSimplePlayModel? {
-        let randomFunctions: [() async throws -> RandomSimplePlayModel?] = [nowOpenPrfs]
-        
-        guard let randomFunction = randomFunctions.randomElement() else {
-            return nil
-        }
-        
-        return try await randomFunction()
+
+    func nowOpenPrfs() async throws -> RandomSimplePlayModel? {
+        try await perfUseCase.fetchNowOpenPrfs()
     }
-    
-    
-    
-    //곧 상영 예정인 공연
-    func nowOpenPrfs() async throws ->  RandomSimplePlayModel? {
-        let date = String.getDateRelativeToToday(daysOffset: 2)
-        let ddate = String.getDateRelativeToToday(daysOffset: 14)
-        let data = try await NetworkManager.shared.requestPerformance(startDate: date, endDate: ddate, cateCode: "", area: "", title: "", page: nil, openrun: false)
-        let result = RandomSimplePlayModel(mainTitle: "곧 상영 예정인 공연", subTitle: "막이 오르기 전 미리 확인해보세요.", simplePlayData: Array(data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" }.prefix(4)))
-        return result
+
+    func openrunPrfs() async throws -> RandomSimplePlayModel? {
+        try await perfUseCase.fetchOpenrunPrfs()
     }
-    
-    //오픈런 공연
-    func openrunPrfs() async throws ->  RandomSimplePlayModel? {
-        let date = String.getDateRelativeToToday(daysOffset: 0)
-        let data = try await NetworkManager.shared.requestPerformance(startDate: date, cateCode: "", area: "", title: "", page: nil, openrun: true)
-        let result = RandomSimplePlayModel(mainTitle: "스테디셀러 오픈런 공연", subTitle: "검증된 명작", simplePlayData: Array(data.map{ $0.transformSimplePostModel() }.filter { $0.getPostString() != "" }.prefix(4)))
-        return result
-    }
-    
-    //사용자 지정 지역의 실시간 인기 순위
+
     func getTop10WithArea() async throws -> RandomSimplePlayModel? {
-        let date = String.getDateRelativeToToday(daysOffset: -30)
-        let ddate = String.getDateRelativeToToday(daysOffset: 0)
-        let areaCode = userCity.code
-        let data = try await NetworkManager.shared.requestBoxOffice(startDate: date, endDate: ddate, cateCode: "AAAA", area: areaCode) //area 수정해주기
-        print(data)
-        let result = RandomSimplePlayModel(mainTitle: "\(userCity.rawValue) 인기 공연", subTitle: "\(userCity.rawValue)에서 가장 핫한 공연을 확인해보세요.", simplePlayData: Array(data.map { $0.transformSimplePostModel() }.prefix(4)))
-        return result
+        try await perfUseCase.fetchTop10WithArea(city: userCity)
     }
-    
 }
 

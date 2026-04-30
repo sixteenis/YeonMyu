@@ -13,82 +13,29 @@ final class NetworkManager {
     private let session = NetworkLogger.session
     private init() {}
     // MARK: - 여러개의 공연 데이터 통신
-    func requestPerformance(date: String, genreType: Genre, title: String, page: String) async throws -> [PerformanceDTO] {
-        let urlString = APIKey.performanceURL
-        var urlComponents = URLComponents(string: urlString)
-        urlComponents?.queryItems = [
-            URLQueryItem(name: "service", value: APIKey.key),
-            URLQueryItem(name: "stdate", value: date),
-            URLQueryItem(name: "eddate", value: date),
-            URLQueryItem(name: "cpage", value: page),
-            URLQueryItem(name: "rows", value: "10"),
-            URLQueryItem(name: "shcate", value: genreType.codeString),
-            URLQueryItem(name: "shprfnm", value: title),
-            
-        ]
-        guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
-        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
-        request.httpMethod = "GET"
-        let (data, response) = try await session.data(for: request)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
-        return XMLPerformanceParser().parse(data: data)
-    }
-    // MARK: - 여러개의 공연 데이터 통신
-    func requestPerformance(startDate: String, endDate: String = "", cateCode: String, area: String?,title: String, page: Int?, openrun: Bool = false, prfstate: String? = nil, maxOnePage: String = "10") async throws -> [PerformanceDTO] {
-        let urlString = APIKey.performanceURL
-        var urlComponents = URLComponents(string: urlString)
-        urlComponents?.queryItems = [
+    func requestPerformance(
+        startDate: String,
+        endDate: String? = nil,
+        cateCode: String = "",
+        area: String? = nil,
+        title: String = "",
+        page: Int = 1,
+        openrun: Bool = false,
+        maxOnePage: String = "10"
+    ) async throws -> [PerformanceDTO] {
+        var urlComponents = URLComponents(string: APIKey.performanceURL)
+        var queryItems: [URLQueryItem] = [
             URLQueryItem(name: "service", value: APIKey.key),
             URLQueryItem(name: "stdate", value: startDate),
-            URLQueryItem(name: "eddate", value: endDate.isEmpty ? startDate : endDate),
-            URLQueryItem(name: "cpage", value: String(page ?? 1)),
-            URLQueryItem(name: "rows", value: maxOnePage), //페이지당 목록 수
+            URLQueryItem(name: "eddate", value: endDate ?? startDate),
+            URLQueryItem(name: "cpage", value: String(page)),
+            URLQueryItem(name: "rows", value: maxOnePage),
             URLQueryItem(name: "shcate", value: cateCode),
             URLQueryItem(name: "shprfnm", value: title),
-            URLQueryItem(name: "signgucode", value: area),
             URLQueryItem(name: "openrun", value: openrun ? "Y" : "N"),
         ]
-        guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
-        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
-        request.httpMethod = "GET"
-        let (data, response) = try await session.data(for: request)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
-        return XMLPerformanceParser().parse(data: data)
-    }
-
-    // MARK: - 여러개의 공연 데이터 통신
-    func requestPerformance(date: String,title: String) async throws -> [PerformanceDTO] {
-        let urlString = APIKey.performanceURL
-        var urlComponents = URLComponents(string: urlString)
-        urlComponents?.queryItems = [
-            URLQueryItem(name: "service", value: APIKey.key),
-            URLQueryItem(name: "stdate", value: date),
-            URLQueryItem(name: "eddate", value: date),
-            URLQueryItem(name: "cpage", value: "1"),
-            URLQueryItem(name: "rows", value: "10"), //페이지당 목록 수
-            URLQueryItem(name: "shprfnm", value: title),
-        ]
-        guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
-        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
-        request.httpMethod = "GET"
-        let (data, response) = try await session.data(for: request)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { throw PerformanceError.invalidResponse }
-        return XMLPerformanceParser().parse(data: data)
-    }
-    // MARK: - 여러개의 공연 데이터 통신 (시작일 + 종료일)
-    func requestPerformance(stdate: String, eddate: String, cateCode: String, area: String?,title: String, page: Int?, openrun: String?, prfstate: String?, maxOnePage: String = "10") async throws -> [PerformanceDTO] {
-        let urlString = APIKey.performanceURL
-        var urlComponents = URLComponents(string: urlString)
-        urlComponents?.queryItems = [
-            URLQueryItem(name: "service", value: APIKey.key),
-            URLQueryItem(name: "stdate", value: stdate),
-            URLQueryItem(name: "eddate", value: eddate),
-            URLQueryItem(name: "cpage", value: String(page ?? 1)),
-            URLQueryItem(name: "rows", value: maxOnePage), //페이지당 목록 수
-            URLQueryItem(name: "shcate", value: cateCode),
-            URLQueryItem(name: "shprfnm", value: title),
-            URLQueryItem(name: "signgucode", value: area),
-        ]
+        if let area { queryItems.append(URLQueryItem(name: "signgucode", value: area)) }
+        urlComponents?.queryItems = queryItems
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5)
         request.httpMethod = "GET"

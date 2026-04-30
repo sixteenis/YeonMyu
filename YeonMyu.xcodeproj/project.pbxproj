@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0605D8882E48AB4600BBF5E7 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */; };
 		0605D88A2E48BB3F00BBF5E7 /* TicketScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */; };
+		060EA6422FA3932700F39A68 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 060EA6412FA3932700F39A68 /* GoogleService-Info.plist */; };
 		061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */; };
 		061A16752E574FBA00AF13D3 /* ScannerLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A16742E574FBA00AF13D3 /* ScannerLineView.swift */; };
 		062626252E7588D8009B879B /* ReviewWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626242E7588D8009B879B /* ReviewWriteView.swift */; };
@@ -167,7 +168,6 @@
 		939C604D2F8CCB4D00ECDF00 /* AppDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939C604C2F8CCB4D00ECDF00 /* AppDataSource.swift */; };
 		939EC79B2F88965900E22955 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939EC79A2F88965900E22955 /* ProfileImageView.swift */; };
 		939EC7A02F88EDFC00E22955 /* BottomDragSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939EC79F2F88EDFC00E22955 /* BottomDragSheet.swift */; };
-		93D7E0C52F87435D004EE103 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93D7E0C42F87435D004EE103 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -186,6 +186,7 @@
 
 /* Begin PBXFileReference section */
 		0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScanResult.swift; sourceTree = "<group>"; };
+		060EA6412FA3932700F39A68 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTagView.swift; sourceTree = "<group>"; };
 		061A16742E574FBA00AF13D3 /* ScannerLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerLineView.swift; sourceTree = "<group>"; };
 		062626242E7588D8009B879B /* ReviewWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteView.swift; sourceTree = "<group>"; };
@@ -331,7 +332,6 @@
 		939C604C2F8CCB4D00ECDF00 /* AppDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataSource.swift; sourceTree = "<group>"; };
 		939EC79A2F88965900E22955 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		939EC79F2F88EDFC00E22955 /* BottomDragSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomDragSheet.swift; sourceTree = "<group>"; };
-		93D7E0C42F87435D004EE103 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		93D7E0C62F874374004EE103 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -485,7 +485,7 @@
 				06E508062D7F10CD00F5E7DE /* Presentatiton */,
 				06CD381F2D7DD0EB00959852 /* Preview Content */,
 				06CD38202D7DD0EB00959852 /* Assets.xcassets */,
-				93D7E0C42F87435D004EE103 /* GoogleService-Info.plist */,
+				060EA6412FA3932700F39A68 /* GoogleService-Info.plist */,
 				066C1CB22D7F172C00C44567 /* Info.plist */,
 			);
 			path = YeonMyu;
@@ -1100,8 +1100,8 @@
 				06E5083B2D7F10CD00F5E7DE /* Pretendard-Regular.otf in Resources */,
 				06E5083C2D7F10CD00F5E7DE /* SANGJU Dajungdagam.otf in Resources */,
 				06CD38242D7DD0EB00959852 /* Assets.xcassets in Resources */,
+				060EA6422FA3932700F39A68 /* GoogleService-Info.plist in Resources */,
 				06DEB9C62F87C39A00E03CD1 /* Config.xcconfig in Resources */,
-				93D7E0C52F87435D004EE103 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

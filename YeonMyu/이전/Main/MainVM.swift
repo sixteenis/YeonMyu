@@ -132,7 +132,7 @@ private extension MainVM {
         let dateString = dateFormatter.string(from: output.setDate)
         
         do {
-            let data = try await NetworkManager.shared.requestPerformance(date: dateString, genreType: output.showType, title: output.searchText, page: String(page)).map {$0.transformperformanceModel()}
+            let data = try await NetworkManager.shared.requestPerformance(startDate: dateString, cateCode: output.showType.codeString, title: output.searchText, page: page).map {$0.transformperformanceModel()}
             DispatchQueue.main.async {
                 self.page += 1
                 if data.isEmpty {
@@ -158,7 +158,7 @@ private extension MainVM {
         }
         do {
             // MARK: - page 변경해서 페이지네이션 기능 구현해줘야됨!
-            let data = try await NetworkManager.shared.requestPerformance(date: dateString, genreType: output.showType, title: output.searchText, page: "1").map {$0.transformperformanceModel()}
+            let data = try await NetworkManager.shared.requestPerformance(startDate: dateString, cateCode: output.showType.codeString, title: output.searchText, page: 1).map {$0.transformperformanceModel()}
             DispatchQueue.main.async {
                 self.page = 2
                 self.isPageCan = true
