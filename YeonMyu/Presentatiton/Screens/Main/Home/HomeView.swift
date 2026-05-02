@@ -9,102 +9,44 @@ import SwiftUI
 import SwiftUIPullToRefresh
 
 struct HomeView: View {
-    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    @EnvironmentObject var coordinator: MainCoordinator   // Coordinator 주입
     @Environment(UserUseCase.self) private var userUseCase
-    @StateObject var container: Container<HomeIntentProtocol, HomeStateProtocol>
-    private var intent: HomeIntentProtocol { container.intent }
-    private var state: HomeStateProtocol { container.state }
-    
-    @State private var currentIndex: Int = 0 //상단 페이지 값
-    
-    //@StateObject private var vm = HomeVM()
-    @State private var isToolbarHidden = true // 탭바 숨김 유무
-    @State private var isAreSelectedPresented = false //지역 선택 바텀시트 토글
-    
-    private let colors: [Color] = [.white, .blue, .green]
-    @State private var segmentedPage: Int = 0
-    @State private var stickyOffset: CGFloat = 0
-    
-    
-    @State private var goSearchView = false
-    
-    @State var arePosition = ScrollPosition(edge: .leading) //지역 스크롤 상단
-    
-    @State var recentReview = [ReviewModel]()
-}
-// MARK: - 빌드 부분
-extension HomeView {
-    static func build() -> some View {
-        let state = HomeState()
-        let intent = HomeIntent(state: state)
-        
-        let container = Container(
-            intent: intent as HomeIntentProtocol,
-            state: state as HomeStateProtocol,
-            modelChangePublisher: state.objectWillChange
-        )
-        let view = HomeView(container: container)
-        return view
-    }
+    @StateObject private var vm = HomeVM()                // MVVM ViewModel
+
+    // MARK: - 순수 UI 상태
+    @State private var currentIndex: Int = 0             // 상단 캐러셀 현재 페이지
+    @State private var isToolbarHidden = true            // 투명 네비게이션 표시 여부
+    @State private var stickyOffset: CGFloat = 0         // 스티키 헤더 오프셋
+    @State var arePosition = ScrollPosition(edge: .leading) // 지역 추천 스크롤 위치
 }
 
-// MARK: - 화면 상태 변환
+// MARK: - 화면 상태 전환
 extension HomeView {
     @ViewBuilder
     var body: some View {
-        //        NavigationStack {
-        //지역 선택 바텀 시트
         ZStack {
             content()
-            switch state.contentState {
+            // 뷰 로딩 상태에 따른 오버레이
+            switch vm.output.contentState {
             case .initView:
                 InitView()
                     .ignoresSafeArea(.all)
                     .toolbar(.hidden, for: .tabBar)
             case .loading:
                 LoadingView()
-            case .error:
-                EmptyView()
             default:
                 EmptyView()
             }
-            //            }
-            //            .ignoresSafeArea(edges: state.contentState == .initView ? .all : .top)
-            //            .toolbar(.hidden, for: .navigationBar)
-            //            .toolbar(state.contentState == .initView ? .hidden : .automatic, for: .tabBar, .bottomBar)
-        } //:VSTACK
+        }
         .onAppear {
-            intent.configureUserInfo(name: userUseCase.userInfo.name, city: userUseCase.userInfo.getCityCode())
-            Task {
-                let recentReivew = try await PerformanceUseCase().getRecentReviewList()
-                self.recentReview = recentReivew
-            }
-            if state.contentState != .content { intent.onAppear(city: state.selectedCity, prfCate: state.selectedPrfCate) }
+            // Coordinator 주입 및 초기 유저 정보 전달
+            vm.coordinator = coordinator
+            vm.input.onAppear.send((userUseCase.userInfo.name, userUseCase.userInfo.getCityCode()))
         }
-        .onChange(of: state.selectedPost) { _, newValue in // 공연 상세뷰로 이동
-            guard let id = newValue else { return }
-            intent.postTapped(id: nil)
-            coordinator.push(.playDetail(mt20id: id))
+        .onChange(of: vm.output.headerPostsTmp) { _, _ in
+            // 무한 캐러셀 구현을 위해 데이터 로드 후 중간 인덱스로 초기화
+            currentIndex = vm.output.headerPostsTmp.count / 2
         }
-        .onChange(of: state.selectedUserInfo) { oldValue, newValue in // 사용자 정보 뷰로 이동
-            guard let newValue else { return }
-            intent.userInfoTapped(info: nil)
-            coordinator.selectedTab = .storage
-        }
-        .onChange(of: goSearchView) { oldValue, newValue in // 검색 뷰 이동
-            coordinator.push(.search)
-        }
-        .onChange(of: isAreSelectedPresented) { oldValue, newValue in
-            if !newValue { return }
-            coordinator.presentSheet(.citySelect(binding: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}), onDismiss: {
-                isAreSelectedPresented = false
-            }))
-        }
-        .onChange(of: state.headerPostsTmp) { _ , _ in
-            // 야매 무한 페이지 캐러셀를 위해 필요...
-            currentIndex = state.headerPostsTmp.count / 2
-        }
-        
     }
 }
 
@@ -114,71 +56,68 @@ private extension HomeView {
         ZStack {
             mainContent()
                 .vTop()
+            // 스크롤 시 불투명 네비게이션 뷰 표시
             if !isToolbarHidden {
                 navView(false)
                     .vTop()
             }
         }
-        
-        //        .sheet(isPresented: $isAreSelectedPresented) {
-        //            CitySelectBottomSheetView(selectedCity: state.selectedCity, compltionCity: Binding(get: {state.selectedCity}, set: {intent.areaTapped(area: $0, prfCate: state.selectedPrfCate)}))
-        //                .presentationDragIndicator(.visible)
-        //                .presentationDetents([.fraction(0.45)]) //바텀시트 크기
-        //        }
     }
+
     func mainContent() -> some View {
         RefreshableScrollView(onRefresh: { done in
-            intent.refreshAll() //새로고침
-            UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //햅틱 피드백
+            vm.input.refresh.send() // 새로고침
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred() // 햅틱 피드백
             done()
         }) {
             ZStack {
                 LazyVStack(pinnedViews: [.sectionHeaders]) {
                     VStack {
-                        
-                        if state.headerPosts.isEmpty { EmptyView()}
-                        else {
+                        // 상단 캐러셀 (데이터가 있는 경우에만 표시)
+                        if !vm.output.headerPosts.isEmpty {
                             topCarouselView()
                                 .frame(height: 500)
                         }
-                        
+
+                        // 검색 바
                         searchView()
                             .frame(height: 50)
                             .padding(24)
-                        if !recentReview.isEmpty {
+
+                        // 최근 리뷰 섹션 (데이터가 있는 경우에만 표시)
+                        if !vm.output.recentReview.isEmpty {
                             infoHeaderView()
                             inforView()
-//                                .frame(height: 120)
-//                                .padding(.horizontal, 22)
                                 .padding(.vertical, 6)
                                 .padding(.bottom, 24)
                         }
-                    } //:VSTACK
+                    }
+
+                    // 공연 종류 탭 + 공연 목록 섹션 (스티키 헤더 적용)
                     Section(header: GeometryReader { geometry in
                         stickyHeader()
-                            .onChange(of: geometry.frame(in: .global).minY) { oldValue, newValue in
+                            .onChange(of: geometry.frame(in: .global).minY) { _, newValue in
                                 stickyOffset = newValue
                             }
                             .offset(y: max(stickyOffset <= navHeight ? navHeight - stickyOffset : 0, 0))
                     }) {
-                        switch segmentedPage {
-                        case 0: playView()
-                        case 1: playView()
-                        case 2: playView()
-                        default: playView()
-                        }
+                        playView()
                     }
-                }//:LazyVSTACK
-                navView(true) //투명 네비게이션 뷰
+                }
+
+                // 반투명 네비게이션 뷰 (항상 최상단)
+                navView(true)
                     .vTop()
-            } //:ZSTACK
-        } //:SCROLL
+            }
+        }
         .scrollIndicators(.hidden)
     }
 }
 
-// MARK: - 상단 네비게이션 부분
+// MARK: - 상단 네비게이션 뷰
 private extension HomeView {
+    /// 투명도에 따라 배경색과 로고 색상이 달라지는 네비게이션 바
+    /// - Parameter isOpacity: true이면 반투명, false이면 불투명
     @ViewBuilder
     func navView(_ isOpacity: Bool) -> some View {
         Rectangle()
@@ -194,46 +133,24 @@ private extension HomeView {
                     .vBottom()
                     .padding([.top, .bottom], 12)
                     .padding(.leading)
-                // 알림 기능 없어서 숨김처리
-//                alert(isOpacity ? Color.asWhite : Color.asGray200)
-//                    .hTrailing()
-//                    .vBottom()
-//                    .padding(.bottom, 12)
-//                    .padding(.trailing)
             }
     }
-    func alert(_ color: Color) -> some View {
-        Image.asBell
-            .resizable()
-            .frame(width: 28, height: 28)
-            .foregroundStyle(color)
-            .overlay {
-                asText("9")
-                    .font(.boldFont8)
-                    .foregroundStyle(Color.white)
-                    .background(
-                        Circle()
-                            .frame(width: 14, height: 14)
-                            .foregroundStyle(Color.asPurple300)
-                    )
-                    .offset(x: 6, y: -4)
-                
-            }
-    }
-    
 }
-// MARK: - 상단 페이지 뷰 부분
+
+// MARK: - 상단 캐러셀 뷰
 private extension HomeView {
+    /// 무한 스크롤 캐러셀 뷰
+    /// - headerPostsTmp(원본 * 10)를 TabView로 표시하여 무한 스크롤 효과 구현
     func topCarouselView() -> some View {
         ZStack {
-            // TabView로 캐러셀 구현
             TabView(selection: $currentIndex) {
-                ForEach(state.headerPostsTmp.indices, id: \.self) { index in
-                    let item = state.headerPostsTmp[index]
-                    
+                ForEach(vm.output.headerPostsTmp.indices, id: \.self) { index in
+                    let item = vm.output.headerPostsTmp[index]
+
                     ZStack {
                         PosterImageView(url: item.postURL)
-                        
+
+                        // 그라디언트 오버레이
                         LinearGradient(
                             gradient: Gradient(stops: [
                                 .init(color: .asBlack.opacity(0.6), location: 0.2),
@@ -243,10 +160,11 @@ private extension HomeView {
                             startPoint: .top,
                             endPoint: .bottom
                         )
-                        
+
                         Rectangle()
                             .foregroundStyle(Color.asBlack.opacity(0.25))
-                        
+
+                        // 공연 타이틀 및 서브 타이틀
                         VStack(alignment: .leading) {
                             asText(item.mainTitle)
                                 .foregroundStyle(Color.asWhite)
@@ -254,7 +172,7 @@ private extension HomeView {
                                 .multilineTextAlignment(.leading)
                                 .padding(.bottom, 4)
                                 .shadow(color: Color.asBlack.opacity(0.25), radius: 4)
-                            
+
                             asText(item.subTitle)
                                 .foregroundStyle(Color.asPurple500)
                                 .font(.font16)
@@ -268,21 +186,22 @@ private extension HomeView {
                     .frame(width: UIScreen.main.bounds.width, height: 500)
                     .tag(index)
                     .onTapGesture {
-                        print(item.postID)
-                        intent.postTapped(id: item.postID)
+                        // 포스터 탭 시 상세 화면으로 이동
+                        vm.input.postTapped.send(item.postID)
                     }
                 }
             }
-            .tabViewStyle(.page(indexDisplayMode: .never)) // 기본 인디케이터 숨김
+            .tabViewStyle(.page(indexDisplayMode: .never))
             .frame(height: 500)
             .animation(.easeInOut(duration: 0.25), value: currentIndex)
-            
-            // 커스텀 인디케이터
+
+            // 커스텀 페이지 인디케이터
             HStack {
-                ForEach(state.headerPosts.indices, id: \.self) { index in
+                ForEach(vm.output.headerPosts.indices, id: \.self) { index in
+                    let isSelected = index == currentIndex % max(vm.output.headerPosts.count, 1)
                     Capsule()
-                        .fill(index == currentIndex % state.headerPosts.count ? Color.white.opacity(0.6) : Color.white.opacity(0.25))
-                        .frame(width: index == currentIndex % state.headerPosts.count ? 18 : 8, height: 8)
+                        .fill(isSelected ? Color.white.opacity(0.6) : Color.white.opacity(0.25))
+                        .frame(width: isSelected ? 18 : 8, height: 8)
                         .shadow(color: .asBlack.opacity(0.25), radius: 1.35)
                         .animation(.easeInOut(duration: 0.25), value: currentIndex)
                 }
@@ -293,13 +212,15 @@ private extension HomeView {
             .padding(.bottom, 33)
         }
         .onScrollVisibilityChange(threshold: 0.999999) { isVisible in
+            // 캐러셀이 화면에서 벗어나면 불투명 네비게이션 뷰 표시
             isToolbarHidden = isVisible
         }
     }
 }
 
-// MARK: - 검색 뷰 부분
+// MARK: - 검색 바 뷰
 private extension HomeView {
+    /// 검색 화면으로 이동하는 더미 검색 바
     func searchView() -> some View {
         RoundedRectangle(cornerRadius: 30)
             .stroke(Color.purpleBlueGradient, lineWidth: 1.5)
@@ -312,7 +233,7 @@ private extension HomeView {
                         .foregroundStyle(Color.asMainPurple)
                         .padding(.leading, 14)
                         .padding(.trailing, 10)
-                    
+
                     asText("보고 싶은 공연 이름을 검색하세요")
                         .font(.font14)
                         .foregroundStyle(Color.asGray300)
@@ -320,76 +241,40 @@ private extension HomeView {
                 }
             )
             .wrapToButton {
-                self.goSearchView.toggle()
+                // 검색 버튼 탭 시 검색 화면으로 이동
+                vm.input.searchTapped.send()
             }
-        
-        
     }
 }
-// MARK: - 사용자 커스텀 현황 부분
+
+// MARK: - 최근 리뷰 섹션
 private extension HomeView {
+    /// 최근 리뷰 섹션 헤더
     func infoHeaderView() -> some View {
-//        VStack(alignment: .leading, spacing: 4) {
-//            HStack(spacing: 0) {
-//                asText(state.userName)
-//                    .foregroundColor(.asMainSecondaryPurple) // 닉네임의 색상 변경
-//                    .font(.boldFont20)
-//                asText("님의 공연 기록")
-//                    .foregroundColor(.asFont) // 나머지 텍스트 색상
-//                    .font(.boldFont20)
-//            } //:HSTACK
-//            asText("궁금한 기록을 눌러서 확인해보세요!")
-//                .foregroundColor(.asGray200)
-//                .font(.font14)
-//        } //:VSTACK
-//        .hLeading()
-//        .padding(.leading, 24)
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 0) {
                 asText("따끈따끈! New 공연 후기")
-                    .foregroundColor(.asFont) // 나머지 텍스트 색상
+                    .foregroundColor(.asFont)
                     .font(.boldFont20)
-            } //:HSTACK
+            }
             asText("다른 사용자들의 실시간 리뷰를 확인해 보세요!")
                 .foregroundColor(.asGray200)
                 .font(.font14)
-        } //:VSTACK
+        }
         .hLeading()
         .padding(.leading, 24)
     }
-    
+
+    /// 최근 리뷰 가로 스크롤 목록
     func inforView() -> some View {
-//        RoundedRectangle(cornerRadius: 20)
-//            .fill(Color.asMainPurpleBorder)
-//            .stroke(Color.asMainPurpleBorderLine, lineWidth: 1.5)
-//            .overlay{
-//                HStack(spacing: 0) {
-//                    oneInforView(title: "찜한 공연", logo: Image.asHeart, result: "10")
-//                        .frame(maxWidth: .infinity)
-//                        .wrapToButton {
-//                            intent.userInfoTapped(info: .liikes)
-//                        }
-//                    inforLine()
-//                    oneInforView(title: "관람한 공연", logo: Image.asperformance, result: "2")
-//                        .frame(maxWidth: .infinity)
-//                        .wrapToButton {
-//                            intent.userInfoTapped(info: .recodePlayCnt)
-//                        }
-//                    inforLine()
-//                    oneInforView(title: "예정된 티켓", logo: Image.asCircleTicket, result: "1")
-//                        .frame(maxWidth: .infinity)
-//                        .wrapToButton {
-//                            intent.userInfoTapped(info: .schedulePlayCnt)
-//                        }
-//                }
-//            }
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 12) {
-                ForEach(recentReview) { review in
+                ForEach(vm.output.recentReview) { review in
                     MyReviewView(review: review) {
-                        coordinator.push(.reviewDetailView(reviewInfo: review, isShowMovePerfInfo: true))
+                        // 리뷰 탭 시 상세 화면으로 이동
+                        vm.input.reviewTapped.send(review)
                     }
-                    .padding(.vertical,5)
+                    .padding(.vertical, 5)
                     .frame(width: UIScreen.main.bounds.width - 48)
                     .containerRelativeFrame(.horizontal)
                     .scrollTransition { content, phase in
@@ -402,92 +287,81 @@ private extension HomeView {
         .scrollTargetBehavior(.viewAligned)
         .contentMargins(.horizontal, 24, for: .scrollContent)
     }
-    
-    func oneInforView(title: String, logo: Image, result: String) -> some View {
-        Rectangle()
-            .fill(Color.clear)
-            .overlay {
-                VStack {
-                    logo
-                        .resizable()
-                        .frame(width: 36, height: 36)
-                        .foregroundStyle(Color.asPurple300)
-                    asText(title)
-                        .asForeground(Color.asTextColor)
-                        .font(.font12)
-                    
-                    asText(result)
-                        .asForeground(Color.asTextColor)
-                        .font(.boldFont28)
-                }
-            }
-    }
-    
-    func inforLine() -> some View {
-        Rectangle()
-            .frame(width: 1)
-            .asForeground(Color.asMainPurpleBorderLine)
-            .padding([.top, .bottom], 15)
-    }
-    
 }
-// MARK: - 하단
+
+// MARK: - 하단 공연 목록 섹션
 private extension HomeView {
+    /// 공연 종류 탭이 있는 스티키 헤더
     func stickyHeader() -> some View {
         VStack {
-            CustomSegmentedView(segments: state.playCategorys.map { $0.title},
-                                currentPage: Binding(get: {state.selectedPrfCate.rawValue}, set: {intent.playCategoryTapped($0, city: state.selectedCity, prfCate: state.playCategorys[$0])}))
+            CustomSegmentedView(
+                segments: vm.output.playCategorys.map { $0.title },
+                currentPage: Binding(
+                    get: { vm.output.selectedPrfCate.rawValue },
+                    // 탭 선택 시 인덱스를 VM으로 전달
+                    set: { vm.input.playCategoryTapped.send($0) }
+                )
+            )
         }
-        .background(Color.white) // Background를 추가하여 scroll 영역과 일치 시킴
+        .background(Color.white)
     }
+
+    /// 지역별 추천 공연 + 랜덤 공연 목록을 포함하는 메인 콘텐츠 뷰
     func playView() -> some View {
         VStack {
+            // 지역 선택 + 추천 공연 헤더
             recommendHeaderView()
                 .hLeading()
                 .padding(24)
                 .padding(.top, 36)
-            if (state.areaTopPrf.isEmpty) {
+
+            // 지역 추천 공연 목록 (가로 스크롤)
+            if vm.output.areaTopPrf.isEmpty {
                 PostEmptyView(infoText: "선택한 지역에 상영 중인 공연이 없습니다.")
                     .padding(.bottom, 20)
             } else {
-                recommendCollectionView(state.areaTopPrf)
+                recommendCollectionView(vm.output.areaTopPrf)
                     .padding(.bottom, 20)
             }
-            
+
             sectionDivider
-            
-            randomHeaderView(main: state.randomPrfs.mainTitle, sub: state.randomPrfs.subTitle)
+
+            // 곧 상영 예정 공연 섹션
+            randomHeaderView(main: vm.output.randomPrfs.mainTitle, sub: vm.output.randomPrfs.subTitle)
                 .padding(24)
-            randomTableView(state.randomPrfs.simplePlayData)
-            
+            randomTableView(vm.output.randomPrfs.simplePlayData)
+
             sectionDivider
-            
-            randomHeaderView(main: state.openrunPrfs.mainTitle, sub: state.openrunPrfs.subTitle)
+
+            // 오픈런 공연 섹션
+            randomHeaderView(main: vm.output.openrunPrfs.mainTitle, sub: vm.output.openrunPrfs.subTitle)
                 .padding(24)
-            randomTableView(state.openrunPrfs.simplePlayData)
-            
+            randomTableView(vm.output.openrunPrfs.simplePlayData)
+
             sectionDivider
-            
-            randomHeaderView(main: state.top10Prfs.mainTitle, sub: state.top10Prfs.subTitle)
+
+            // 지역 인기 Top10 섹션
+            randomHeaderView(main: vm.output.top10Prfs.mainTitle, sub: vm.output.top10Prfs.subTitle)
                 .padding(24)
-            randomTableView(state.top10Prfs.simplePlayData)
-            
+            randomTableView(vm.output.top10Prfs.simplePlayData)
+
             SourceAndAppInfoView()
-            
         }
     }
-    //가로 스크롤 공연 추천 헤더 부분
+
+    /// 지역 선택 버튼과 추천 공연 안내 텍스트가 있는 헤더
     func recommendHeaderView() -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing:0) {
+            HStack(spacing: 0) {
                 HStack(spacing: 0) {
-                    asText(state.selectedCity.rawValue)
+                    asText(vm.output.selectedCity.rawValue)
                     Image.downArrow
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundStyle(Color.asPurple300)
-                        .rotationEffect(.degrees(isAreSelectedPresented ? 180 : 0)) // 180도 회전
-                        .animation(.easeInOut(duration: 0.15), value: isAreSelectedPresented) // 애니메이션 적용
+                        // 바텀시트가 표시 중일 때 화살표 180도 회전
+                        .rotationEffect(.degrees(vm.output.isCitySelectPresented ? 180 : 0))
+                        .animation(.easeInOut(duration: 0.15), value: vm.output.isCitySelectPresented)
                         .padding(.leading, 2)
                         .padding(.trailing, 4)
                 }
@@ -501,20 +375,23 @@ private extension HomeView {
                         .stroke(Color.asMainPurple, lineWidth: 2)
                 )
                 .wrapToButton {
-                    self.isAreSelectedPresented.toggle()
+                    // 지역 선택 바텀시트 표시 요청
+                    vm.input.citySelectTapped.send()
                 }
-                
+
                 asText("주변의 추천 공연")
                     .font(.boldFont20)
                     .padding(.leading, 5)
-            } //:HSTACK
+            }
             asText("내 지역을 선택해 맞춤 공연을 추천받아 보세요!")
                 .font(.font14)
                 .foregroundStyle(Color.asGray200)
                 .padding([.horizontal, .top], 4)
         }
     }
-    //가로 스크롤 공연 추천 뷰
+
+    /// 지역 추천 공연 가로 스크롤 목록
+    /// - 공연 종류 또는 지역 변경 시 자동으로 스크롤 위치를 처음으로 이동
     func recommendCollectionView(_ posts: [SimplePostModel]) -> some View {
         ScrollView(.horizontal) {
             LazyHStack {
@@ -523,22 +400,24 @@ private extension HomeView {
                         .frame(width: 120, height: 240)
                         .padding(.horizontal, 12)
                         .wrapToButton {
-                            intent.postTapped(id: post.mt20id)
+                            vm.input.postTapped.send(post.mt20id)
                         }
                 }
             }
-        } //가로 스크롤 부분
+        }
         .padding(.horizontal, 12)
         .scrollPosition($arePosition)
-        .onChange(of: state.selectedPrfCate) { oldValue, newValue in
-            arePosition.scrollTo(edge: .leading) //공연 종류 변경 시
+        .onChange(of: vm.output.selectedPrfCate) { _, _ in
+            // 공연 종류 변경 시 스크롤 위치 초기화
+            arePosition.scrollTo(edge: .leading)
         }
-        .onChange(of: state.selectedCity) { oldValue, newValue in
-            arePosition.scrollTo(edge: .leading) //지역 변경 시
+        .onChange(of: vm.output.selectedCity) { _, _ in
+            // 지역 변경 시 스크롤 위치 초기화
+            arePosition.scrollTo(edge: .leading)
         }
-        
     }
-    
+
+    /// 랜덤 공연 섹션 헤더 (메인 타이틀 + 서브 타이틀)
     func randomHeaderView(main: String, sub: String) -> some View {
         HStack(alignment: .top) {
             VStack(spacing: 4) {
@@ -552,13 +431,10 @@ private extension HomeView {
                     .hLeading()
             }
             Spacer()
-//            Image.rightArrow
-//                .resizable()
-//                .foregroundStyle(Color.asGray300)
-//                .frame(width: 24, height: 24)
         }
     }
-    
+
+    /// 랜덤 공연 목록 (세로 리스트)
     func randomTableView(_ data: [SimplePostModel]) -> some View {
         LazyVStack {
             ForEach(data, id: \.id) { post in
@@ -566,14 +442,15 @@ private extension HomeView {
                     .padding(.leading, 24)
                     .padding(.bottom, 8)
                     .wrapToButton {
-                        intent.postTapped(id: post.mt20id)
+                        vm.input.postTapped.send(post.mt20id)
                     }
             }
         }
     }
 }
-// MARK: - 티켓 정보 뷰
 
 #Preview {
-    HomeView.build()
+    HomeView()
+        .environmentObject(MainCoordinator())
+        .environment(UserUseCase())
 }

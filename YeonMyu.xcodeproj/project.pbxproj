@@ -10,6 +10,7 @@
 		0605D8882E48AB4600BBF5E7 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0605D8872E48AB4600BBF5E7 /* ChatGPTSwift */; };
 		0605D88A2E48BB3F00BBF5E7 /* TicketScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */; };
 		060EA6422FA3932700F39A68 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 060EA6412FA3932700F39A68 /* GoogleService-Info.plist */; };
+		060EA6442FA41AB500F39A68 /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060EA6432FA41AB500F39A68 /* HomeVM.swift */; };
 		061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */; };
 		061A16752E574FBA00AF13D3 /* ScannerLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A16742E574FBA00AF13D3 /* ScannerLineView.swift */; };
 		062626252E7588D8009B879B /* ReviewWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062626242E7588D8009B879B /* ReviewWriteView.swift */; };
@@ -74,7 +75,6 @@
 		06E508092D7F10CD00F5E7DE /* ButtonWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507CE2D7F10CD00F5E7DE /* ButtonWrapper.swift */; };
 		06E5080A2D7F10CD00F5E7DE /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507FF2D7F10CD00F5E7DE /* Image+.swift */; };
 		06E5080B2D7F10CD00F5E7DE /* InitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507E02D7F10CD00F5E7DE /* InitView.swift */; };
-		06E5080C2D7F10CD00F5E7DE /* HomeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507F52D7F10CD00F5E7DE /* HomeIntent.swift */; };
 		06E5080E2D7F10CD00F5E7DE /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E508032D7F10CD00F5E7DE /* UIApplication+.swift */; };
 		06E5080F2D7F10CD00F5E7DE /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507FE2D7F10CD00F5E7DE /* Color+.swift */; };
 		06E508102D7F10CD00F5E7DE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507E82D7F10CD00F5E7DE /* LoginView.swift */; };
@@ -96,7 +96,6 @@
 		06E508212D7F10CD00F5E7DE /* ForegroundWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507CF2D7F10CD00F5E7DE /* ForegroundWrapper.swift */; };
 		06E508222D7F10CD00F5E7DE /* CustomTextEditorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507CD2D7F10CD00F5E7DE /* CustomTextEditorStyle.swift */; };
 		06E508232D7F10CD00F5E7DE /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507BD2D7F10CD00F5E7DE /* UserDefaultManager.swift */; };
-		06E508242D7F10CD00F5E7DE /* HomeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507F62D7F10CD00F5E7DE /* HomeState.swift */; };
 		06E508252D7F10CD00F5E7DE /* VerticalPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507D62D7F10CD00F5E7DE /* VerticalPerformanceView.swift */; };
 		06E508262D7F10CD00F5E7DE /* PrimaryText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507CC2D7F10CD00F5E7DE /* PrimaryText.swift */; };
 		06E508272D7F10CD00F5E7DE /* TicketList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E507C02D7F10CD00F5E7DE /* TicketList.swift */; };
@@ -187,6 +186,7 @@
 /* Begin PBXFileReference section */
 		0605D8892E48BB3F00BBF5E7 /* TicketScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketScanResult.swift; sourceTree = "<group>"; };
 		060EA6412FA3932700F39A68 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		060EA6432FA41AB500F39A68 /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		061A166D2E4F7BF700AF13D3 /* PerformanceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTagView.swift; sourceTree = "<group>"; };
 		061A16742E574FBA00AF13D3 /* ScannerLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerLineView.swift; sourceTree = "<group>"; };
 		062626242E7588D8009B879B /* ReviewWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteView.swift; sourceTree = "<group>"; };
@@ -274,8 +274,6 @@
 		06E507F02D7F10CD00F5E7DE /* RandomSimplePlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomSimplePlayModel.swift; sourceTree = "<group>"; };
 		06E507F22D7F10CD00F5E7DE /* CustomSegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedView.swift; sourceTree = "<group>"; };
 		06E507F42D7F10CD00F5E7DE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		06E507F52D7F10CD00F5E7DE /* HomeIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIntent.swift; sourceTree = "<group>"; };
-		06E507F62D7F10CD00F5E7DE /* HomeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeState.swift; sourceTree = "<group>"; };
 		06E507F92D7F10CD00F5E7DE /* SANGJU Dajungdagam.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SANGJU Dajungdagam.otf"; sourceTree = "<group>"; };
 		06E507FA2D7F10CD00F5E7DE /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		06E507FB2D7F10CD00F5E7DE /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
@@ -507,7 +505,6 @@
 				06E507CA2D7F10CD00F5E7DE /* NetworkManager.swift */,
 				06E507C22D7F10CD00F5E7DE /* PerformanceError.swift */,
 				06E507C82D7F10CD00F5E7DE /* DTO */,
-				06E507E72D7F10CD00F5E7DE /* Model */,
 				062FA78E2F98E96E00360FFF /* NetworkLogger.swift */,
 			);
 			path = Kopis;
@@ -665,17 +662,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		06E507E72D7F10CD00F5E7DE /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				06E507E32D7F10CD00F5E7DE /* CityCode.swift */,
-				06E507E42D7F10CD00F5E7DE /* PlaySate.swift */,
-				06E507E52D7F10CD00F5E7DE /* SimplePostModel.swift */,
-				06E507E62D7F10CD00F5E7DE /* PrfCate.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		06E507E92D7F10CD00F5E7DE /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -722,8 +708,7 @@
 				06E507F12D7F10CD00F5E7DE /* Model */,
 				06E507F32D7F10CD00F5E7DE /* Custom */,
 				06E507F42D7F10CD00F5E7DE /* HomeView.swift */,
-				06E507F52D7F10CD00F5E7DE /* HomeIntent.swift */,
-				06E507F62D7F10CD00F5E7DE /* HomeState.swift */,
+				060EA6432FA41AB500F39A68 /* HomeVM.swift */,
 				0655F9142E25392300A1AAF4 /* ADBannerVM.swift */,
 			);
 			path = Home;
@@ -956,6 +941,10 @@
 		937C22F22F8E0FFF00F11DC4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				06E507E32D7F10CD00F5E7DE /* CityCode.swift */,
+				06E507E42D7F10CD00F5E7DE /* PlaySate.swift */,
+				06E507E52D7F10CD00F5E7DE /* SimplePostModel.swift */,
+				06E507E62D7F10CD00F5E7DE /* PrfCate.swift */,
 				937C22F42F8E14DA00F11DC4 /* PerformanceDisplayable.swift */,
 			);
 			path = Model;
@@ -1126,7 +1115,6 @@
 				06DEB9BD2F8678E700E03CD1 /* UserDataSource.swift in Sources */,
 				939C604D2F8CCB4D00ECDF00 /* AppDataSource.swift in Sources */,
 				06E5080B2D7F10CD00F5E7DE /* InitView.swift in Sources */,
-				06E5080C2D7F10CD00F5E7DE /* HomeIntent.swift in Sources */,
 				06DEB9B42F83CD7500E03CD1 /* SignState.swift in Sources */,
 				06E5080E2D7F10CD00F5E7DE /* UIApplication+.swift in Sources */,
 				0655F8CA2E07E32E00A1AAF4 /* StorageVM.swift in Sources */,
@@ -1216,7 +1204,6 @@
 				06E508222D7F10CD00F5E7DE /* CustomTextEditorStyle.swift in Sources */,
 				061A166E2E4F7BF700AF13D3 /* PerformanceTagView.swift in Sources */,
 				06E508232D7F10CD00F5E7DE /* UserDefaultManager.swift in Sources */,
-				06E508242D7F10CD00F5E7DE /* HomeState.swift in Sources */,
 				06E508252D7F10CD00F5E7DE /* VerticalPerformanceView.swift in Sources */,
 				06E508262D7F10CD00F5E7DE /* PrimaryText.swift in Sources */,
 				06A607B52E48A0A70066EC36 /* CameraView.swift in Sources */,
@@ -1247,6 +1234,7 @@
 				06F4A80C2DB67530008B1D29 /* RecentSearch.swift in Sources */,
 				06E508392D7F10CD00F5E7DE /* LoadingView.swift in Sources */,
 				06E507B92D7F10C700F5E7DE /* SplashView.swift in Sources */,
+				060EA6442FA41AB500F39A68 /* HomeVM.swift in Sources */,
 				06CD38252D7DD0EB00959852 /* YeonMyuApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
