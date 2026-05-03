@@ -23,9 +23,9 @@ final class NetworkManager {
         openrun: Bool = false,
         maxOnePage: String = "10"
     ) async throws -> [PerformanceDTO] {
-        var urlComponents = URLComponents(string: APIKey.performanceURL)
+        var urlComponents = URLComponents(string: AppConfig.kopisPerformanceURL)
         var queryItems: [URLQueryItem] = [
-            URLQueryItem(name: "service", value: APIKey.key),
+            URLQueryItem(name: "service", value: AppConfig.kopisAPIKey),
             URLQueryItem(name: "stdate", value: startDate),
             URLQueryItem(name: "eddate", value: endDate ?? startDate),
             URLQueryItem(name: "cpage", value: String(page)),
@@ -47,10 +47,10 @@ final class NetworkManager {
     // MARK: - 한개의 공연의 디테일한 정보 통신
     func requestDetailPerformance(performanceId id: String) async throws -> DetailPerformanceDTO {
         
-        let urlString = APIKey.performanceURL + "/\(id)"
+        let urlString = AppConfig.kopisPerformanceURL + "/\(id)"
         var urlComponents = URLComponents(string: urlString)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "service", value: APIKey.key)
+            URLQueryItem(name: "service", value: AppConfig.kopisAPIKey)
         ]
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url)
@@ -64,10 +64,10 @@ final class NetworkManager {
     }
     // MARK: - 공연시설 정보 통신
     func requestFacility(facilityId id: String) async throws -> FacilityDTO {
-        let urlString = APIKey.placeURL + "/\(id)"
+        let urlString = AppConfig.kopisPlaceURL + "/\(id)"
         var urlComponents = URLComponents(string: urlString)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "service", value: APIKey.key)
+            URLQueryItem(name: "service", value: AppConfig.kopisAPIKey)
         ]
         guard let url = urlComponents?.url else { throw PerformanceError.invalidURL }
         var request = URLRequest(url: url)
@@ -78,10 +78,10 @@ final class NetworkManager {
     }
     // MARK: - 박스오피스 (공연 순위) 조회
     func requestBoxOffice(startDate: String, endDate: String, cateCode: String, area: String?) async throws -> [BoxOfficeDTO] {
-        let urlString = APIKey.boxofficeURL
+        let urlString = AppConfig.kopisBoxOfficeURL
         var urlComponents = URLComponents(string: urlString)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "service", value: APIKey.key),
+            URLQueryItem(name: "service", value: AppConfig.kopisAPIKey),
             URLQueryItem(name: "stdate", value: startDate),
             URLQueryItem(name: "eddate", value: endDate),
             URLQueryItem(name: "catecode", value: cateCode),
@@ -97,10 +97,10 @@ final class NetworkManager {
     }
     // MARK: - 수상작 조회 (최대 31일)
     func requestAwad(startDate: String, endDate: String, cateCode: String?, area: String?, page: Int?) async throws -> [AwadPerformanceDTO] {
-        let urlString = APIKey.awardURL
+        let urlString = AppConfig.kopisAwardURL
         var urlComponents = URLComponents(string: urlString)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "service", value: APIKey.key),
+            URLQueryItem(name: "service", value: AppConfig.kopisAPIKey),
             URLQueryItem(name: "stdate", value: startDate),
             URLQueryItem(name: "eddate", value: endDate),
             URLQueryItem(name: "shcate", value: cateCode ?? ""), //장르코드

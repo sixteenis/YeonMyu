@@ -9,7 +9,7 @@ import SwiftUI
 // MARK: - 보관함 화면 현재 미사용!
 struct StorageView: View {
     @StateObject private var vm: StorageVM
-    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    @Environment(MainCoordinator.self) var coordinator // Coordinator 주입
     
     init(selected: StorageType) {
         _vm = StateObject(wrappedValue: StorageVM(selected: selected))

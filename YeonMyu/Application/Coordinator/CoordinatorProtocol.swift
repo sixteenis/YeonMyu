@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-protocol CoordinatorProtocol: ObservableObject {
+protocol CoordinatorProtocol: AnyObject {
     var path: NavigationPath { get set }
     var sheet: Sheet? { get set }
     var fullScreenCover: FullScreenCover? { get set }

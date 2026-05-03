@@ -10,7 +10,7 @@ import MapKit
 import Kingfisher
 
 struct PlayDetailView: View {
-    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    @Environment(MainCoordinator.self) var coordinator // Coordinator 주입
     @Environment(UserUseCase.self) private var userUseCase
     let segments: [String] = ["상세정보 ", "티켓예매", "관람후기"]
     @Namespace private var name

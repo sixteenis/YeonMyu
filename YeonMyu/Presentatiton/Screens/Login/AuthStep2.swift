@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AuthStep2: View {
-    @EnvironmentObject var appCoordinator: MainCoordinator
+    @Environment(MainCoordinator.self) var appCoordinator
     @Environment(UserUseCase.self) private var userUseCase
     var uid: String
     var area: String

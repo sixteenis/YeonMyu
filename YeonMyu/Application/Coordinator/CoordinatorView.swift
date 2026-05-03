@@ -9,7 +9,7 @@ import SwiftUI
 import PopupView
 
 struct CoordinatorView: View {
-    @EnvironmentObject var appCoordinator: MainCoordinator
+    @Environment(MainCoordinator.self) var appCoordinator
 
     private var isToastPresented: Binding<Bool> {
         Binding(
@@ -19,7 +19,9 @@ struct CoordinatorView: View {
     }
 
     var body: some View {
-        NavigationStack(path: $appCoordinator.path) {
+        // @Observable 객체에서 $ 양방향 바인딩을 쓰려면 @Bindable 한 번 감싸야 함.
+        @Bindable var appCoordinator = appCoordinator
+        return NavigationStack(path: $appCoordinator.path) {
             appCoordinator.build(appCoordinator.rootScreen)
                 .navigationDestination(for: Screen.self) { screen in
                     appCoordinator.build(screen)

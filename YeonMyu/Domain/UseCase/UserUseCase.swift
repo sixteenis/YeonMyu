@@ -10,13 +10,23 @@ import Observation
 
 @Observable
 final class UserUseCase {
-    private let userDS = UserDataSource()
-    private let performanceDS = PerformanceDataSource()
-    private let appDS = AppDataSource()
+    @ObservationIgnored private let userDS: UserRepository
+    @ObservationIgnored private let performanceDS: PerformanceRepository
+    @ObservationIgnored private let appDS: AppRepository
 
     var userInfo = UserModel(uid: "", name: "", introduction: "", area: "", profileID: 0, likesPerformance: [], reviews: [])
 
-    init() {}
+    /// DI Container 에서 주입.
+    /// default 인자로 기존 코드(`UserUseCase()`) 호환 유지.
+    init(
+        userRepository: UserRepository = UserDataSource(),
+        performanceRepository: PerformanceRepository = PerformanceDataSource(),
+        appRepository: AppRepository = AppDataSource()
+    ) {
+        self.userDS = userRepository
+        self.performanceDS = performanceRepository
+        self.appDS = appRepository
+    }
 }
 
 // MARK: - 인증 상태 확인

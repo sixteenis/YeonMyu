@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileSetting: View {
-    @EnvironmentObject var coordinator: MainCoordinator
+    @Environment(MainCoordinator.self) var coordinator
     @Environment(UserUseCase.self) private var userUseCase
     @State private var selectedProfileIndex: Int = 0
     @State private var scrollPositionID: Int? = 0

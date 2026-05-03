@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyView: View {
-    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    @Environment(MainCoordinator.self) var coordinator // Coordinator 주입
     @Environment(UserUseCase.self) private var userUseCase
     @State private var isSheetPresented = true
     let safeAreaTop: CGFloat = 10

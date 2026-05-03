@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReviewWriteView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    @Environment(MainCoordinator.self) var coordinator // Coordinator 주입
     @Environment(UserUseCase.self) private var userUseCase
     
     @StateObject private var vm: ReviewWriteVM

@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftUIPullToRefresh
 
 struct HomeView: View {
-    @EnvironmentObject var coordinator: MainCoordinator   // Coordinator 주입
+    @Environment(MainCoordinator.self) var coordinator   // Coordinator 주입
     @Environment(UserUseCase.self) private var userUseCase
     @StateObject private var vm = HomeVM()                // MVVM ViewModel
 
@@ -451,6 +451,6 @@ private extension HomeView {
 
 #Preview {
     HomeView()
-        .environmentObject(MainCoordinator())
+        .environment(MainCoordinator())
         .environment(UserUseCase())
 }

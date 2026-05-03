@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SplashView: View {
-    @EnvironmentObject var appCoordinator: MainCoordinator
+    @Environment(MainCoordinator.self) var appCoordinator
     @Environment(UserUseCase.self) private var userUseCase
     @State private var loadingFinished = false
 

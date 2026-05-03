@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var appCoordinator: MainCoordinator
+    @Environment(MainCoordinator.self) var appCoordinator
     @State private var capturedImage : UIImage? = nil
     @State private var isCustomCameraViewPresented = false
     var body: some View {

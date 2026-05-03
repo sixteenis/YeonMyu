@@ -8,11 +8,21 @@
 import Foundation
 
 final class PerformanceUseCase {
-    private let userDS = UserDataSource()
-    private let performanceDS = PerformanceDataSource()
-    private let rankingDS = AppDataSource()
+    private let userDS: UserRepository
+    private let performanceDS: PerformanceRepository
+    private let rankingDS: AppRepository
 
-    init() {}
+    /// DI Container 에서 주입.
+    /// default 인자로 기존 코드(파라미터 없이 호출하던) 호환 유지.
+    init(
+        userRepository: UserRepository = UserDataSource(),
+        performanceRepository: PerformanceRepository = PerformanceDataSource(),
+        appRepository: AppRepository = AppDataSource()
+    ) {
+        self.userDS = userRepository
+        self.performanceDS = performanceRepository
+        self.rankingDS = appRepository
+    }
     
     // 공연별 리뷰 정보 가져오기
     func getReviewData(_ postId: String) async throws -> [ReviewModel] {

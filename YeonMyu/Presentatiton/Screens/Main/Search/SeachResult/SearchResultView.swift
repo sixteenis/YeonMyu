@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SearchResultView: View {
-    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
+    @Environment(MainCoordinator.self) var coordinator // Coordinator 주입
     @StateObject private var vm: SearchResultVM
     
     init(searchText: String, date: Date, city: CityCode) {

@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @EnvironmentObject var coordinator: MainCoordinator // Coordinator 주입
-    
+    @Environment(MainCoordinator.self) var coordinator // Coordinator 주입
+
     var body: some View {
-        TabView(selection: $coordinator.selectedTab) {
+        // @Observable 객체에서 양방향 바인딩($coordinator.xxx)을 쓰려면 @Bindable 한 번 감싸야 함.
+        @Bindable var coordinator = coordinator
+        return TabView(selection: $coordinator.selectedTab) {
             coordinator.build(.home) // 홈 화면 생성
                 .tabItem {
                     Image.home

@@ -6,16 +6,22 @@
 //
 
 import SwiftUI
+import Observation
 
+// 주의: @MainActor 를 일부러 붙이지 않습니다.
+// 기존 Combine 기반 ViewModel 들의 sink 클로저(nonisolated)에서 coordinator 메서드를
+// 호출하기 때문에, @MainActor 를 강제하면 모든 호출지를 Task { @MainActor } 로 감싸야 함.
+// SwiftUI 메인 스레드에서만 사용한다는 전제는 기존 ObservableObject 와 동일하게 유지.
+@Observable
 final class MainCoordinator: CoordinatorProtocol {
-    
-    @Published var path: NavigationPath = NavigationPath()
-    @Published var sheet: Sheet?
-    @Published var fullScreenCover: FullScreenCover?
-    @Published var selectedTab: Tab = .home
-    @Published var rootScreen: Screen = .start // 루트 뷰를 동적으로 관리
-    @Published var alertType: AlertType? = nil
-    @Published var toastType: ToastType? = nil
+
+    var path: NavigationPath = NavigationPath()
+    var sheet: Sheet?
+    var fullScreenCover: FullScreenCover?
+    var selectedTab: Tab = .home
+    var rootScreen: Screen = .start // 루트 뷰를 동적으로 관리
+    var alertType: AlertType? = nil
+    var toastType: ToastType? = nil
     
     func push(_ screen: Screen) {
         path.append(screen)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AuthStep1: View {
-    @EnvironmentObject var appCoordinator: MainCoordinator
+    @Environment(MainCoordinator.self) var appCoordinator
     var uid: String
     @State private var selecedArea: CityCode?
     private let columns = [

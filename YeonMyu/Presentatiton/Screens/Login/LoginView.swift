@@ -11,7 +11,7 @@ import AuthenticationServices
 
 struct LoginView: View {
     @StateObject private var vm = LoginVM()
-    @EnvironmentObject var appCoordinator: MainCoordinator
+    @Environment(MainCoordinator.self) var appCoordinator
     @Environment(UserUseCase.self) private var userUseCase
     
     var body: some View {

@@ -59,7 +59,11 @@ final class StorageVM: ViewModeltype {
         input.postTapped
             .sink { [weak self] postId in
                 guard let self else { return }
-                self.coordinator?.push(.playDetail(mt20id: postId))
+                // MainCoordinator 가 @MainActor 라 sink (nonisolated) 에서 직접 호출 못 함.
+                // → MainActor Task 로 우회.
+                Task { @MainActor [weak self] in
+                    self?.coordinator?.push(.playDetail(mt20id: postId))
+                }
             }.store(in: &cancellables)
         
     }

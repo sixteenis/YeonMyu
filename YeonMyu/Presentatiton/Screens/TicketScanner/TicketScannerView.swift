@@ -16,7 +16,7 @@ struct TicketScannerView : View
     @Binding var capturedImage : UIImage?
 
     @Environment(\.presentationMode) private var presentationMode
-    let openAI = ChatGPTAPI(apiKey: APIKey.openAIKey)
+    let openAI = ChatGPTAPI(apiKey: AppConfig.openAIAPIKey)
     private let performanceDS = PerformanceDataSource()
     
     var body: some View{

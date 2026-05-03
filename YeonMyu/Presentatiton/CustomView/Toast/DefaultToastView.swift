@@ -29,7 +29,7 @@ private extension View {
 }
 
 struct DefaultToastView: View {
-    @EnvironmentObject var appCoordinator: MainCoordinator
+    @Environment(MainCoordinator.self) var appCoordinator
     
     var body: some View {
         if let config = appCoordinator.toastType?.toConfig(dismiss: appCoordinator.dismissToast) {
