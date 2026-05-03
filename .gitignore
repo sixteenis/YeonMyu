@@ -2,6 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=swift
 
 APIKey.swift
+Secrets.swift
 Constant.swift
 .DS_Store
 
