@@ -9,16 +9,19 @@ import SwiftUI
 import SwiftUIPullToRefresh
 
 struct HomeView: View {
-    @Environment(MainCoordinator.self) var coordinator   // Coordinator 주입
-    @Environment(UserUseCase.self) private var userUseCase
-    @Environment(DIContainer.self) private var container // 전역 의존성 컨테이너
-    @StateObject private var vm = HomeVM()                // MVVM ViewModel
+    @StateObject private var vm: HomeVM                   // init 시 주입
 
     // MARK: - 순수 UI 상태
     @State private var currentIndex: Int = 0             // 상단 캐러셀 현재 페이지
     @State private var isToolbarHidden = true            // 투명 네비게이션 표시 여부
     @State private var stickyOffset: CGFloat = 0         // 스티키 헤더 오프셋
     @State var arePosition = ScrollPosition(edge: .leading) // 지역 추천 스크롤 위치
+
+    /// DIContainer 팩토리로 VM 을 한 번만 생성. @StateObject 의 @autoclosure 덕분에
+    /// 부모 view body 가 재평가돼도 VM 은 첫 등장 시에만 생성됨.
+    init(coordinator: MainCoordinator, container: DIContainer) {
+        _vm = StateObject(wrappedValue: container.makeHomeVM(coordinator: coordinator))
+    }
 }
 
 // MARK: - 화면 상태 전환
@@ -40,10 +43,9 @@ extension HomeView {
             }
         }
         .onAppear {
-            // Coordinator 주입 및 초기 유저 정보 전달
-            vm.coordinator = coordinator
-            vm.globalErrorHandler = container.globalErrorHandler
-            vm.input.onAppear.send((userUseCase.userInfo.name, userUseCase.userInfo.getCityCode()))
+            // 의존성은 init 시 이미 주입됨. VM 이 userUseCase 에서 직접 읽으므로
+            // View 는 단순히 진입 이벤트만 발사.
+            vm.input.onAppear.send()
         }
         .onChange(of: vm.output.headerPostsTmp) { _, _ in
             // 무한 캐러셀 구현을 위해 데이터 로드 후 중간 인덱스로 초기화
@@ -465,7 +467,9 @@ private extension HomeView {
 }
 
 #Preview {
-    HomeView()
-        .environment(MainCoordinator())
-        .environment(UserUseCase())
+    let container = DIContainer()
+    let coordinator = MainCoordinator(container: container)
+    return HomeView(coordinator: coordinator, container: container)
+        .environment(coordinator)
+        .environment(container)
 }

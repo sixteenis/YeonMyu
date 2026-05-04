@@ -22,6 +22,15 @@ final class MainCoordinator: CoordinatorProtocol {
     var rootScreen: Screen = .start // 루트 뷰를 동적으로 관리
     var alertType: AlertType? = nil
     var toastType: ToastType? = nil
+
+    /// DIContainer 참조. build(_:) 에서 VM 팩토리 호출에 사용.
+    /// - 호출지(YeonMyuApp / 프리뷰)에서 명시적으로 주입.
+    /// - default 값을 두면 @MainActor 인 DIContainer() 가 nonisolated 컨텍스트에서 평가되어 컴파일 에러.
+    let container: DIContainer
+
+    init(container: DIContainer) {
+        self.container = container
+    }
     
     func push(_ screen: Screen) {
         path.append(screen)
@@ -96,7 +105,7 @@ final class MainCoordinator: CoordinatorProtocol {
         case .authStep2(let uid, let area): AuthStep2(uid: uid, area: area)
             
         case .tab: MainTabView()
-        case .home: HomeView()                                 // 홈
+        case .home: HomeView(coordinator: self, container: container)  // 홈
         case .search: SearchView() //검색 뷰
         case .storage(let selected): StorageView(selected: selected) //보관함 뷰
         case .my: MyView() //마이 뷰

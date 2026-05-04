@@ -41,6 +41,13 @@ final class DIContainer {
     let userRepository: UserRepository
     let appRepository: AppRepository
 
+    // MARK: - UseCase (단일 인스턴스)
+    //
+    // userInfo 같은 세션 상태를 보유하는 UseCase 는 앱 전체에서 같은 인스턴스를 공유해야 함.
+    // → stored property 로 보관 (factory 로 매번 새로 만들면 상태 분리됨).
+
+    let userUseCase: UserUseCase
+
     // MARK: - Init
 
     init(
@@ -56,12 +63,17 @@ final class DIContainer {
         self.performanceRepository = performanceRepository
         self.userRepository = userRepository
         self.appRepository = appRepository
+        self.userUseCase = UserUseCase(
+            userRepository: userRepository,
+            performanceRepository: performanceRepository,
+            appRepository: appRepository
+        )
     }
 
     // MARK: - UseCase 팩토리
     //
-    // 기존 UseCase 들은 init 인자 없이 자체 DataSource 를 만들었음.
-    // 새 init 으로 의존성 주입받게 변경 (UseCase 파일 수정 함께).
+    // PerformanceUseCase 처럼 상태가 없는 것만 factory.
+    // 상태가 있는 UseCase(UserUseCase) 는 stored property 로.
 
     func makePerformanceUseCase() -> PerformanceUseCase {
         PerformanceUseCase(
@@ -71,19 +83,26 @@ final class DIContainer {
         )
     }
 
-    func makeUserUseCase() -> UserUseCase {
-        UserUseCase(
-            userRepository: userRepository,
-            performanceRepository: performanceRepository,
-            appRepository: appRepository
+    // MARK: - ViewModel 팩토리
+    //
+    // VM 의 모든 의존성을 한 곳에서 조립.
+    // View 는 makeXxxVM(coordinator:) 만 호출 → 그래프 변경은 DIContainer 에서만 수정.
+
+    func makeHomeVM(coordinator: MainCoordinator) -> HomeVM {
+        HomeVM(
+            coordinator: coordinator,
+            globalErrorHandler: globalErrorHandler,
+            userUseCase: userUseCase,
+            perfUseCase: makePerformanceUseCase()
         )
     }
 
     // MARK: - 셋업
 
-    /// 앱 부팅 직후 호출. Coordinator 와 UserUseCase 를 GlobalErrorHandler 와 연결.
-    func wire(coordinator: MainCoordinator, userUseCase: UserUseCase) {
-        globalErrorHandler.wire(coordinator: coordinator) { @MainActor in
+    /// 앱 부팅 직후 호출. Coordinator 를 GlobalErrorHandler 와 연결.
+    /// userUseCase 는 컨테이너가 보유하므로 인자로 받지 않음.
+    func wire(coordinator: MainCoordinator) {
+        globalErrorHandler.wire(coordinator: coordinator) { [userUseCase] in
             userUseCase.logout()
         }
     }

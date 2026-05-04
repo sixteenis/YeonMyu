@@ -28,7 +28,7 @@ import Foundation
 
 /// VM 공통 에러 라우팅. AppError.scope 기반으로 글로벌 팝업 / 로컬 property 분기.
 protocol ErrorRoutable: AnyObject {
-    var globalErrorHandler: GlobalErrorHandler? { get }
+    var globalErrorHandler: GlobalErrorHandler { get }
 
     /// 로컬 스코프 에러 슬롯.
     /// - View 가 .alert(isPresented:error:) 같은 SwiftUI 표준 API 로 바인딩.
@@ -49,7 +49,7 @@ extension ErrorRoutable {
         let appError = error.asAppError()
         switch appError.scope {
         case .global:
-            globalErrorHandler?.handle(appError)
+            globalErrorHandler.handle(appError)
         case .local:
             localError = appError
         }

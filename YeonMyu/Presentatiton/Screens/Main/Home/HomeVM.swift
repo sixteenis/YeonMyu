@@ -18,12 +18,13 @@ final class HomeVM: ViewModeltype, ErrorRoutable {
     var input = Input()
     @Published var output = Output()
 
-    // MARK: - 의존성
-    private let perfUseCase = PerformanceUseCase()
-    /// 화면 전환을 담당하는 Coordinator (View에서 onAppear 시 주입)
-    var coordinator: MainCoordinator?
-    /// 전역 에러 라우팅 핸들러 (View에서 onAppear 시 주입)
-    var globalErrorHandler: GlobalErrorHandler?
+    // MARK: - 의존성 (init 주입)
+    private let perfUseCase: PerformanceUseCase
+    private let userUseCase: UserUseCase
+    /// 화면 전환을 담당하는 Coordinator
+    let coordinator: MainCoordinator
+    /// 전역 에러 라우팅 핸들러
+    let globalErrorHandler: GlobalErrorHandler
     /// 로컬 스코프 에러 (notFound, decodingFailed 등)
     /// - route(_:) 가 자동 세팅. View 는 SwiftUI 표준 .alert(isPresented:error:) 로 바인딩.
     /// - 가공이 필요하면 didSet 으로 분기.
@@ -31,7 +32,16 @@ final class HomeVM: ViewModeltype, ErrorRoutable {
     /// 헤더 Top1 공연 조회 시 사용되는 유저 도시 정보
     private var userCity: CityCode = .all
 
-    init() {
+    init(
+        coordinator: MainCoordinator,
+        globalErrorHandler: GlobalErrorHandler,
+        userUseCase: UserUseCase,
+        perfUseCase: PerformanceUseCase
+    ) {
+        self.coordinator = coordinator
+        self.globalErrorHandler = globalErrorHandler
+        self.userUseCase = userUseCase
+        self.perfUseCase = perfUseCase
         self.cancellables = Set<AnyCancellable>()
         transform()
     }
@@ -39,11 +49,14 @@ final class HomeVM: ViewModeltype, ErrorRoutable {
     func transform() {
 
         // 뷰 진입 시 유저 정보 설정 및 초기 데이터 로드
+        // - userUseCase 에서 직접 읽음 (View 가 더 이상 user 정보를 전달하지 않음)
         // - 이미 .content 상태인 경우 중복 네트워크 요청 방지
         input.onAppear
-            .sink { [weak self] (name, city) in
+            .sink { [weak self] in
                 guard let self else { return }
-                self.output.userName = name
+                let info = self.userUseCase.userInfo
+                let city = info.getCityCode()
+                self.output.userName = info.name
                 self.output.selectedCity = city
                 self.userCity = city
                 guard self.output.contentState != .content else { return }
@@ -74,7 +87,7 @@ final class HomeVM: ViewModeltype, ErrorRoutable {
         // 공연 포스터 클릭 시 상세 화면으로 이동
         input.postTapped
             .sink { [weak self] id in
-                self?.coordinator?.push(.playDetail(mt20id: id))
+                self?.coordinator.push(.playDetail(mt20id: id))
             }.store(in: &cancellables)
 
         // 공연 종류 탭 선택 시 인덱스로 PrfCate를 결정하고 공연 목록 갱신
@@ -135,13 +148,13 @@ final class HomeVM: ViewModeltype, ErrorRoutable {
         // 검색 버튼 클릭 시 검색 화면으로 이동
         input.searchTapped
             .sink { [weak self] in
-                self?.coordinator?.push(.search)
+                self?.coordinator.push(.search)
             }.store(in: &cancellables)
 
         // 최근 리뷰 아이템 클릭 시 리뷰 상세 화면으로 이동
         input.reviewTapped
             .sink { [weak self] review in
-                self?.coordinator?.push(.reviewDetailView(reviewInfo: review, isShowMovePerfInfo: true))
+                self?.coordinator.push(.reviewDetailView(reviewInfo: review, isShowMovePerfInfo: true))
             }.store(in: &cancellables)
 
         // 도시 선택 바텀시트 표시 요청 시 Coordinator를 통해 시트 표시
@@ -155,7 +168,7 @@ final class HomeVM: ViewModeltype, ErrorRoutable {
                     get: { [weak self] in self?.output.selectedCity ?? .seoul },
                     set: { [weak self] in self?.input.areaTapped.send($0) }
                 )
-                self.coordinator?.presentSheet(.citySelect(
+                self.coordinator.presentSheet(.citySelect(
                     binding: cityBinding,
                     onDismiss: { [weak self] in
                         self?.output.isCitySelectPresented = false
@@ -272,7 +285,7 @@ private extension HomeVM {
 // MARK: - 이벤트 모음
 extension HomeVM {
     struct Input {
-        var onAppear = PassthroughSubject<(String, CityCode), Never>()
+        var onAppear = PassthroughSubject<Void, Never>()
         var refresh = PassthroughSubject<Void, Never>()
         var postTapped = PassthroughSubject<String, Never>()
         var playCategoryTapped = PassthroughSubject<Int, Never>()
