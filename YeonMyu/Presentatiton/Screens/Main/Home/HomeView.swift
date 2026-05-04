@@ -11,6 +11,7 @@ import SwiftUIPullToRefresh
 struct HomeView: View {
     @Environment(MainCoordinator.self) var coordinator   // Coordinator 주입
     @Environment(UserUseCase.self) private var userUseCase
+    @Environment(DIContainer.self) private var container // 전역 의존성 컨테이너
     @StateObject private var vm = HomeVM()                // MVVM ViewModel
 
     // MARK: - 순수 UI 상태
@@ -41,11 +42,25 @@ extension HomeView {
         .onAppear {
             // Coordinator 주입 및 초기 유저 정보 전달
             vm.coordinator = coordinator
+            vm.globalErrorHandler = container.globalErrorHandler
             vm.input.onAppear.send((userUseCase.userInfo.name, userUseCase.userInfo.getCityCode()))
         }
         .onChange(of: vm.output.headerPostsTmp) { _, _ in
             // 무한 캐러셀 구현을 위해 데이터 로드 후 중간 인덱스로 초기화
             currentIndex = vm.output.headerPostsTmp.count / 2
+        }
+        // 로컬 스코프 에러 (notFound, decodingFailed 등) — SwiftUI 표준 alert API
+        // AppError 가 LocalizedError 채택해서 errorDescription 자동 노출.
+        .alert(
+            isPresented: Binding(
+                get: { vm.localError != nil },
+                set: { if !$0 { vm.localError = nil } }
+            ),
+            error: vm.localError
+        ) { _ in
+            Button("확인") { vm.localError = nil }
+        } message: { _ in
+            EmptyView()
         }
     }
 }

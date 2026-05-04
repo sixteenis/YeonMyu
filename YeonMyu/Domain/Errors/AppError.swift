@@ -99,3 +99,9 @@ enum ErrorScope {
     case global
     case local
 }
+
+// MARK: - SwiftUI 표준 alert API 연동
+// LocalizedError 채택 → SwiftUI 의 `.alert(isPresented:error:)` 같은 표준 모디파이어가 자동으로 메시지 노출.
+extension AppError: LocalizedError {
+    var errorDescription: String? { userMessage }
+}

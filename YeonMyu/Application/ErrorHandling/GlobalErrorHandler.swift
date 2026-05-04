@@ -77,9 +77,14 @@ final class GlobalErrorHandler {
         ])
 
         guard appError.scope == .global else {
-            // 로컬 에러는 GlobalErrorHandler 책임 아님 (호출지가 처리해야 함).
-            // 만에 하나 잘못 들어오면 안전망으로 일반 에러 alert.
-            coordinator?.presentAlert(.networkError(action: {}))
+            // 로컬 에러는 GlobalErrorHandler 책임 아님 — 정상 흐름이면 ErrorRoutable.route(_:) 가
+            // 로컬 에러를 VM.localError 로 보내므로 여기 도달하지 않는다.
+            // 도달했다면 호출지가 route(_:) 거치지 않고 직접 handle() 부른 버그.
+            // → 사용자에게 거짓 "네트워크 오류" 팝업을 띄우지 않고, 로깅 + (DEBUG)assert 로 개발자에게만 알림.
+            logger.error("local-scope error reached GlobalErrorHandler — caller should use route(_:) or handle locally", metadata: [
+                "appError": "\(appError)"
+            ])
+            assertionFailure("local-scope error reached GlobalErrorHandler: \(appError)")
             return
         }
 

@@ -11,7 +11,7 @@ import SwiftUI
 
 /// 홈 화면 ViewModel - Input/Output MVVM 패턴
 /// SearchVM, StorageVM과 동일한 ViewModeltype 프로토콜을 준수합니다.
-final class HomeVM: ViewModeltype {
+final class HomeVM: ViewModeltype, ErrorRoutable {
 
     // MARK: - ViewModeltype 준수 프로퍼티
     var cancellables: Set<AnyCancellable>
@@ -22,6 +22,12 @@ final class HomeVM: ViewModeltype {
     private let perfUseCase = PerformanceUseCase()
     /// 화면 전환을 담당하는 Coordinator (View에서 onAppear 시 주입)
     var coordinator: MainCoordinator?
+    /// 전역 에러 라우팅 핸들러 (View에서 onAppear 시 주입)
+    var globalErrorHandler: GlobalErrorHandler?
+    /// 로컬 스코프 에러 (notFound, decodingFailed 등)
+    /// - route(_:) 가 자동 세팅. View 는 SwiftUI 표준 .alert(isPresented:error:) 로 바인딩.
+    /// - 가공이 필요하면 didSet 으로 분기.
+    @Published var localError: AppError?
     /// 헤더 Top1 공연 조회 시 사용되는 유저 도시 정보
     private var userCity: CityCode = .all
 
@@ -29,7 +35,6 @@ final class HomeVM: ViewModeltype {
         self.cancellables = Set<AnyCancellable>()
         transform()
     }
-
     // MARK: - transform: Input 이벤트를 Output 상태로 변환
     func transform() {
 
@@ -59,7 +64,9 @@ final class HomeVM: ViewModeltype {
                             self.output.contentState = .content
                         }
                     } catch {
-                        print("새로고침 중 오류 발생: \(error)")
+                        await MainActor.run {
+                            self.route(error)
+                        }
                     }
                 }
             }.store(in: &cancellables)
@@ -87,7 +94,9 @@ final class HomeVM: ViewModeltype {
                             self.output.areaTopPrf = posts
                         }
                     } catch {
-                        print("공연 종류 선택 중 오류 발생: \(error)")
+                        await MainActor.run {
+                            self.route(error)
+                        }
                     }
                 }
             }.store(in: &cancellables)
@@ -116,7 +125,9 @@ final class HomeVM: ViewModeltype {
                             if let t { self.output.top10Prfs = t }
                         }
                     } catch {
-                        print("지역 선택 중 오류 발생: \(error)")
+                        await MainActor.run {
+                            self.route(error)
+                        }
                     }
                 }
             }.store(in: &cancellables)
@@ -179,7 +190,10 @@ private extension HomeVM {
                     output.contentState = .content
                 }
             } catch {
-                print("초기 데이터 로드 중 오류 발생: \(error)")
+                await MainActor.run {
+                    self.output.contentState = .error
+                    self.route(error)
+                }
             }
         }
     }
@@ -193,7 +207,9 @@ private extension HomeVM {
                     output.recentReview = reviews
                 }
             } catch {
-                print("최근 리뷰 로드 중 오류 발생: \(error)")
+                await MainActor.run {
+                    self.route(error)
+                }
             }
         }
     }
@@ -266,6 +282,7 @@ extension HomeVM {
         var citySelectTapped = PassthroughSubject<Void, Never>()
     }
 }
+
 // MARK: - 상태 모음
 extension HomeVM {
     struct Output {
